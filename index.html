@@ -1,0 +1,2561 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Cuaderno Digital de Física III - Movimiento Ondulatorio</title>
+  <meta name="description" content="Cuaderno digital científico interactivo de Física III: Movimiento Ondulatorio y Ondas Mecánicas (UTP). Creado por David Alejandro Ramirez Bolaños, Steven Vélez Garces y Sergio Andrés Velásquez Arana.">
+  <meta name="author" content="David Alejandro Ramirez Bolaños, Steven Vélez Garces, Sergio Andrés Velásquez Arana">
+  <meta name="theme-color" content="#0f172a">
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- KaTeX CSS & JS para renderizado nítido de fórmulas LaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+  <!-- Nerdamer.js para Álgebra Simbólica -->
+  <script defer src="https://cdn.jsdelivr.net/npm/nerdamer@1.1.13/nerdamer.core.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/nerdamer@1.1.13/Algebra.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/nerdamer@1.1.13/Calculus.js"></script>
+
+  <!-- Estilos Maestros del Cuaderno -->
+  <link rel="stylesheet" href="css/styles.css?v=7">
+  <link rel="manifest" href="manifest.json?v=2">
+</head>
+<body>
+
+<div id="app-container">
+  <!-- Barra Superior del Cuaderno -->
+  <header class="top-header">
+    <div class="brand">
+      <div class="brand-icon"><i class="fa-solid fa-water"></i></div>
+      <div class="title-group">
+        <h1>FÍSICA III: ONDAS Y OSCILACIONES</h1>
+        <p>Cuaderno Científico • Movimiento Ondulatorio • Modo Libro Abierto</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button id="btnToggleSpreadMode" class="btn-header" title="Alternar entre doble página y página simple">
+        <i class="fa-solid fa-book-open"></i> <span id="lblSpreadMode">Doble Página</span>
+      </button>
+      <button id="btnHeaderTOC" class="btn-header" title="Ir al Índice">
+        <i class="fa-solid fa-list-ul"></i> <span>Índice</span>
+      </button>
+      <button id="btnHeaderGeoGebra" class="btn-header" title="Ir al Plano GeoGebra">
+        <i class="fa-solid fa-chart-line"></i> <span>GeoGebra</span>
+      </button>
+      <button id="btnHeaderSim" class="btn-header" title="Ir al Laboratorio">
+        <i class="fa-solid fa-flask"></i> <span>Laboratorio</span>
+      </button>
+      <button id="btnHeaderDoppler" class="btn-header" title="Ir a Efecto Doppler y Simulador">
+        <i class="fa-solid fa-bullhorn"></i> <span>Doppler</span>
+      </button>
+      <button id="btnHeaderLIGO" class="btn-header" title="Ir a Ondas Gravitacionales y Proyecto LIGO">
+        <i class="fa-solid fa-atom"></i> <span>LIGO & GW</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Contenedor del Libro Digital (Doble Página: Izquierda y Derecha) -->
+  <main class="notebook-wrapper is-cover" id="notebookWrapper">
+
+    <!-- ====================================================================
+         PÁGINA 1: PORTADA OFICIAL (Física III_ Movimiento Ondulatorio.png)
+         ==================================================================== -->
+    <section class="notebook-page page-cover active" data-page="1">
+      <div class="cover-image-container">
+        <img src="imagenes/Física III_ Movimiento Ondulatorio.png" alt="Portada Oficial Física III - Movimiento Ondulatorio" class="cover-image">
+      </div>
+      <div class="cover-bottom-bar">
+        <button id="btnOpenBook" class="btn-open-book">
+          <i class="fa-solid fa-book-open"></i> Abrir Cuaderno (Doble Página)
+        </button>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         PÁGINA 2: ÍNDICE GENERAL DE CONTENIDO (Página Izquierda)
+         ==================================================================== -->
+    <section class="notebook-page" data-page="2">
+      <div class="page-header">
+        <span class="page-header-topic">Estructura Curricular</span>
+        <span class="page-number-tag">Página 2</span>
+      </div>
+
+      <h2 class="page-title">Índice General de Contenidos</h2>
+      <p class="page-lead">Guía interactiva de aprendizaje sobre Movimiento Ondulatorio. Selecciona cualquier sección para saltar directamente a ella.</p>
+
+      <!-- Cuadrícula Adaptativa para el Índice (Páginas 3 a 16) -->
+      <div class="toc-grid">
+        <div class="toc-jump-btn" data-page="3" style="background:#ffffff; border:1px solid #cbd5e1; border-radius:6px; padding:8px 10px; cursor:pointer; transition:var(--transition); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="font-size:0.7rem; color:#0284c7; font-weight:700;">PÁG. 3</span>
+            <h4 style="font-size:0.84rem; color:#0f172a;"><i class="fa-solid fa-diagram-project" style="color:#0ea5e9;"></i> Mapa Mental</h4>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="color:#94a3b8; font-size:0.75rem;"></i>
+        </div>
+
+        <div class="toc-jump-btn" data-page="4" style="background:#ffffff; border:1px solid #cbd5e1; border-radius:6px; padding:8px 10px; cursor:pointer; transition:var(--transition); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="font-size:0.7rem; color:#0284c7; font-weight:700;">PÁG. 4</span>
+            <h4 style="font-size:0.84rem; color:#0f172a;"><i class="fa-solid fa-timeline" style="color:#6366f1;"></i> Línea de Tiempo</h4>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="color:#94a3b8; font-size:0.75rem;"></i>
+        </div>
+
+        <div class="toc-jump-btn" data-page="5" style="background:#ffffff; border:1px solid #cbd5e1; border-radius:6px; padding:8px 10px; cursor:pointer; transition:var(--transition); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="font-size:0.7rem; color:#0284c7; font-weight:700;">PÁG. 5</span>
+            <h4 style="font-size:0.84rem; color:#0f172a;"><i class="fa-solid fa-book" style="color:#10b981;"></i> Conceptos y Unidades</h4>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="color:#94a3b8; font-size:0.75rem;"></i>
+        </div>
+
+        <div class="toc-jump-btn" data-page="6" style="background:#ffffff; border:1px solid #cbd5e1; border-radius:6px; padding:8px 10px; cursor:pointer; transition:var(--transition); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="font-size:0.7rem; color:#0284c7; font-weight:700;">PÁG. 6</span>
+            <h4 style="font-size:0.84rem; color:#0f172a;"><i class="fa-solid fa-square-root-variable" style="color:#f59e0b;"></i> Demostraciones</h4>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="color:#94a3b8; font-size:0.75rem;"></i>
+        </div>
+
+        <div class="toc-jump-btn" data-page="7" style="background:#ffffff; border:1px solid #cbd5e1; border-radius:6px; padding:8px 10px; cursor:pointer; transition:var(--transition); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="font-size:0.7rem; color:#0284c7; font-weight:700;">PÁG. 7</span>
+            <h4 style="font-size:0.84rem; color:#0f172a;"><i class="fa-solid fa-chart-line" style="color:#0284c7;"></i> Plano GeoGebra</h4>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="color:#94a3b8; font-size:0.75rem;"></i>
+        </div>
+
+        <div class="toc-jump-btn" data-page="8" style="background:#ffffff; border:1px solid #cbd5e1; border-radius:6px; padding:8px 10px; cursor:pointer; transition:var(--transition); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="font-size:0.7rem; color:#0284c7; font-weight:700;">PÁG. 8</span>
+            <h4 style="font-size:0.84rem; color:#0f172a;"><i class="fa-solid fa-wave-square" style="color:#ec4899;"></i> Onda en Cuerda</h4>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="color:#94a3b8; font-size:0.75rem;"></i>
+        </div>
+
+        <div class="toc-jump-btn" data-page="9" style="background:#ffffff; border:1px solid #cbd5e1; border-radius:6px; padding:8px 10px; cursor:pointer; transition:var(--transition); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="font-size:0.7rem; color:#0284c7; font-weight:700;">PÁG. 9</span>
+            <h4 style="font-size:0.84rem; color:#0f172a;"><i class="fa-solid fa-arrows-split-up-and-left" style="color:#6366f1;"></i> Modos Normales & Estacionarias</h4>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="color:#94a3b8; font-size:0.75rem;"></i>
+        </div>
+
+        <div class="toc-jump-btn" data-page="10" style="background:#f0f9ff; border:1.5px solid #7dd3fc; border-radius:6px; padding:8px 10px; cursor:pointer; transition:var(--transition); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="font-size:0.7rem; color:#0369a1; font-weight:800;">PÁG. 10 • NUEVO</span>
+            <h4 style="font-size:0.84rem; color:#075985;"><i class="fa-solid fa-bullhorn" style="color:#0284c7;"></i> Efecto Doppler Teórico</h4>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="color:#0284c7; font-size:0.75rem;"></i>
+        </div>
+
+        <div class="toc-jump-btn" data-page="11" style="background:#f0f9ff; border:1.5px solid #7dd3fc; border-radius:6px; padding:8px 10px; cursor:pointer; transition:var(--transition); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="font-size:0.7rem; color:#0369a1; font-weight:800;">PÁG. 11 • NUEVO</span>
+            <h4 style="font-size:0.84rem; color:#075985;"><i class="fa-solid fa-radar" style="color:#0284c7;"></i> Lab: Simulador Efecto Doppler</h4>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="color:#0284c7; font-size:0.75rem;"></i>
+        </div>
+
+        <div class="toc-jump-btn" data-page="12" style="background:#f0fdf4; border:1.5px solid #86efac; border-radius:6px; padding:8px 10px; cursor:pointer; transition:var(--transition); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="font-size:0.7rem; color:#15803d; font-weight:800;">PÁG. 12</span>
+            <h4 style="font-size:0.84rem; color:#065f46;"><i class="fa-solid fa-atom" style="color:#10b981;"></i> Comparativa 3D de Ondas</h4>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="color:#15803d; font-size:0.75rem;"></i>
+        </div>
+
+        <div class="toc-jump-btn" data-page="13" style="background:#f0fdf4; border:1.5px solid #86efac; border-radius:6px; padding:8px 10px; cursor:pointer; transition:var(--transition); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="font-size:0.7rem; color:#15803d; font-weight:800;">PÁG. 13</span>
+            <h4 style="font-size:0.84rem; color:#065f46;"><i class="fa-solid fa-compass-drafting" style="color:#10b981;"></i> Polarización Espaciotemporal</h4>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="color:#15803d; font-size:0.75rem;"></i>
+        </div>
+
+        <div class="toc-jump-btn" data-page="14" style="background:#f0fdf4; border:1.5px solid #86efac; border-radius:6px; padding:8px 10px; cursor:pointer; transition:var(--transition); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="font-size:0.7rem; color:#15803d; font-weight:800;">PÁG. 14</span>
+            <h4 style="font-size:0.84rem; color:#065f46;"><i class="fa-solid fa-satellite-dish" style="color:#10b981;"></i> Proyecto LIGO & Detección</h4>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="color:#15803d; font-size:0.75rem;"></i>
+        </div>
+
+        <div class="toc-jump-btn" data-page="15" style="background:#f0fdf4; border:1.5px solid #86efac; border-radius:6px; padding:8px 10px; cursor:pointer; transition:var(--transition); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="font-size:0.7rem; color:#15803d; font-weight:800;">PÁG. 15</span>
+            <h4 style="font-size:0.84rem; color:#065f46;"><i class="fa-solid fa-wave-square" style="color:#10b981;"></i> Lab: Interferómetro & Chirp</h4>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="color:#15803d; font-size:0.75rem;"></i>
+        </div>
+
+        <div class="toc-jump-btn" data-page="16" style="background:#ffffff; border:1px solid #cbd5e1; border-radius:6px; padding:8px 10px; cursor:pointer; transition:var(--transition); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="font-size:0.7rem; color:#0284c7; font-weight:700;">PÁG. 16</span>
+            <h4 style="font-size:0.84rem; color:#0f172a;"><i class="fa-solid fa-pen-ruler" style="color:#8b5cf6;"></i> Problemas (5 Fases)</h4>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="color:#94a3b8; font-size:0.75rem;"></i>
+        </div>
+
+        <div class="toc-jump-btn" data-page="17" style="background:#ffffff; border:1px solid #cbd5e1; border-radius:6px; padding:8px 10px; cursor:pointer; transition:var(--transition); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="font-size:0.7rem; color:#0284c7; font-weight:700;">PÁG. 17</span>
+            <h4 style="font-size:0.84rem; color:#0f172a;"><i class="fa-solid fa-calculator" style="color:#14b8a6;"></i> Taller Interactivo</h4>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="color:#94a3b8; font-size:0.75rem;"></i>
+        </div>
+
+        <div class="toc-jump-btn" data-page="18" style="background:#ffffff; border:1px solid #cbd5e1; border-radius:6px; padding:8px 10px; cursor:pointer; transition:var(--transition); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="font-size:0.7rem; color:#0284c7; font-weight:700;">PÁG. 18</span>
+            <h4 style="font-size:0.84rem; color:#0f172a;"><i class="fa-solid fa-spell-check" style="color:#f97316;"></i> Glosario Científico</h4>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="color:#94a3b8; font-size:0.75rem;"></i>
+        </div>
+
+        <div class="toc-jump-btn" data-page="19" style="background:#ffffff; border:1px solid #cbd5e1; border-radius:6px; padding:8px 10px; cursor:pointer; transition:var(--transition); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="font-size:0.7rem; color:#0284c7; font-weight:700;">PÁG. 19</span>
+            <h4 style="font-size:0.84rem; color:#0f172a;"><i class="fa-solid fa-graduation-cap" style="color:#3b82f6;"></i> Referencias APA 7</h4>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="color:#94a3b8; font-size:0.75rem;"></i>
+        </div>
+
+        <div class="toc-jump-btn" data-page="20" style="background:#ffffff; border:1px solid #cbd5e1; border-radius:6px; padding:8px 10px; cursor:pointer; transition:var(--transition); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="font-size:0.7rem; color:#0284c7; font-weight:700;">PÁG. 20</span>
+            <h4 style="font-size:0.84rem; color:#0f172a;"><i class="fa-solid fa-award" style="color:#eab308;"></i> Contraportada y Créditos</h4>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="color:#94a3b8; font-size:0.75rem;"></i>
+        </div>
+      </div>
+
+      <footer class="notebook-footer">
+        <span>Física III • UTP</span>
+        <span class="footer-author-text"><i class="fa-solid fa-feather"></i> Realizado por: David Ramirez, Steven Vélez, Sergio Velásquez</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         PÁGINA 3: MAPA MENTAL CONCEPTUAL (Página Derecha)
+         ==================================================================== -->
+    <section class="notebook-page" data-page="3">
+      <div class="page-header">
+        <span class="page-header-topic">Organización Conceptual</span>
+        <span class="page-number-tag">Página 3</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+        <p class="page-lead" style="margin-bottom:0;">Taxonomía del Movimiento Ondulatorio: cinemática, dinámica de medios, leyes energéticas y fenómenos.</p>
+        <button id="btnOpenMindmapModal" class="btn-open-modal-card" title="Ampliar Mapa Mental en Ventana Modal Grande">
+          <i class="fa-solid fa-up-right-and-down-left-from-center"></i> <span>Ampliar en Modal</span>
+        </button>
+      </div>
+
+      <div class="mindmap-wrapper" id="mindmapContainer">
+        <!-- SVG Inyectado dinámicamente por js/mindmap.js -->
+      </div>
+
+      <div style="margin-top: 10px; font-size: 0.78rem; color: #475569; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px;">
+        <i class="fa-solid fa-circle-info" style="color:#0284c7;"></i> <strong>Interacción:</strong> Haz zoom (+ / -) y arrastra el mapa para explorar las ramas teóricas y sus ecuaciones canónicas.
+      </div>
+
+      <footer class="notebook-footer">
+        <span>Física III • UTP</span>
+        <span class="footer-author-text"><i class="fa-solid fa-feather"></i> Realizado por: David Ramirez, Steven Vélez, Sergio Velásquez</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         PÁGINA 4: LÍNEA DE TIEMPO Y RESEÑA HISTÓRICA (Página Izquierda)
+         ==================================================================== -->
+    <section class="notebook-page" data-page="4">
+      <div class="page-header">
+        <span class="page-header-topic">Contexto Histórico & Epistemología</span>
+        <span class="page-number-tag">Página 4</span>
+      </div>
+
+      <h2 class="page-title">Evolución Histórica de la Teoría Ondulatoria</h2>
+      <p class="page-lead">Desde el principio del frente de onda de Huygens hasta la síntesis electromagnética de Maxwell.</p>
+
+      <div class="timeline-container">
+        <div class="timeline-line"></div>
+
+        <!-- 1. Christiaan Huygens -->
+        <div class="timeline-item">
+          <div class="timeline-badge"><i class="fa-solid fa-wave-square"></i></div>
+          <div class="timeline-card timeline-card-featured">
+            <span class="timeline-year"><i class="fa-solid fa-calendar-check"></i> 1678 • La Haya, Países Bajos</span>
+            <h3 class="timeline-scientist">Christiaan Huygens (Principio del Frente de Onda)</h3>
+            <p class="timeline-desc">Formuló que todo punto de un frente de onda primario actúa como una fuente puntual de ondas esféricas secundarias. La envolvente tangencial de estas ondas elementales conforma el nuevo frente de onda, explicando con exactitud geométrica las leyes de reflexión y refracción.</p>
+            
+            <div class="timeline-gallery-grid">
+              <div class="timeline-gallery-card" onclick="openHistoricalModal('huygens_retrato')" title="Clic para ampliar retrato">
+                <img src="imagenes/huygens_retrato.jpg" alt="Retrato de Christiaan Huygens" class="timeline-gallery-img" loading="lazy">
+                <div class="timeline-gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                <div class="timeline-gallery-caption">
+                  <span class="gallery-tag gallery-tag-person"><i class="fa-solid fa-user"></i> Retrato</span>
+                  <span class="gallery-name">Christiaan Huygens (1629–1695)</span>
+                </div>
+              </div>
+              <div class="timeline-gallery-card" onclick="openHistoricalModal('huygens_invento')" title="Clic para ampliar principio">
+                <img src="imagenes/huygens_invento.jpg" alt="Principio del Frente de Onda y Ondículas de Huygens" class="timeline-gallery-img" loading="lazy">
+                <div class="timeline-gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                <div class="timeline-gallery-caption">
+                  <span class="gallery-tag gallery-tag-invento"><i class="fa-solid fa-lightbulb"></i> Principio</span>
+                  <span class="gallery-name">Frentes de Onda y Ondículas (1678)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Jean le Rond d'Alembert -->
+        <div class="timeline-item">
+          <div class="timeline-badge"><i class="fa-solid fa-square-root-variable"></i></div>
+          <div class="timeline-card timeline-card-featured">
+            <span class="timeline-year"><i class="fa-solid fa-calendar-check"></i> 1746 • París, Francia</span>
+            <h3 class="timeline-scientist">Jean le Rond d'Alembert (Ecuación Diferencial de Onda)</h3>
+            <p class="timeline-desc">Derivó la primera ecuación diferencial en derivadas parciales de la física matemática al modelar las vibraciones mecánicas de una cuerda elástica tensa: $\frac{\partial^2 y}{\partial x^2} = \frac{1}{v^2}\frac{\partial^2 y}{\partial t^2}$.</p>
+            
+            <div class="timeline-gallery-grid">
+              <div class="timeline-gallery-card" onclick="openHistoricalModal('dalembert_retrato')" title="Clic para ampliar retrato">
+                <img src="imagenes/dalembert_retrato.jpg" alt="Retrato de Jean le Rond d'Alembert" class="timeline-gallery-img" loading="lazy">
+                <div class="timeline-gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                <div class="timeline-gallery-caption">
+                  <span class="gallery-tag gallery-tag-person"><i class="fa-solid fa-user"></i> Retrato</span>
+                  <span class="gallery-name">Jean d'Alembert (1717–1783)</span>
+                </div>
+              </div>
+              <div class="timeline-gallery-card" onclick="openHistoricalModal('dalembert_invento')" title="Clic para ampliar ecuación">
+                <img src="imagenes/dalembert_invento.jpg" alt="Ecuación de Onda en Cuerda Tensa" class="timeline-gallery-img" loading="lazy">
+                <div class="timeline-gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                <div class="timeline-gallery-caption">
+                  <span class="gallery-tag gallery-tag-invento"><i class="fa-solid fa-lightbulb"></i> Ecuación</span>
+                  <span class="gallery-name">Ecuación Diferencial de Onda (1746)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Leonhard Euler -->
+        <div class="timeline-item">
+          <div class="timeline-badge"><i class="fa-solid fa-calculator"></i></div>
+          <div class="timeline-card timeline-card-featured">
+            <span class="timeline-year"><i class="fa-solid fa-calendar-check"></i> 1748 • Basilea / San Petersburgo</span>
+            <h3 class="timeline-scientist">Leonhard Euler (Solución General de d'Alembert)</h3>
+            <p class="timeline-desc">Demostró la solución analítica general de la ecuación de onda en términos de funciones arbitrarias que representan perturbaciones viajeras progresivas y regresivas sin dispersión: $y(x,t) = f(x - vt) + g(x + vt)$.</p>
+            
+            <div class="timeline-gallery-grid">
+              <div class="timeline-gallery-card" onclick="openHistoricalModal('euler_retrato')" title="Clic para ampliar retrato">
+                <img src="imagenes/euler_retrato.jpg" alt="Retrato de Leonhard Euler" class="timeline-gallery-img" loading="lazy">
+                <div class="timeline-gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                <div class="timeline-gallery-caption">
+                  <span class="gallery-tag gallery-tag-person"><i class="fa-solid fa-user"></i> Retrato</span>
+                  <span class="gallery-name">Leonhard Euler (1707–1783)</span>
+                </div>
+              </div>
+              <div class="timeline-gallery-card" onclick="openHistoricalModal('euler_invento')" title="Clic para ampliar solución">
+                <img src="imagenes/euler_invento.jpg" alt="Solución Analítica de Ondas Viajeras" class="timeline-gallery-img" loading="lazy">
+                <div class="timeline-gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                <div class="timeline-gallery-caption">
+                  <span class="gallery-tag gallery-tag-invento"><i class="fa-solid fa-lightbulb"></i> Solución</span>
+                  <span class="gallery-name">Ondas Viajeras f(x ± vt) (1748)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Thomas Young -->
+        <div class="timeline-item">
+          <div class="timeline-badge"><i class="fa-solid fa-arrows-split-up-and-left"></i></div>
+          <div class="timeline-card timeline-card-featured">
+            <span class="timeline-year"><i class="fa-solid fa-calendar-check"></i> 1801 • Londres, Inglaterra</span>
+            <h3 class="timeline-scientist">Thomas Young (Principio de Interferencia)</h3>
+            <p class="timeline-desc">Realizó el célebre experimento de la doble rendija, demostrando irrefutablemente el principio de superposición ondulatoria. Probó que las ondas pueden sumarse destructivamente para anularse o constructivamente para reforzarse.</p>
+            
+            <div class="timeline-gallery-grid">
+              <div class="timeline-gallery-card" onclick="openHistoricalModal('young_retrato')" title="Clic para ampliar retrato">
+                <img src="imagenes/young_retrato.jpg" alt="Retrato de Thomas Young" class="timeline-gallery-img" loading="lazy">
+                <div class="timeline-gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                <div class="timeline-gallery-caption">
+                  <span class="gallery-tag gallery-tag-person"><i class="fa-solid fa-user"></i> Retrato</span>
+                  <span class="gallery-name">Thomas Young (1773–1829)</span>
+                </div>
+              </div>
+              <div class="timeline-gallery-card" onclick="openHistoricalModal('young_invento')" title="Clic para ampliar experimento">
+                <img src="imagenes/young_invento.jpg" alt="Experimento de la Doble Rendija y Franjas de Interferencia" class="timeline-gallery-img" loading="lazy">
+                <div class="timeline-gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                <div class="timeline-gallery-caption">
+                  <span class="gallery-tag gallery-tag-invento"><i class="fa-solid fa-lightbulb"></i> Experimento</span>
+                  <span class="gallery-name">Doble Rendija & Interferencia (1801)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Christian Doppler -->
+        <div class="timeline-item">
+          <div class="timeline-badge"><i class="fa-solid fa-bullhorn"></i></div>
+          <div class="timeline-card timeline-card-featured">
+            <span class="timeline-year"><i class="fa-solid fa-calendar-check"></i> 1842 • Praga, Imperio Austríaco</span>
+            <h3 class="timeline-scientist">Christian Doppler (Corrimiento de Frecuencia Doppler)</h3>
+            <p class="timeline-desc">Descubrió que la frecuencia de onda percibida por un observador difiere de la frecuencia emitida por la fuente cuando existe movimiento relativo entre ambos, sentando las bases de la acústica médica, el radar y la astrofísica observacional.</p>
+            
+            <div class="timeline-gallery-grid">
+              <div class="timeline-gallery-card" onclick="openHistoricalModal('doppler_retrato')" title="Clic para ampliar retrato">
+                <img src="imagenes/doppler_retrato.jpg" alt="Retrato de Christian Doppler" class="timeline-gallery-img" loading="lazy">
+                <div class="timeline-gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                <div class="timeline-gallery-caption">
+                  <span class="gallery-tag gallery-tag-person"><i class="fa-solid fa-user"></i> Retrato</span>
+                  <span class="gallery-name">Christian Doppler (1803–1853)</span>
+                </div>
+              </div>
+              <div class="timeline-gallery-card" onclick="openHistoricalModal('doppler_invento')" title="Clic para ampliar experimento">
+                <img src="imagenes/doppler_invento.jpg" alt="Experimento del Efecto Doppler Acústico con Tren" class="timeline-gallery-img" loading="lazy">
+                <div class="timeline-gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                <div class="timeline-gallery-caption">
+                  <span class="gallery-tag gallery-tag-invento"><i class="fa-solid fa-lightbulb"></i> Principio</span>
+                  <span class="gallery-name">Efecto Doppler & Acústica (1842)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. James Clerk Maxwell -->
+        <div class="timeline-item">
+          <div class="timeline-badge"><i class="fa-solid fa-bolt"></i></div>
+          <div class="timeline-card timeline-card-featured">
+            <span class="timeline-year"><i class="fa-solid fa-calendar-check"></i> 1865 • Edimburgo, Escocia</span>
+            <h3 class="timeline-scientist">James Clerk Maxwell (Ondas Electromagnéticas)</h3>
+            <p class="timeline-desc">Sintetizó la electricidad y el magnetismo en cuatro ecuaciones diferenciales maestras y demostró que las perturbaciones electromagnéticas se propagan en el vacío como ondas transversales a la velocidad de la luz $c = 1/\sqrt{\mu_0 \varepsilon_0}$.</p>
+            
+            <div class="timeline-gallery-grid">
+              <div class="timeline-gallery-card" onclick="openHistoricalModal('maxwell_retrato')" title="Clic para ampliar retrato">
+                <img src="imagenes/maxwell_retrato.jpg" alt="Retrato de James Clerk Maxwell" class="timeline-gallery-img" loading="lazy">
+                <div class="timeline-gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                <div class="timeline-gallery-caption">
+                  <span class="gallery-tag gallery-tag-person"><i class="fa-solid fa-user"></i> Retrato</span>
+                  <span class="gallery-name">James C. Maxwell (1831–1879)</span>
+                </div>
+              </div>
+              <div class="timeline-gallery-card" onclick="openHistoricalModal('maxwell_invento')" title="Clic para ampliar teoría">
+                <img src="imagenes/maxwell_invento.jpg" alt="Ondas Electromagnéticas Transversales" class="timeline-gallery-img" loading="lazy">
+                <div class="timeline-gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                <div class="timeline-gallery-caption">
+                  <span class="gallery-tag gallery-tag-invento"><i class="fa-solid fa-lightbulb"></i> Teoría</span>
+                  <span class="gallery-name">Ondas Electromagnéticas (1865)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. Albert Einstein -->
+        <div class="timeline-item">
+          <div class="timeline-badge" style="background:#0284c7;"><i class="fa-solid fa-atom"></i></div>
+          <div class="timeline-card timeline-card-featured">
+            <span class="timeline-year"><i class="fa-solid fa-calendar-check"></i> 1916 • Berlín, Alemania</span>
+            <h3 class="timeline-scientist">Albert Einstein (Predicción de Ondas Gravitacionales)</h3>
+            <p class="timeline-desc">Resolvió las ecuaciones de campo linealizadas de la Relatividad General en el vacío demostrando que las perturbaciones métricas del espaciotiempo se propagan como ondas transversales cuadrupolares a la velocidad de la luz $c$, deduciendo la fórmula de radiación del cuadrupolo $h \propto \frac{2G}{c^4 r}\ddot{Q}$.</p>
+            
+            <div class="timeline-gallery-grid">
+              <div class="timeline-gallery-card" onclick="openHistoricalModal('einstein_ondas')" title="Clic para ampliar retrato e investigación">
+                <img src="imagenes/einstein_ondas_gravitacionales.jpg" alt="Albert Einstein y ondas gravitacionales en 1916" class="timeline-gallery-img" loading="lazy">
+                <div class="timeline-gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                <div class="timeline-gallery-caption">
+                  <span class="gallery-tag gallery-tag-person"><i class="fa-solid fa-user"></i> Retrato & Pizarrón</span>
+                  <span class="gallery-name">Albert Einstein (1916)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8. Colaboración LIGO -->
+        <div class="timeline-item">
+          <div class="timeline-badge" style="background:#10b981;"><i class="fa-solid fa-satellite-dish"></i></div>
+          <div class="timeline-card timeline-card-featured">
+            <span class="timeline-year"><i class="fa-solid fa-calendar-check"></i> 2015–2017 • Hanford & Livingston, EE. UU.</span>
+            <h3 class="timeline-scientist">Colaboración Científica LIGO (Detección GW150914 & Premio Nobel)</h3>
+            <p class="timeline-desc">Primera detección directa en la historia humana de una onda gravitacional utilizando interferometría láser de 4 km. La colisión de dos agujeros negros de 36 y 29 masas solares a 1.300 millones de años luz produjo una deformación métrica $\Delta L \sim 10^{-18}\text{ m}$. Premio Nobel de Física 2017 para Rainer Weiss, Barry Barish y Kip Thorne.</p>
+            
+            <div class="timeline-gallery-grid">
+              <div class="timeline-gallery-card" onclick="openHistoricalModal('ligo_deteccion')" title="Clic para ampliar observatorio y detección">
+                <img src="imagenes/ligo_observatorio_detector.jpg" alt="Observatorio LIGO y colisión de agujeros negros" class="timeline-gallery-img" loading="lazy">
+                <div class="timeline-gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                <div class="timeline-gallery-caption">
+                  <span class="gallery-tag gallery-tag-invento"><i class="fa-solid fa-award"></i> Detección GW150914</span>
+                  <span class="gallery-name">Observatorio LIGO (2015)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="notebook-footer">
+        <span>Física III • UTP</span>
+        <span class="footer-author-text"><i class="fa-solid fa-feather"></i> Realizado por: David Ramirez, Steven Vélez, Sergio Velásquez</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         PÁGINA 5: CONCEPTOS FUNDAMENTALES Y UNIDADES SI (Página Derecha)
+         ==================================================================== -->
+    <section class="notebook-page" data-page="5">
+      <div class="page-header">
+        <span class="page-header-topic">Capítulo I • Definiciones Fundamentales</span>
+        <span class="page-number-tag">Página 5</span>
+      </div>
+
+      <h2 class="page-title">Conceptos del Movimiento Ondulatorio</h2>
+      <p class="page-lead">Propiedades cinemáticas y dinámicas de la propagación de energía sin transporte neto de materia.</p>
+
+      <!-- Cajas Adaptativas de Conceptos Primordiales -->
+      <div class="concepts-grid">
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px;">
+          <h3 style="color:#1e3a8a; font-size:0.88rem; margin-bottom:4px;"><i class="fa-solid fa-arrows-up-down" style="color:#0ea5e9;"></i> Onda Transversal (Mecánica, EM y Gravitacional)</h3>
+          <p style="font-size:0.8rem; color:#475569; line-height:1.45;">
+            La perturbación oscila en dirección estrictamente perpendicular ($\vec{k} \cdot \vec{\xi} = 0$, o $\vec{E} \perp \vec{B} \perp \vec{k}$) a la trayectoria de propagación. Abarca cuerdas tensas elásticas ($v = \sqrt{T_s/\mu}$), radiación electromagnética de Maxwell ($c = 1/\sqrt{\mu_0\varepsilon_0}$) y <strong>ondas gravitacionales de Einstein</strong> en gauge TT ($h_{\mu\nu}^{TT}$) con polarizaciones ortogonales cuadrupolares $h_+$ y $h_\times$.
+          </p>
+        </div>
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px;">
+          <h3 style="color:#1e3a8a; font-size:0.88rem; margin-bottom:4px;"><i class="fa-solid fa-arrows-left-right" style="color:#6366f1;"></i> Onda Longitudinal</h3>
+          <p style="font-size:0.8rem; color:#475569; line-height:1.45;">
+            El desplazamiento de las partículas del medio vibra de forma paralela ($\vec{v}_{\text{part}} \parallel \vec{v}$) a la línea de propagación mediante compresiones y rarefacciones sucesivas (ej: ondas sonoras en gases y fluidos).
+          </p>
+        </div>
+      </div>
+
+      <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px; margin-bottom: 10px;">
+        <h3 style="color:#0f172a; font-size:0.88rem; margin-bottom:4px;"><i class="fa-solid fa-list-check" style="color:#0284c7;"></i> Parámetros Cinemáticos y Angulares Canónicos</h3>
+        <ul class="units-grid" style="list-style: none; padding: 0; line-height: 1.5; font-size: 0.8rem; color: #334155;">
+          <li><strong>• Longitud de Onda ($\lambda$):</strong> Distancia espacial mínima entre dos puntos en fase idéntica (m).</li>
+          <li><strong>• Periodo ($T$):</strong> Tiempo transcurrido para que un punto complete una oscilación temporal ($T = 1/f$).</li>
+          <li><strong>• Frecuencia ($f$):</strong> Número de crestas o ciclos por unidad de tiempo en Hertz ($\text{Hz} = 1/\text{s}$).</li>
+          <li><strong>• Número de Onda Angular ($k$):</strong> Densidad espacial de radianes: $k = 2\pi / \lambda$ ($\text{rad/m}$).</li>
+          <li><strong>• Frecuencia Angular ($\omega$):</strong> Rapidez de fase temporal: $\omega = 2\pi f = 2\pi/T$ ($\text{rad/s}$).</li>
+          <li><strong>• Rapidez de Fase ($v$):</strong> Velocidad de avance de los frentes de onda: $v = \lambda f = \omega / k$ ($\text{m/s}$).</li>
+        </ul>
+      </div>
+
+      <h3 style="font-size: 0.88rem; font-weight: 700; color: #0f172a; margin-top: 6px;">
+        Tabla 1: Magnitudes Físicas, Símbolos y Unidades en el SI
+      </h3>
+      <table class="scientific-table">
+        <thead>
+          <tr>
+            <th>Magnitud</th>
+            <th>Símbolo</th>
+            <th>Definición Operacional</th>
+            <th>Unidad SI</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Ondulación / Perturbación Transversal</td><td>$y$</td><td>$y(x,t) = A\sin(kx \mp \omega t + \phi)$</td><td>Metro ($\text{m}$)</td></tr>
+          <tr><td>Amplitud de Onda</td><td>$A$</td><td>$A = |y_{\max}|$ (Cresta / Valle)</td><td>Metro ($\text{m}$)</td></tr>
+          <tr><td>Longitud de Onda</td><td>$\lambda$</td><td>$\lambda = v/f = 2\pi/k$</td><td>Metro ($\text{m}$)</td></tr>
+          <tr><td>Frecuencia Temporal</td><td>$f$</td><td>$f = 1/T = \omega/(2\pi)$</td><td>Hertz ($\text{Hz}$)</td></tr>
+          <tr><td>Número de Onda</td><td>$k$</td><td>$k = 2\pi/\lambda = \omega/v$</td><td>Radian por metro ($\text{rad/m}$)</td></tr>
+          <tr><td>Tensión Mecánica</td><td>$T_s$</td><td>Fuerza axial elástica en la cuerda</td><td>Newton ($\text{N}$)</td></tr>
+          <tr><td>Densidad Lineal</td><td>$\mu$</td><td>$\mu = dm/dx = m/L$</td><td>Kilogramo por metro ($\text{kg/m}$)</td></tr>
+          <tr><td>Potencia Media</td><td>$P_{\text{med}}$</td><td>$P_{\text{med}} = \frac{1}{2}\mu v \omega^2 A^2$</td><td>Watt ($\text{W}$)</td></tr>
+          <tr><td>Nivel Sonoro</td><td>$\beta$</td><td>$\beta = 10\log_{10}(I/I_0)$</td><td>Decibel ($\text{dB}$)</td></tr>
+        </tbody>
+      </table>
+
+      <footer class="notebook-footer">
+        <span>Física III • UTP</span>
+        <span class="footer-author-text"><i class="fa-solid fa-feather"></i> Realizado por: David Ramirez, Steven Vélez, Sergio Velásquez</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         PÁGINA 6: DEMOSTRACIONES ANALÍTICAS (Página Izquierda)
+         ==================================================================== -->
+    <section class="notebook-page" data-page="6">
+      <div class="page-header">
+        <span class="page-header-topic">Capítulo II • Formalismo Matemático</span>
+        <span class="page-number-tag">Página 6</span>
+      </div>
+
+      <h2 class="page-title">Demostraciones Analíticas de Ondas</h2>
+      <p class="page-lead">Deducción rigurosa paso a paso desde los principios de la mecánica de medios continuos.</p>
+
+      <div class="derivation-box">
+        <!-- 1. Ecuación Diferencial en Cuerda -->
+        <div class="derivation-step">
+          <h4>1. Deducción de la Ecuación Diferencial en Cuerda Tensa</h4>
+          <p style="font-size:0.82rem; color:#334155; line-height:1.45;">
+            Considerando un elemento infinitesimal de cuerda de masa $dm = \mu \Delta x$ con tensión $T_s$. Por 2ª Ley de Newton vertical ($\Sigma F_y = dm \frac{\partial^2 y}{\partial t^2}$) y aproximación de ángulos pequeños ($\sin\theta \approx \tan\theta = \frac{\partial y}{\partial x}$):
+          </p>
+          <div class="equation-block">
+            $$ T_s \sin\theta_2 - T_s \sin\theta_1 \approx T_s \left[ \left.\frac{\partial y}{\partial x}\right|_{x+\Delta x} - \left.\frac{\partial y}{\partial x}\right|_x \right] = \mu \Delta x \frac{\partial^2 y}{\partial t^2} $$
+          </div>
+          <div class="equation-block" style="border: 2px solid #3b82f6; background: #eff6ff;">
+            $$ \frac{\partial^2 y}{\partial x^2} = \frac{1}{v^2} \frac{\partial^2 y}{\partial t^2} \quad \text{con } v = \sqrt{\frac{T_s}{\mu}} $$
+            <span class="equation-number">(Ecuación 1)</span>
+          </div>
+        </div>
+
+        <!-- 2. Solución Armónica -->
+        <div class="derivation-step" style="border-left-color: #0ea5e9;">
+          <h4>2. Verificación de la Función de Onda Armónica $y(x,t)$</h4>
+          <p style="font-size:0.82rem; color:#334155; line-height:1.45;">
+            Evaluando $y(x,t) = A\sin(kx - \omega t)$ en las derivadas espaciales y temporales de segundo orden:
+          </p>
+          <div class="equation-block" style="border: 2px solid #0284c7; background: #f0f9ff;">
+            $$ \frac{\partial^2 y}{\partial x^2} = -k^2 A\sin(kx - \omega t), \quad \frac{\partial^2 y}{\partial t^2} = -\omega^2 A\sin(kx - \omega t) $$
+            $$ \implies -k^2 = \frac{1}{v^2}(-\omega^2) \implies v = \frac{\omega}{k} = \lambda f $$
+            <span class="equation-number">(Ecuación 2)</span>
+          </div>
+        </div>
+
+        <!-- 3. Potencia Media Transportada -->
+        <div class="derivation-step" style="border-left-color: #10b981;">
+          <h4>3. Transporte Energético y Potencia Media $P_{\text{med}}$</h4>
+          <p style="font-size:0.82rem; color:#334155; line-height:1.45;">
+            La potencia instantánea transmitida por la fuerza elástica vertical es $P(x,t) = F_y v_y = -T_s \left(\frac{\partial y}{\partial x}\right)\left(\frac{\partial y}{\partial t}\right)$:
+          </p>
+          <div class="equation-block" style="border: 2px solid #10b981; background: #f0fdf4;">
+            $$ P(x,t) = T_s k \omega A^2 \cos^2(kx - \omega t) \implies P_{\text{med}} = \frac{1}{2}\mu v \omega^2 A^2 $$
+            <span class="equation-number">(Ecuación 3)</span>
+          </div>
+        </div>
+
+        <!-- 4. Ondas Estacionarias -->
+        <div class="derivation-step" style="border-left-color: #f59e0b;">
+          <h4>4. Deducción de Ondas Estacionarias y Localización de Nodos</h4>
+          <p style="font-size:0.82rem; color:#334155; line-height:1.45;">
+            Superposición de dos ondas viajeras de igual amplitud y frecuencia propagándose en sentidos opuestos:
+          </p>
+          <div class="equation-block" style="border: 2px solid #f59e0b; background: #fffbeb;">
+            $$ y_1 + y_2 = A\sin(kx - \omega t) + A\sin(kx + \omega t) = [2A\sin(kx)] \cos(\omega t) $$
+            $$ \text{Nodos: } \sin(kx) = 0 \implies x_n = n \frac{\lambda}{2}, \quad n = 0, 1, 2, \dots $$
+            <span class="equation-number">(Ecuación 4)</span>
+          </div>
+        </div>
+      </div>
+
+      <footer class="notebook-footer">
+        <span>Física III • UTP</span>
+        <span class="footer-author-text"><i class="fa-solid fa-feather"></i> Realizado por: David Ramirez, Steven Vélez, Sergio Velásquez</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         PÁGINA 7: PLANO CARTESIANO INTERACTIVO ESTILO GEOGEBRA (Página Derecha)
+         ==================================================================== -->
+    <section class="notebook-page" data-page="7">
+      <div class="page-header">
+        <span class="page-header-topic">Laboratorio Gráfico • Precisión</span>
+        <span class="page-number-tag">Página 7</span>
+      </div>
+
+      <h2 class="page-title">Plano Cartesiano de Ondas Estilo "GeoGebra"</h2>
+      <p class="page-lead">Cuadrícula milimetrada, inspección de coordenadas espaciales, ondas viajeras y superposición en tiempo real.</p>
+
+      <div class="geogebra-container">
+        <div class="geogebra-toolbar">
+          <div class="ggb-toolgroup">
+            <button id="ggbToolPan" class="ggb-btn ggb-btn-tool active" title="Arrastrar Lienzo (Mover)"><i class="fa-solid fa-hand"></i></button>
+            <button id="ggbToolSelect" class="ggb-btn ggb-btn-tool" title="Inspeccionar Coordenadas"><i class="fa-solid fa-arrow-pointer"></i></button>
+            <button id="ggbZoomIn" class="ggb-btn" title="Zoom In"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+            <button id="ggbZoomOut" class="ggb-btn" title="Zoom Out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+            <button id="ggbResetView" class="ggb-btn" title="Restablecer Vista"><i class="fa-solid fa-house"></i></button>
+            <button id="ggbBtnPlay" class="ggb-btn" title="Pausar / Reanudar"><i class="fa-solid fa-pause"></i></button>
+            <div class="speed-btn-group" title="Velocidad de Simulación">
+              <button class="btn-speed ggb-speed-btn" data-speed="0.25">0.25x</button>
+              <button class="btn-speed ggb-speed-btn" data-speed="0.5">0.5x</button>
+              <button class="btn-speed ggb-speed-btn active" data-speed="1.0">1x</button>
+              <button class="btn-speed ggb-speed-btn" data-speed="2.0">2x</button>
+            </div>
+          </div>
+
+          <div class="ggb-toolgroup" style="gap: 8px; font-size: 0.74rem; font-weight: 600;">
+            <label style="display:flex; align-items:center; gap:3px; color:#0284c7; cursor:pointer;"><input type="checkbox" id="chkCurveY1" checked> y₁(x,t)</label>
+            <label style="display:flex; align-items:center; gap:3px; color:#10b981; cursor:pointer;"><input type="checkbox" id="chkCurveY2"> y₂(x,t)</label>
+            <label style="display:flex; align-items:center; gap:3px; color:#f59e0b; cursor:pointer;"><input type="checkbox" id="chkCurveYtot" checked> y_tot(x,t)</label>
+          </div>
+
+          <div class="ggb-toolgroup">
+            <button id="ggbBtnPalette" class="ggb-btn" title="Paleta de Estilos"><i class="fa-solid fa-palette" style="color:#2563eb;"></i></button>
+            <button id="btnOpenGgbModal" class="btn-open-modal-card" title="Ampliar Plano Cartesiano en Ventana Modal Grande">
+              <i class="fa-solid fa-up-right-and-down-left-from-center"></i> <span>Ampliar en Modal</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="geogebra-canvas-wrapper">
+          <canvas id="ggbCanvas"></canvas>
+          <div id="ggbCoordsBadge" class="ggb-coords-badge">x: 0.00 m | y(x): 0.00 m | v: 3.00 m/s</div>
+
+          <div id="ggbPaletteModal" class="ggb-palette-modal">
+            <div class="ggb-palette-header">
+              <span><i class="fa-solid fa-paintbrush"></i> Paleta de Estilos</span>
+              <button onclick="document.getElementById('ggbPaletteModal').classList.remove('open')" style="background:none; border:none; cursor:pointer; font-size:0.9rem; color:#64748b;">✕</button>
+            </div>
+            <div class="ggb-palette-row">
+              <span class="ggb-palette-label">Color de y₁(x,t):</span>
+              <div class="ggb-color-picker-group">
+                <div class="color-swatch color-swatch-y1 active" style="background:#0284c7;" data-color="#0284c7"></div>
+                <div class="color-swatch color-swatch-y1" style="background:#6366f1;" data-color="#6366f1"></div>
+                <div class="color-swatch color-swatch-y1" style="background:#ec4899;" data-color="#ec4899"></div>
+              </div>
+            </div>
+            <div class="ggb-palette-row">
+              <span class="ggb-palette-label">Grosor de Trazo:</span>
+              <input type="range" id="ggbStrokeWidth" min="1" max="5" step="0.5" value="2.5" class="input-slider">
+            </div>
+            <div class="ggb-palette-row">
+              <span class="ggb-palette-label">Estilo de Línea:</span>
+              <select id="ggbLineStyle" style="width:100%; padding:4px; border:1px solid #cbd5e1; border-radius:4px; font-size:0.75rem;">
+                <option value="solid">Línea Continua</option>
+                <option value="dashed">Línea Segmentada</option>
+                <option value="dotted">Línea Punteada</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="mas-controls-panel">
+          <div class="slider-group">
+            <div class="slider-header"><span>Amplitud (A):</span><span id="ggbValA" class="slider-value">1.8 m</span></div>
+            <input type="range" id="ggbSliderA" min="0.2" max="3.5" step="0.1" value="1.8" class="input-slider">
+          </div>
+          <div class="slider-group">
+            <div class="slider-header"><span>Longitud de Onda (λ):</span><span id="ggbValLambda" class="slider-value">3.0 m</span></div>
+            <input type="range" id="ggbSliderLambda" min="0.5" max="6.0" step="0.1" value="3.0" class="input-slider">
+          </div>
+          <div class="slider-group">
+            <div class="slider-header"><span>Frecuencia (f):</span><span id="ggbValF" class="slider-value">1.0 Hz</span></div>
+            <input type="range" id="ggbSliderF" min="0.2" max="3.0" step="0.1" value="1.0" class="input-slider">
+          </div>
+          <div class="slider-group">
+            <div class="slider-header"><span>Velocidad (v_sim):</span><span id="ggbValSpeed" class="slider-value">1.0x</span></div>
+            <input type="range" id="ggbSliderSpeed" min="0.1" max="2.5" step="0.1" value="1.0" class="input-slider">
+          </div>
+        </div>
+
+        <!-- Recuadro de Selección de Partícula y Vectores (x, y, t) -->
+        <div class="particle-pos-box" style="margin-top:6px;">
+          <div class="particle-pos-header">
+            <div class="particle-box-title">
+              <i class="fa-solid fa-crosshairs" style="color:#0284c7;"></i>
+              <span>Recuadro de Selección de Partícula</span>
+            </div>
+            <div class="particle-mode-buttons">
+              <button type="button" class="btn-particle-mode active" id="btnGgbLockWave" title="La coordenada Y sigue la onda automáticamente">
+                <i class="fa-solid fa-link"></i> Fijar a la Onda: y(x,t)
+              </button>
+              <button type="button" class="btn-particle-mode" id="btnGgbManualY" title="Permite elegir Y libremente en metros">
+                <i class="fa-solid fa-up-down-left-right"></i> Posición libre (x, y)
+              </button>
+            </div>
+          </div>
+
+          <!-- Cuadrícula para seleccionar coordenadas exactas en metros -->
+          <div class="particle-coords-grid">
+            <div class="coord-box coord-box-x">
+              <div class="coord-row">
+                <label for="ggbNumX"><strong style="color:#0284c7;"><i class="fa-solid fa-arrows-left-right"></i> Eje X:</strong></label>
+                <div class="coord-input-wrap">
+                  <input type="number" id="ggbNumX" class="coord-num-input" min="0.0" max="15.0" step="0.05" value="2.50">
+                  <span class="coord-unit">m</span>
+                </div>
+              </div>
+              <input type="range" id="ggbSliderX" min="0.0" max="15.0" step="0.05" value="2.5" class="input-slider">
+              <div class="coord-info"><small>x seleccionado: </small><span id="ggbValX" class="coord-val-badge">2.50 m</span></div>
+            </div>
+
+            <div class="coord-box coord-box-y">
+              <div class="coord-row">
+                <label for="ggbNumY"><strong style="color:#10b981;"><i class="fa-solid fa-arrows-up-down"></i> Eje Y:</strong></label>
+                <div class="coord-input-wrap">
+                  <input type="number" id="ggbNumY" class="coord-num-input" min="-3.5" max="3.5" step="0.05" value="0.00">
+                  <span class="coord-unit">m</span>
+                </div>
+              </div>
+              <input type="range" id="ggbSliderY" min="-3.5" max="3.5" step="0.05" value="0.0" class="input-slider">
+              <div class="coord-info"><small>y seleccionado: </small><span id="ggbValY" class="coord-val-badge">0.00 m</span></div>
+            </div>
+          </div>
+
+          <div class="vector-telemetry-badge" id="ggbVectorTelemetry">
+            <span>📍 Partícula: (x: <strong>2.50 m</strong>, y: <strong>0.00 m</strong>)</span>
+            <span>🌊 y_onda: <strong>0.00 m</strong></span>
+            <span>⏱️ t: <strong>0.00 s</strong></span>
+            <span style="color:#047857;">🟢 vy: <strong>0.00 m/s</strong></span>
+            <span style="color:#c2410c;">🟠 ay: <strong>0.00 m/s²</strong></span>
+          </div>
+
+          <div class="particle-vector-row">
+            <div class="slider-group" style="flex:1;">
+              <div class="slider-header"><small>Tiempo (t):</small><span id="ggbValT" class="slider-value">0.00 s</span></div>
+              <input type="range" id="ggbSliderT" min="0.0" max="10.0" step="0.05" value="0.0" class="input-slider">
+            </div>
+            <div class="slider-group" style="flex:1;">
+              <div class="slider-header"><small>Escala Vectores:</small><span id="ggbValVecScale" class="slider-value">1.0x</span></div>
+              <input type="range" id="ggbSliderVecScale" min="0.2" max="2.5" step="0.1" value="1.0" class="input-slider">
+            </div>
+            <div class="vector-checkbox-group">
+              <label class="vector-checkbox-label" style="color:#10b981;">
+                <input type="checkbox" id="chkGgbVy" checked> $\vec{v}_y$
+              </label>
+              <label class="vector-checkbox-label" style="color:#ea580c;">
+                <input type="checkbox" id="chkGgbAy" checked> $\vec{a}_y$
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:8px 12px; font-size:0.78rem; color:#334155;">
+        <i class="fa-solid fa-arrows-up-down-left-right" style="color:#0284c7;"></i> <strong>Reescalado dinámico:</strong> Rueda el ratón o arrastra sobre el lienzo para navegar la onda en su dimensión espacial $x$ y temporal $t$.
+      </div>
+
+      <footer class="notebook-footer">
+        <span>Física III • UTP</span>
+        <span class="footer-author-text"><i class="fa-solid fa-feather"></i> Realizado por: David Ramirez, Steven Vélez, Sergio Velásquez</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         PÁGINA 8: LABORATORIO VIRTUAL - ONDA EN CUERDA TENSA (Página Izquierda)
+         ==================================================================== -->
+    <section class="notebook-page" data-page="8">
+      <div class="page-header">
+        <span class="page-header-topic">Simulaciones Físicas • Nivel Premium</span>
+        <span class="page-number-tag">Página 8</span>
+      </div>
+
+      <h2 class="page-title">Onda Transversal en Cuerda Tensa</h2>
+      <p class="page-lead">Modelación física continua a 60 FPS con perlas elásticas, vectores cinemáticos y potencia transmitida.</p>
+
+      <div class="sim-card" style="display:flex; flex-direction:column; flex-shrink:0; margin-bottom:12px;">
+        <div class="sim-card-header">
+          <h3><i class="fa-solid fa-wave-square" style="color:#0284c7;"></i> Simulación de Cuerda Elástica</h3>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <button id="btnTautPlay" class="ggb-btn" style="width:auto; padding:0 8px; font-size:0.78rem;" title="Pausar / Reanudar"><i class="fa-solid fa-pause"></i></button>
+            <button id="btnTautReset" class="ggb-btn" title="Reiniciar"><i class="fa-solid fa-rotate-left"></i></button>
+            <div class="speed-btn-group" title="Velocidad de Simulación">
+              <button class="btn-speed taut-speed-btn" data-speed="0.25">0.25x</button>
+              <button class="btn-speed taut-speed-btn" data-speed="0.5">0.5x</button>
+              <button class="btn-speed taut-speed-btn active" data-speed="1.0">1x</button>
+              <button class="btn-speed taut-speed-btn" data-speed="2.0">2x</button>
+            </div>
+            <button id="btnOpenSimModal" class="btn-open-modal-card" title="Ampliar Simulador en Ventana Modal Grande">
+              <i class="fa-solid fa-up-right-and-down-left-from-center"></i> <span>Ampliar</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="sim-canvas-container" style="min-height:280px; height:280px; flex-shrink:0;">
+          <canvas id="simTautStringCanvas" class="sim-canvas" style="width: 100%; height: 100%;"></canvas>
+        </div>
+
+        <div class="sim-sliders-grid" style="margin-top:12px;">
+          <div class="slider-group">
+            <div class="slider-header"><small>Tensión (Ts):</small><span id="simValTs" class="slider-value">40 N</span></div>
+            <input type="range" id="simSliderTs" min="10" max="100" step="2" value="40" class="input-slider">
+          </div>
+          <div class="slider-group">
+            <div class="slider-header"><small>Densidad Lineal (μ):</small><span id="simValMu" class="slider-value">0.050 kg/m</span></div>
+            <input type="range" id="simSliderMu" min="0.010" max="0.150" step="0.005" value="0.050" class="input-slider">
+          </div>
+          <div class="slider-group">
+            <div class="slider-header"><small>Amplitud (A):</small><span id="simValA" class="slider-value">1.2 m</span></div>
+            <input type="range" id="simSliderA" min="0.2" max="2.0" step="0.1" value="1.2" class="input-slider">
+          </div>
+          <div class="slider-group">
+            <div class="slider-header"><small>Frecuencia (f):</small><span id="simValF" class="slider-value">1.2 Hz</span></div>
+            <input type="range" id="simSliderF" min="0.4" max="3.0" step="0.1" value="1.2" class="input-slider">
+          </div>
+          <div class="slider-group">
+            <div class="slider-header"><small>Velocidad (v_sim):</small><span id="simValSpeed" class="slider-value">1.0x</span></div>
+            <input type="range" id="simSliderSpeed" min="0.1" max="2.5" step="0.1" value="1.0" class="input-slider">
+          </div>
+        </div>
+
+        <!-- Recuadro de Selección de Partícula y Vectores (x, y, t) Cuerda Tensa -->
+        <div class="particle-pos-box" style="margin-top:8px;">
+          <div class="particle-pos-header">
+            <div class="particle-box-title">
+              <i class="fa-solid fa-crosshairs" style="color:#0284c7;"></i>
+              <span>Recuadro de Selección de Partícula</span>
+            </div>
+            <div class="particle-mode-buttons">
+              <button type="button" class="btn-particle-mode active" id="btnTautLockWave" title="La coordenada Y sigue la onda automáticamente">
+                <i class="fa-solid fa-link"></i> Fijar a la Onda: y(x,t)
+              </button>
+              <button type="button" class="btn-particle-mode" id="btnTautManualY" title="Permite elegir Y libremente en metros">
+                <i class="fa-solid fa-up-down-left-right"></i> Posición libre (x, y)
+              </button>
+            </div>
+          </div>
+
+          <!-- Cuadrícula para seleccionar coordenadas exactas en metros -->
+          <div class="particle-coords-grid">
+            <div class="coord-box coord-box-x">
+              <div class="coord-row">
+                <label for="tautNumX"><strong style="color:#0284c7;"><i class="fa-solid fa-arrows-left-right"></i> Eje X:</strong></label>
+                <div class="coord-input-wrap">
+                  <input type="number" id="tautNumX" class="coord-num-input" min="0.0" max="8.0" step="0.05" value="2.00">
+                  <span class="coord-unit">m</span>
+                </div>
+              </div>
+              <input type="range" id="simSliderX" min="0.0" max="8.0" step="0.05" value="2.0" class="input-slider">
+              <div class="coord-info"><small>x seleccionado: </small><span id="simValX" class="coord-val-badge">2.00 m</span></div>
+            </div>
+
+            <div class="coord-box coord-box-y">
+              <div class="coord-row">
+                <label for="tautNumY"><strong style="color:#10b981;"><i class="fa-solid fa-arrows-up-down"></i> Eje Y:</strong></label>
+                <div class="coord-input-wrap">
+                  <input type="number" id="tautNumY" class="coord-num-input" min="-1.5" max="1.5" step="0.05" value="0.00">
+                  <span class="coord-unit">m</span>
+                </div>
+              </div>
+              <input type="range" id="tautSliderY" min="-1.5" max="1.5" step="0.05" value="0.0" class="input-slider">
+              <div class="coord-info"><small>y seleccionado: </small><span id="tautValY" class="coord-val-badge">0.00 m</span></div>
+            </div>
+          </div>
+
+          <div class="vector-telemetry-badge" id="tautVectorTelemetry">
+            <span>📍 Partícula: (x: <strong>2.00 m</strong>, y: <strong>0.00 m</strong>)</span>
+            <span>🌊 y_onda: <strong>0.00 m</strong></span>
+            <span>⏱️ t: <strong>0.00 s</strong></span>
+            <span style="color:#047857;">🟢 vy: <strong>0.00 m/s</strong></span>
+            <span style="color:#c2410c;">🟠 ay: <strong>0.00 m/s²</strong></span>
+          </div>
+
+          <div class="particle-vector-row">
+            <div class="slider-group" style="flex:1;">
+              <div class="slider-header"><small>Tiempo (t):</small><span id="simValT" class="slider-value">0.00 s</span></div>
+              <input type="range" id="simSliderT" min="0.0" max="10.0" step="0.05" value="0.0" class="input-slider">
+            </div>
+            <div class="slider-group" style="flex:1;">
+              <div class="slider-header"><small>Escala Vectores:</small><span id="simValVecScale" class="slider-value">1.0x</span></div>
+              <input type="range" id="simSliderVecScale" min="0.2" max="2.5" step="0.1" value="1.0" class="input-slider">
+            </div>
+            <div class="vector-checkbox-group">
+              <label class="vector-checkbox-label" style="color:#10b981;">
+                <input type="checkbox" id="chkTautVy" checked> $\vec{v}_y$
+              </label>
+              <label class="vector-checkbox-label" style="color:#ea580c;">
+                <input type="checkbox" id="chkTautAy" checked> $\vec{a}_y$
+              </label>
+              <label class="vector-checkbox-label" style="color:#0369a1;">
+                <input type="checkbox" id="chkTautAllVecs" checked> Todas
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="notebook-footer" style="margin-top:auto;">
+        <span>Física III • UTP</span>
+        <span class="footer-author-text"><i class="fa-solid fa-feather"></i> Realizado por: David Ramirez, Steven Vélez, Sergio Velásquez</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         PÁGINA 9: ESTACIONARIAS & EFECTO DOPPLER (Página Derecha)
+         ==================================================================== -->
+    <section class="notebook-page" data-page="9">
+      <div class="page-header">
+        <span class="page-header-topic">Fenómenos Ondulatorios • Nivel Premium</span>
+        <span class="page-number-tag">Página 9</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <h2 class="page-title" style="margin-bottom:0;">Modos Normales & Ondas Estacionarias</h2>
+        <span class="badge" style="background:#e0e7ff; color:#4338ca; font-weight:700; font-size:0.72rem; padding:3px 7px; border-radius:4px;"><i class="fa-solid fa-arrows-split-up-and-left"></i> Modos Normales</span>
+      </div>
+      <p class="page-lead">Visualización cuantitativa de nodos, antinodos y superposición armónica en cuerdas elásticas con extremos fijos.</p>
+
+      <div class="sim-card" style="display:flex; flex-direction:column; flex-shrink:0; margin-bottom:12px;">
+        <div class="sim-card-header">
+          <h3><i class="fa-solid fa-circle-notch" style="color:#6366f1;"></i> Laboratorio de Fenómenos</h3>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <button id="btnStandingPlay" class="ggb-btn" style="width:auto; padding:0 8px; font-size:0.78rem;" title="Pausar / Reanudar"><i class="fa-solid fa-pause"></i></button>
+            <button id="btnStandingReset" class="ggb-btn" title="Reiniciar Simulación"><i class="fa-solid fa-rotate-left"></i></button>
+            <div class="speed-btn-group" title="Velocidad de Simulación">
+              <button class="btn-speed standing-speed-btn" data-speed="0.25">0.25x</button>
+              <button class="btn-speed standing-speed-btn" data-speed="0.5">0.5x</button>
+              <button class="btn-speed standing-speed-btn active" data-speed="1.0">1x</button>
+              <button class="btn-speed standing-speed-btn" data-speed="2.0">2x</button>
+            </div>
+            <button id="btnOpenStandingModal" class="btn-open-modal-card" title="Ampliar en Ventana Modal Grande">
+              <i class="fa-solid fa-up-right-and-down-left-from-center"></i> <span>Ampliar</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="sim-canvas-container" style="min-height:280px; height:280px; flex-shrink:0;">
+          <canvas id="simStandingCanvas" class="sim-canvas" style="width: 100%; height: 100%;"></canvas>
+        </div>
+
+        <!-- Controles para Ondas Estacionarias -->
+        <div id="panelStandingControls" style="display:flex; flex-direction:column; gap:6px; margin-top:10px;">
+          <div style="font-size:0.78rem; font-weight:700; color:#334155;">Seleccionar Modo Armónico (n):</div>
+          <div class="harmonic-btn-group">
+            <button class="btn-harmonic" data-harmonic="1">n = 1 (Fundamental)</button>
+            <button class="btn-harmonic" data-harmonic="2">n = 2 (2° Armónico)</button>
+            <button class="btn-harmonic active" data-harmonic="3">n = 3 (3° Armónico)</button>
+            <button class="btn-harmonic" data-harmonic="4">n = 4 (4° Armónico)</button>
+            <button class="btn-harmonic" data-harmonic="5">n = 5 (5° Armónico)</button>
+          </div>
+          <div class="slider-group" style="margin-top:6px;">
+            <div class="slider-header"><small>Velocidad de Oscilación:</small><span id="lblStandingSpeed" class="slider-value">1.0x</span></div>
+            <input type="range" id="sliderStandingSpeed" min="0.1" max="2.5" step="0.1" value="1.0" class="input-slider">
+          </div>
+
+          <!-- Recuadro de Selección de Partícula y Vectores (x, y, t) Estacionarias -->
+          <div class="particle-pos-box" style="margin-top:6px;">
+            <div class="particle-pos-header">
+              <div class="particle-box-title">
+                <i class="fa-solid fa-crosshairs" style="color:#6366f1;"></i>
+                <span>Recuadro de Selección de Partícula</span>
+              </div>
+              <div class="particle-mode-buttons">
+                <button type="button" class="btn-particle-mode standing-mode active" id="btnStandingLockWave" title="La coordenada Y sigue la onda estacionaria automáticamente">
+                  <i class="fa-solid fa-link"></i> Fijar a la Onda: y(x,t)
+                </button>
+                <button type="button" class="btn-particle-mode standing-mode" id="btnStandingManualY" title="Permite elegir Y libremente en metros">
+                  <i class="fa-solid fa-up-down-left-right"></i> Posición libre (x, y)
+                </button>
+              </div>
+            </div>
+
+            <!-- Cuadrícula para seleccionar coordenadas exactas en metros -->
+            <div class="particle-coords-grid">
+              <div class="coord-box coord-box-x">
+                <div class="coord-row">
+                  <label for="standingNumX"><strong style="color:#6366f1;"><i class="fa-solid fa-arrows-left-right"></i> Eje X:</strong></label>
+                  <div class="coord-input-wrap">
+                    <input type="number" id="standingNumX" class="coord-num-input" min="0.0" max="6.0" step="0.05" value="1.00">
+                    <span class="coord-unit">m</span>
+                  </div>
+                </div>
+                <input type="range" id="sliderStandingX" min="0.0" max="6.0" step="0.05" value="1.0" class="input-slider">
+                <div class="coord-info"><small>x seleccionado: </small><span id="standingValX" class="coord-val-badge">1.00 m</span></div>
+              </div>
+
+              <div class="coord-box coord-box-y-standing">
+                <div class="coord-row">
+                  <label for="standingNumY"><strong style="color:#6366f1;"><i class="fa-solid fa-arrows-up-down"></i> Eje Y:</strong></label>
+                  <div class="coord-input-wrap">
+                    <input type="number" id="standingNumY" class="coord-num-input" min="-1.5" max="1.5" step="0.05" value="0.00">
+                    <span class="coord-unit">m</span>
+                  </div>
+                </div>
+                <input type="range" id="sliderStandingY" min="-1.5" max="1.5" step="0.05" value="0.0" class="input-slider">
+                <div class="coord-info"><small>y seleccionado: </small><span id="standingValY" class="coord-val-badge">0.00 m</span></div>
+              </div>
+            </div>
+
+            <div class="vector-telemetry-badge" id="standingVectorTelemetry">
+              <span>📍 Partícula: (x: <strong>1.00 m</strong>, y: <strong>0.00 m</strong>)</span>
+              <span>🌊 y_onda: <strong>0.00 m</strong></span>
+              <span>⏱️ t: <strong>0.00 s</strong></span>
+              <span style="color:#047857;">🟢 vy: <strong>0.00 m/s</strong></span>
+              <span style="color:#c2410c;">🟠 ay: <strong>0.00 m/s²</strong></span>
+            </div>
+
+            <div class="particle-vector-row">
+              <div class="slider-group" style="flex:1;">
+                <div class="slider-header"><small>Tiempo (t):</small><span id="standingValT" class="slider-value">0.00 s</span></div>
+                <input type="range" id="sliderStandingT" min="0.0" max="5.0" step="0.02" value="0.0" class="input-slider">
+              </div>
+              <div class="slider-group" style="flex:1;">
+                <div class="slider-header"><small>Escala Vectores:</small><span id="standingValVecScale" class="slider-value">1.0x</span></div>
+                <input type="range" id="sliderStandingVecScale" min="0.2" max="2.5" step="0.1" value="1.0" class="input-slider">
+              </div>
+              <div class="vector-checkbox-group">
+                <label class="vector-checkbox-label" style="color:#10b981;">
+                  <input type="checkbox" id="chkStandingVy" checked> $\vec{v}_y$
+                </label>
+                <label class="vector-checkbox-label" style="color:#ea580c;">
+                  <input type="checkbox" id="chkStandingAy" checked> $\vec{a}_y$
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="notebook-footer" style="margin-top:auto;">
+        <span>Física III • UTP</span>
+        <span class="footer-author-text"><i class="fa-solid fa-feather"></i> Realizado por: David Ramirez, Steven Vélez, Sergio Velásquez</span>
+      </footer>
+    </section>
+
+
+
+    <!-- ====================================================================
+         PÁGINA 10: EFECTO DOPPLER: FUNDAMENTOS FÍSICOS & ANÁLISIS MATEMÁTICO (Página Izquierda)
+         ==================================================================== -->
+    <section class="notebook-page" data-page="10">
+      <div class="page-header">
+        <span class="page-header-topic">Acústica & Cinemática Ondulatoria • Nivel Premium</span>
+        <span class="page-number-tag">Página 10</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+        <h2 class="page-title" style="margin-bottom:0; font-size:1.15rem;">Efecto Doppler: Fenomenología y Formulación Matemática</h2>
+        <span class="badge" style="background:#e0f2fe; color:#0369a1; font-weight:700; font-size:0.72rem; padding:3px 7px; border-radius:4px;"><i class="fa-solid fa-bullhorn"></i> Acústica & Astrofísica</span>
+      </div>
+      <p class="page-lead" style="margin-bottom:8px; font-size:0.78rem;">Descubrimiento de Christian Doppler (1842), deducción de ecuaciones para fuentes y receptores en movimiento relativo, régimen supersónico (Cono de Mach) y corrimiento espectral en astrofísica.</p>
+
+      <!-- Principio Físico y Esquema Gráfico -->
+      <div style="background:#f0f9ff; border:1px solid #bae6fd; border-left:4px solid #0284c7; border-radius:8px; padding:8px 12px; margin-bottom:8px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <strong style="color:#0369a1; font-size:0.8rem;"><i class="fa-solid fa-lightbulb"></i> Principio Físico Fundamental</strong>
+          <span style="font-size:0.68rem; background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:700;">Christian Doppler (1842)</span>
+        </div>
+        <p style="font-size:0.72rem; color:#1e293b; margin:0; line-height:1.4;">
+          El <strong>Efecto Doppler</strong> es la variación aparente en la frecuencia de una onda percibida por un observador cuando existe movimiento relativo entre la fuente emisora y el receptor a través del medio de propagación. Hacia adelante los frentes se comprimen ($\lambda' < \lambda_0 \implies f' > f_0$, tono más agudo), y hacia atrás se dilatan ($\lambda' > \lambda_0 \implies f' < f_0$, tono más grave).
+        </p>
+      </div>
+
+      <!-- Cuadrícula de Deducción Matemática Rigurosa (3 Columnas) -->
+      <div class="doppler-theory-grid" style="margin-bottom:8px;">
+        <!-- Tarjeta 1: Observador en Movimiento -->
+        <div class="doppler-card">
+          <div class="doppler-card-header">
+            <div class="doppler-card-icon" style="background:#eff6ff; color:#2563eb;"><i class="fa-solid fa-person-walking"></i></div>
+            <div>
+              <h4 class="doppler-card-title">1. Receptor en Movimiento</h4>
+              <span class="doppler-card-subtitle">Fuente en Reposo ($v_s = 0$)</span>
+            </div>
+          </div>
+          <p style="font-size:0.69rem; color:#475569; line-height:1.35; margin:0 0 4px 0;">
+            La longitud de onda en el medio no cambia ($\lambda = v / f_0$). La rapidez relativa de intercepción de frentes por el receptor es $v' = v \pm v_o$:
+          </p>
+          <div class="doppler-formula-box">
+            $$f' = \frac{v'}{\lambda} = f_0 \left( \frac{v \pm v_o}{v} \right) = f_0 \left( 1 \pm \frac{v_o}{v} \right)$$
+          </div>
+          <small style="font-size:0.65rem; color:#64748b; display:block;">$(+)$ si se aproxima a la fuente; $(-)$ si se aleja.</small>
+        </div>
+
+        <!-- Tarjeta 2: Fuente en Movimiento -->
+        <div class="doppler-card">
+          <div class="doppler-card-header">
+            <div class="doppler-card-icon" style="background:#fef2f2; color:#dc2626;"><i class="fa-solid fa-truck-medical"></i></div>
+            <div>
+              <h4 class="doppler-card-title">2. Fuente en Movimiento</h4>
+              <span class="doppler-card-subtitle">Receptor en Reposo ($v_o = 0$)</span>
+            </div>
+          </div>
+          <p style="font-size:0.69rem; color:#475569; line-height:1.35; margin:0 0 4px 0;">
+            En cada periodo $T$, la fuente avanza $v_s T$, comprimiendo la distancia física entre crestas sucesivas: $\lambda' = \lambda_0 \mp v_s T$:
+          </p>
+          <div class="doppler-formula-box" style="border-left-color:#ef4444;">
+            $$f' = \frac{v}{\lambda'} = f_0 \left( \frac{v}{v \mp v_s} \right)$$
+          </div>
+          <small style="font-size:0.65rem; color:#64748b; display:block;">$(-)$ denominador al acercarse; $(+)$ al alejarse.</small>
+        </div>
+
+        <!-- Tarjeta 3: Ecuación General Unificada -->
+        <div class="doppler-card">
+          <div class="doppler-card-header">
+            <div class="doppler-card-icon" style="background:#f0fdf4; color:#16a34a;"><i class="fa-solid fa-calculator"></i></div>
+            <div>
+              <h4 class="doppler-card-title">3. Ecuación General Unificada</h4>
+              <span class="doppler-card-subtitle">Movimiento Simultáneo en 1D</span>
+            </div>
+          </div>
+          <p style="font-size:0.69rem; color:#475569; line-height:1.35; margin:0 0 4px 0;">
+            Combinando ambos efectos cinemáticos respecto al medio en reposo (donde $v$ es la rapidez del sonido):
+          </p>
+          <div class="doppler-formula-box" style="border-left-color:#10b981;">
+            $$f' = f_0 \left( \frac{v \pm v_o}{v \mp v_s} \right)$$
+          </div>
+          <small style="font-size:0.65rem; color:#16a34a; font-weight:700; display:block;">Signos superiores (+/-): ACERCAMIENTO.<br>Signos inferiores (-/+): ALEJAMIENTO.</small>
+        </div>
+      </div>
+
+      <!-- Sección de Barrera del Sonido, Cono de Mach & Relativismo -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px;">
+        <!-- Cono de Mach -->
+        <div style="background:#fff7ed; border:1px solid #fed7aa; border-radius:8px; padding:8px 10px;">
+          <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+            <i class="fa-solid fa-jet-fighter" style="color:#ea580c; font-size:0.85rem;"></i>
+            <h4 style="margin:0; font-size:0.78rem; color:#9a3412;">Régimen Supersónico & Cono de Mach</h4>
+          </div>
+          <p style="font-size:0.69rem; color:#7c2d12; line-height:1.35; margin-bottom:4px;">
+            Cuando la velocidad de la fuente supera a la del sonido ($v_s > v$), el número de Mach $M = v_s / v > 1$. Los frentes esféricos se superponen constructivamente formando una envolvente cónica tangente (onda de choque / estampido sónico):
+          </p>
+          <div style="background:#ffffff; border:1px solid #fed7aa; border-radius:6px; padding:4px 6px; text-align:center; font-size:0.72rem; color:#9a3412; font-weight:700;">
+            $$\sin\theta_M = \frac{v \cdot t}{v_s \cdot t} = \frac{v}{v_s} = \frac{1}{M}$$
+          </div>
+        </div>
+
+        <!-- Efecto Doppler Relativista & Luz Cósmica -->
+        <div style="background:#faf5ff; border:1px solid #e9d5ff; border-radius:8px; padding:8px 10px;">
+          <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+            <i class="fa-solid fa-atom" style="color:#9333ea; font-size:0.85rem;"></i>
+            <h4 style="margin:0; font-size:0.78rem; color:#6b21a8;">Doppler Relativista & Astrofísica</h4>
+          </div>
+          <p style="font-size:0.69rem; color:#581c87; line-height:1.35; margin-bottom:4px;">
+            Para ondas electromagnéticas en el vacío ($c$), debido a la dilatación temporal de Lorentz, no existe medio material preferente:
+          </p>
+          <div style="background:#ffffff; border:1px solid #e9d5ff; border-radius:6px; padding:4px 6px; text-align:center; font-size:0.72rem; color:#6b21a8; font-weight:700;">
+            $$f' = f_0 \sqrt{\frac{1 - \beta}{1 + \beta}} \quad \left(z = \frac{\Delta\lambda}{\lambda_0} \approx \frac{v}{c}\right)$$
+          </div>
+          <small style="font-size:0.65rem; color:#7e22ce; display:block;">$z > 0$: Corrimiento al rojo (Redshift). Clave de la expansión del Universo (Hubble, 1929).</small>
+        </div>
+      </div>
+
+      <!-- Aplicaciones Prácticas y Tecnológicas -->
+      <div style="background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; padding:8px 10px; margin-bottom:6px;">
+        <div style="font-weight:700; color:#0f172a; font-size:0.76rem; margin-bottom:4px;"><i class="fa-solid fa-microchip" style="color:#0ea5e9;"></i> Aplicaciones Tecnológicas en Ciencia Moderna:</div>
+        <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; font-size:0.68rem; color:#334155;">
+          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:5px 6px;">
+            <strong style="color:#0284c7; display:block;">1. Ecografía Doppler</strong>
+            Medición de flujo sanguíneo y estenosis en arterias cardiovasculares.
+          </div>
+          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:5px 6px;">
+            <strong style="color:#059669; display:block;">2. Radar Meteorológico</strong>
+            Detección de tornados, vórtices de mesociclón y velocidad de tormentas.
+          </div>
+          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:5px 6px;">
+            <strong style="color:#d97706; display:block;">3. Radar de Tráfico</strong>
+            Cinemómetros microondas para control de velocidad vehicular.
+          </div>
+          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:5px 6px;">
+            <strong style="color:#7c3aed; display:block;">4. Exoplanetas</strong>
+            Detección por método de velocidad radial (bamboleo estelar espectral).
+          </div>
+        </div>
+      </div>
+
+      <footer class="notebook-footer" style="margin-top:auto;">
+        <span>Física III • UTP</span>
+        <span class="footer-author-text"><i class="fa-solid fa-feather"></i> Realizado por: David Ramirez, Steven Vélez, Sergio Velásquez</span>
+      </footer>
+    </section>
+
+
+
+    <!-- ====================================================================
+         PÁGINA 11: LABORATORIO VIRTUAL: SIMULADOR AVANZADO EFECTO DOPPLER (Página Derecha)
+         ==================================================================== -->
+    <section class="notebook-page" data-page="11">
+      <div class="page-header">
+        <span class="page-header-topic">Laboratorio Virtual • Cinemática de Frentes de Onda</span>
+        <span class="page-number-tag">Página 11</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+        <h2 class="page-title" style="margin-bottom:0; font-size:1.15rem;">Laboratorio Virtual: Simulador Efecto Doppler</h2>
+        <span id="badgeDopplerRegime" class="badge" style="background:#dcfce7; color:#15803d; font-weight:700; font-size:0.72rem; padding:3px 7px; border-radius:4px;"><i class="fa-solid fa-gauge-high"></i> SUBSÓNICO</span>
+      </div>
+      <p class="page-lead" style="margin-bottom:8px; font-size:0.78rem;">Visualización 2D interactiva de frentes de onda circulares, compresión/dilatación espectral, formación del cono de Mach y síntesis acústica en tiempo real con Web Audio API.</p>
+
+      <div class="sim-card" style="display:flex; flex-direction:column; flex-shrink:0; margin-bottom:8px;">
+        <div class="sim-card-header">
+          <h3><i class="fa-solid fa-radar" style="color:#0ea5e9;"></i> Cinemática de Propagación en el Plano</h3>
+          <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+            <button id="btnDopplerPlay" class="ggb-btn" style="width:auto; padding:0 8px; font-size:0.78rem;" title="Pausar / Reanudar"><i class="fa-solid fa-pause"></i></button>
+            <button id="btnDopplerReset" class="ggb-btn" title="Reiniciar Simulación"><i class="fa-solid fa-rotate-left"></i></button>
+            <button id="btnDopplerAudio" class="doppler-audio-toggle" title="Activar/Desactivar Sonido Doppler en Tiempo Real"><i class="fa-solid fa-volume-xmark"></i> <span>Audio Doppler</span></button>
+            <button id="btnDopplerMachToggle" class="btn-mach-toggle active" title="Mostrar/Ocultar Cono de Mach cuando M ≥ 1"><i class="fa-solid fa-cone"></i> <span>Cono Mach</span></button>
+            <div class="speed-btn-group" title="Velocidad de Simulación">
+              <button class="btn-speed doppler-speed-btn" data-speed="0.25">0.25x</button>
+              <button class="btn-speed doppler-speed-btn" data-speed="0.5">0.5x</button>
+              <button class="btn-speed doppler-speed-btn active" data-speed="1.0">1x</button>
+              <button class="btn-speed doppler-speed-btn" data-speed="2.0">2x</button>
+            </div>
+            <button id="btnOpenDopplerModal" class="btn-open-modal-card" title="Ampliar en Ventana Modal Grande">
+              <i class="fa-solid fa-up-right-and-down-left-from-center"></i> <span>Ampliar</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Canvas Principal Doppler -->
+        <div class="sim-canvas-container" style="min-height:260px; height:260px; flex-shrink:0; position:relative;">
+          <canvas id="simDopplerCanvas" class="sim-canvas" style="width:100%; height:100%; display:block;"></canvas>
+          <div style="position:absolute; bottom:6px; left:12px; font-size:0.68rem; color:#94a3b8; pointer-events:none; background:rgba(15,23,42,0.7); padding:2px 6px; border-radius:4px;">
+            <i class="fa-solid fa-hand-pointer" style="color:#38bdf8;"></i> Arrastra el <strong>Observador verde</strong> en el plano para escuchar la modulación angular
+          </div>
+        </div>
+
+        <!-- Barra de Escenarios Predefinidos (Presets) -->
+        <div style="margin-top:8px;">
+          <div style="font-size:0.72rem; font-weight:700; color:#334155; margin-bottom:4px;">Escenarios Físicos Preconfigurados:</div>
+          <div class="doppler-presets-bar">
+            <button class="btn-doppler-preset active" data-preset="ambulance"><i class="fa-solid fa-truck-medical" style="color:#ef4444;"></i> Ambulancia (35 m/s)</button>
+            <button class="btn-doppler-preset" data-preset="racecar"><i class="fa-solid fa-car-side" style="color:#f59e0b;"></i> Auto de Carreras (95 m/s)</button>
+            <button class="btn-doppler-preset" data-preset="sonic"><i class="fa-solid fa-bolt" style="color:#0ea5e9;"></i> Barrera Sónica (Mach 1.0)</button>
+            <button class="btn-doppler-preset" data-preset="supersonic"><i class="fa-solid fa-plane" style="color:#ec4899;"></i> Caza Supersónico (Mach 1.5)</button>
+            <button class="btn-doppler-preset" data-preset="observer_moving"><i class="fa-solid fa-person-running" style="color:#10b981;"></i> Receptor Móvil (60 m/s)</button>
+          </div>
+        </div>
+
+        <!-- Badges de Telemetría Numérica -->
+        <div class="doppler-telemetry-badge-grid">
+          <div class="doppler-telemetry-item">
+            <span class="doppler-telemetry-label">Frecuencia Observada</span>
+            <span class="doppler-telemetry-val" id="lblDopplerFApparent" style="color:#10b981;">2.8 Hz</span>
+          </div>
+          <div class="doppler-telemetry-item">
+            <span class="doppler-telemetry-label">Factor Doppler (f'/f₀)</span>
+            <span class="doppler-telemetry-val" id="lblDopplerRatio" style="color:#0284c7;">1.42x</span>
+          </div>
+          <div class="doppler-telemetry-item">
+            <span class="doppler-telemetry-label">λ' Adelante (Comp.)</span>
+            <span class="doppler-telemetry-val" id="lblDopplerLambdaAhead" style="color:#0ea5e9;">110.0 m</span>
+          </div>
+          <div class="doppler-telemetry-item">
+            <span class="doppler-telemetry-label">λ' Atrás (Dilat.)</span>
+            <span class="doppler-telemetry-val" id="lblDopplerLambdaBehind" style="color:#f43f5e;">230.0 m</span>
+          </div>
+          <div class="doppler-telemetry-item">
+            <span class="doppler-telemetry-label">Número de Mach</span>
+            <span class="doppler-telemetry-val" id="lblDopplerMachNum" style="color:#8b5cf6;">0.35</span>
+          </div>
+        </div>
+
+        <!-- Controles Intermedios Sliders -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+          <div class="slider-group">
+            <div class="slider-header"><small><i class="fa-solid fa-arrows-left-right"></i> Rapidez de la Fuente (vs):</small><span id="lblDopplerVs" class="slider-value">120 m/s</span></div>
+            <input type="range" id="sliderDopplerVs" min="0" max="600" step="5" value="120" class="input-slider">
+          </div>
+          <div class="slider-group">
+            <div class="slider-header"><small><i class="fa-solid fa-person-walking"></i> Rapidez del Receptor (vo):</small><span id="lblDopplerVo" class="slider-value">0 m/s</span></div>
+            <input type="range" id="sliderDopplerVo" min="-150" max="150" step="5" value="0" class="input-slider">
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px;">
+          <div class="slider-group">
+            <div class="slider-header"><small><i class="fa-solid fa-wave-square"></i> Frecuencia Base (f₀):</small><span id="lblDopplerF0" class="slider-value">2.0 Hz</span></div>
+            <input type="range" id="sliderDopplerF0" min="0.5" max="4.0" step="0.1" value="2.0" class="input-slider">
+          </div>
+          <div class="slider-group">
+            <div class="slider-header"><small><i class="fa-solid fa-wind"></i> Rapidez en el Medio (v):</small><span id="lblDopplerC" class="slider-value">340 m/s</span></div>
+            <input type="range" id="sliderDopplerC" min="200" max="450" step="10" value="340" class="input-slider">
+          </div>
+        </div>
+      </div>
+
+      <footer class="notebook-footer" style="margin-top:auto;">
+        <span>Física III • UTP</span>
+        <span class="footer-author-text"><i class="fa-solid fa-feather"></i> Realizado por: David Ramirez, Steven Vélez, Sergio Velásquez</span>
+      </footer>
+    </section>
+
+
+
+    <!-- ====================================================================
+         PÁGINA 12: COMPARATIVA 3D DE ONDAS TRANSVERSALES (Página Izquierda)
+         ==================================================================== -->
+    <section class="notebook-page" data-page="12">
+      <div class="page-header">
+        <span class="page-header-topic">Astrofísica Teórica • Naturaleza Vectorial de Ondas</span>
+        <span class="page-number-tag">Página 12</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+        <h2 class="page-title" style="margin-bottom:0; font-size:1.1rem;">Ondas Transversales: Mecánica, EM & Espacio-Tiempo</h2>
+        <span class="badge" style="background:#e0f2fe; color:#0369a1; font-weight:700; font-size:0.72rem; padding:3px 7px; border-radius:4px;"><i class="fa-solid fa-cube"></i> Comparativa 3D</span>
+      </div>
+      <p class="page-lead" style="margin-bottom:6px; font-size:0.78rem;">Análisis geométrico y físico del movimiento transversal: desde las cuerdas de d'Alembert hasta los campos electromagnéticos y las perturbaciones métricas del espaciotiempo.</p>
+
+      <!-- Diagrama Comparativo 3D Destacado (Elemento Principal) -->
+      <div style="background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; padding:6px 8px; margin-bottom:6px; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.03);" onclick="openHistoricalModal('transverse_waves')" title="Clic para ampliar diagrama de ondas transversales en alta resolución">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px; padding:0 2px;">
+          <span style="font-weight:700; color:#0284c7; font-size:0.8rem;"><i class="fa-solid fa-cube"></i> Diagrama Comparativo 3D: Cuerda Mecánica vs EM vs Espacio-Tiempo</span>
+          <span style="font-size:0.7rem; color:#0369a1; background:#e0f2fe; padding:2px 6px; border-radius:4px; font-weight:600;"><i class="fa-solid fa-magnifying-glass-plus"></i> Clic para Ampliar en HD</span>
+        </div>
+        <img src="imagenes/ondas_transversales_comparativa.jpg" alt="Comparativa de Ondas Transversales" style="width:100%; height:195px; object-fit:contain; background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; display:block;" loading="lazy">
+      </div>
+
+      <!-- Comparativa Tridimensional de Ondas Transversales (3 Columnas Rigurosas) -->
+      <div class="transverse-comp-grid" style="margin-bottom:6px; gap:6px;">
+        <div class="transverse-card card-mechanical" style="padding:6px 8px;">
+          <div class="transverse-card-header" style="margin-bottom:3px;">
+            <div class="transverse-card-icon" style="width:22px; height:22px; font-size:0.72rem;"><i class="fa-solid fa-wave-square"></i></div>
+            <div>
+              <h4 class="transverse-card-title" style="font-size:0.76rem;">1. Onda Mecánica</h4>
+              <span class="transverse-card-subtitle" style="font-size:0.62rem;">Cuerda 1D • Medio Elástico</span>
+            </div>
+          </div>
+          <p class="transverse-card-body" style="font-size:0.7rem; line-height:1.3; margin-bottom:4px;">
+            Oscilación perpendicular a propagación ($\vec{v}_{\text{part}} \perp \vec{v}$). Requiere tensión $T_s$ e inercia lineal $\mu$.
+          </p>
+          <div class="transverse-card-formula" style="padding:3px 4px; font-size:0.7rem;">
+            $$v = \sqrt{\frac{T_s}{\mu}} \quad (\vec{k}\cdot\vec{\xi} = 0)$$
+          </div>
+        </div>
+
+        <div class="transverse-card card-em" style="padding:6px 8px;">
+          <div class="transverse-card-header" style="margin-bottom:3px;">
+            <div class="transverse-card-icon" style="width:22px; height:22px; font-size:0.72rem;"><i class="fa-solid fa-bolt"></i></div>
+            <div>
+              <h4 class="transverse-card-title" style="font-size:0.76rem;">2. Onda EM</h4>
+              <span class="transverse-card-subtitle" style="font-size:0.62rem;">Vacío 3D • Spin 1 (Fotón)</span>
+            </div>
+          </div>
+          <p class="transverse-card-body" style="font-size:0.7rem; line-height:1.3; margin-bottom:4px;">
+            Campos $\vec{E} \perp \vec{B} \perp \vec{k}$ autosostenidos en vacío. Polarizaciones lineales y circulares a $90^\circ$.
+          </p>
+          <div class="transverse-card-formula" style="padding:3px 4px; font-size:0.7rem;">
+            $$\vec{E} \perp \vec{B} \perp \vec{k} \quad \left(c = \frac{1}{\sqrt{\mu_0\varepsilon_0}}\right)$$
+          </div>
+        </div>
+
+        <div class="transverse-card card-grav" style="padding:6px 8px;">
+          <div class="transverse-card-header" style="margin-bottom:3px;">
+            <div class="transverse-card-icon" style="width:22px; height:22px; font-size:0.72rem;"><i class="fa-solid fa-atom"></i></div>
+            <div>
+              <h4 class="transverse-card-title" style="font-size:0.76rem;">3. Gravitacional</h4>
+              <span class="transverse-card-subtitle" style="font-size:0.62rem;">Métrica 4D • Spin 2 (Gravitón)</span>
+            </div>
+          </div>
+          <p class="transverse-card-body" style="font-size:0.7rem; line-height:1.3; margin-bottom:4px;">
+            Deformación cuadrupolar a $c$. En gauge TT modula distancias transversas. Modos $h_+, h_\times$ a $45^\circ$.
+          </p>
+          <div class="transverse-card-formula" style="padding:3px 4px; font-size:0.7rem;">
+            $$g_{\mu\nu} = \eta_{\mu\nu} + h_{\mu\nu}^{TT} \quad (\Box h_{ij}^{TT} = 0)$$
+          </div>
+        </div>
+      </div>
+
+      <footer class="notebook-footer" style="margin-top:auto;">
+        <span>Física III • UTP</span>
+        <span class="footer-author-text"><i class="fa-solid fa-feather"></i> Realizado por: David Ramirez, Steven Vélez, Sergio Velásquez</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         PÁGINA 13: POLARIZACIÓN TRANSVERSAL DEL ESPACIO-TIEMPO (Página Derecha)
+         ==================================================================== -->
+    <section class="notebook-page" data-page="13">
+      <div class="page-header">
+        <span class="page-header-topic">Astrofísica Teórica • Tensor Métrico & Relatividad</span>
+        <span class="page-number-tag">Página 13</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+        <h2 class="page-title" style="margin-bottom:0; font-size:1.1rem;">Polarización del Espacio-Tiempo</h2>
+        <span class="badge" style="background:#e0f2fe; color:#0369a1; font-weight:700; font-size:0.72rem; padding:3px 7px; border-radius:4px;"><i class="fa-solid fa-atom"></i> Modos Cuadrupolares</span>
+      </div>
+      <p class="page-lead" style="margin-bottom:6px; font-size:0.78rem;">Modelación dinámica de la radiación gravitacional en gauge transverso sin traza ($TT$). Deformación de marea sobre un anillo de partículas en caída libre.</p>
+
+      <!-- Simulador de Polarización Spacetime -->
+      <div class="sim-card" style="display:flex; flex-direction:column; flex-shrink:0; margin-bottom:6px;">
+        <div class="sim-card-header" style="padding:5px 10px;">
+          <h3 style="font-size:0.8rem;"><i class="fa-solid fa-atom" style="color:#0284c7;"></i> Simulador: Polarización Transversal del Espacio-Tiempo</h3>
+          <div style="display:flex; gap:5px; align-items:center;">
+            <button id="btnSpacetimePlay" class="ggb-btn" style="width:auto; padding:0 8px; font-size:0.72rem;" title="Pausar / Reanudar"><i class="fa-solid fa-pause"></i></button>
+            <button id="btnSpacetimeReset" class="ggb-btn" title="Reiniciar"><i class="fa-solid fa-rotate-left"></i></button>
+            <div class="speed-btn-group" title="Velocidad">
+              <button class="btn-speed spacetime-speed-btn" data-speed="0.5">0.5x</button>
+              <button class="btn-speed spacetime-speed-btn active" data-speed="1.0">1x</button>
+              <button class="btn-speed spacetime-speed-btn" data-speed="2.0">2x</button>
+            </div>
+            <button id="btnOpenSpacetimeModal" class="btn-open-modal-card" title="Ampliar Simulador en Modal">
+              <i class="fa-solid fa-up-right-and-down-left-from-center"></i> <span>Ampliar</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="sim-canvas-container" style="min-height:205px; height:205px; background:#020617; flex-shrink:0;">
+          <canvas id="simSpacetimeCanvas" style="width:100%; height:100%; display:block;"></canvas>
+        </div>
+
+        <!-- Controles de polarización y sliders -->
+        <div style="padding:5px 8px; background:#f8fafc; border-top:1px solid #e2e8f0;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:4px; margin-bottom:4px;">
+            <div style="font-size:0.71rem; font-weight:700; color:#1e293b;">Modo de Polarización:</div>
+            <div class="polarization-btn-group">
+              <button id="btnPolPlus" class="btn-polarization active"><i class="fa-solid fa-plus"></i> Modo h₊ (Plus)</button>
+              <button id="btnPolCross" class="btn-polarization"><i class="fa-solid fa-xmark"></i> Modo hₓ (Cross)</button>
+              <button id="btnPolCircular" class="btn-polarization"><i class="fa-solid fa-rotate"></i> Circular / Elíptico</button>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px;">
+            <div class="slider-group">
+              <div class="slider-header"><small style="font-size:0.7rem;">Deformación Strain (h₀):</small><span id="valSpacetimeStrain" class="slider-value">0.40</span></div>
+              <input type="range" id="sliderSpacetimeStrain" min="0.10" max="0.80" step="0.05" value="0.40" class="input-slider">
+            </div>
+            <div class="slider-group">
+              <div class="slider-header"><small style="font-size:0.7rem;">Frecuencia Onda (fgw):</small><span id="valSpacetimeFreq" class="slider-value">0.80 Hz</span></div>
+              <input type="range" id="sliderSpacetimeFreq" min="0.2" max="2.5" step="0.1" value="0.8" class="input-slider">
+            </div>
+          </div>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:4px; font-size:0.7rem;">
+            <label style="display:flex; align-items:center; gap:4px; color:#475569; cursor:pointer;"><input type="checkbox" id="chkSpacetimeGrid" checked> Malla Espaciotemporal</label>
+            <label style="display:flex; align-items:center; gap:4px; color:#10b981; cursor:pointer;"><input type="checkbox" id="chkSpacetimeVectors" checked> Fuerzas de Marea $\vec{F}_{\text{marea}}$</label>
+            <label style="display:flex; align-items:center; gap:4px; color:#0284c7; cursor:pointer;"><input type="checkbox" id="chkSpacetimeAxes" checked> Ejes Cuadrupolares</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fundamentación Analítica de Einstein -->
+      <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:5px 8px; font-size:0.73rem; color:#334155; line-height:1.4;">
+        <strong style="color:#0284c7;"><i class="fa-solid fa-square-root-variable"></i> Deducción del Cuadrupolo de Einstein (1916):</strong>
+        La radiación gravitacional carece de dipolo ($\sum m_i \vec{r}_i = \text{const}$). Potencia radiada según el momento cuadrupolar $Q_{ij} = \int \rho(3x_i x_j - r^2\delta_{ij}) d^3x$:
+        <div style="text-align:center; margin:2px 0; font-family:'JetBrains Mono'; font-weight:600; color:#0f172a; font-size:0.72rem;">
+          $$P_{\text{GW}} = \frac{G}{5c^5}\left\langle \overset{\dots}{Q}_{ij}\overset{\dots}{Q}^{ij} \right\rangle, \quad h_{ij}^{TT}(t, r) = \frac{2G}{c^4 r} \ddot{Q}_{ij}\left(t - \frac{r}{c}\right)$$
+        </div>
+      </div>
+
+      <footer class="notebook-footer" style="margin-top:auto;">
+        <span>Física III • UTP</span>
+        <span class="footer-author-text"><i class="fa-solid fa-feather"></i> Realizado por: David Ramirez, Steven Vélez, Sergio Velásquez</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         PÁGINA 14: EL PROYECTO LIGO Y LA DETECCIÓN INTERFEROMÉTRICA (Página Izquierda)
+         ==================================================================== -->
+    <section class="notebook-page" data-page="14">
+      <div class="page-header">
+        <span class="page-header-topic">Astrofísica Experimental • Detección Óptica</span>
+        <span class="page-number-tag">Página 14</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <h2 class="page-title" style="margin-bottom:0;">El Proyecto LIGO & Detección Óptica</h2>
+        <span class="badge" style="background:#ecfdf5; color:#047857; font-weight:700; font-size:0.75rem; padding:4px 8px; border-radius:4px;"><i class="fa-solid fa-award"></i> Nobel de Física 2017</span>
+      </div>
+      <p class="page-lead">Medición interferométrica de deformaciones métricas cuánticas ($\Delta L \sim 10^{-18}\text{ m}$) y la detección directa de fusiones de agujeros negros.</p>
+
+      <!-- Tarjeta Destacada del Observatorio y Detección GW150914 -->
+      <div class="featured-discovery-card" style="margin-bottom:12px;">
+        <div class="featured-discovery-header">
+          <h3 class="featured-discovery-title"><i class="fa-solid fa-satellite-dish"></i> Hito Histórico: Detección GW150914</h3>
+          <span class="featured-discovery-badge">14 Sep 2015</span>
+        </div>
+        <p style="font-size:0.78rem; color:#1e293b; line-height:1.45; margin-bottom:8px;">
+          LIGO (Hanford y Livingston, EE. UU.) opera dos interferómetros Michelson-Fabry-Pérot con brazos perpendiculares de <strong>4 km</strong> en ultra-alto vacío. Detectó la fusión de dos agujeros negros de $36\,M_\odot$ y $29\,M_\odot$ a 1.300 millones de años luz, liberando en 0.2 s una potencia equivalente a toda la luz visible del universo observable.
+        </p>
+
+        <div style="display:flex; gap:12px; align-items:center; background:#ffffff; border:1px solid #bbf7d0; border-radius:6px; padding:8px; cursor:pointer;" onclick="openHistoricalModal('ligo_deteccion')" title="Clic para ampliar imagen del observatorio LIGO">
+          <img src="imagenes/ligo_observatorio_detector.jpg" alt="LIGO y colisión de agujeros negros" style="width:140px; height:85px; object-fit:cover; border-radius:4px;" loading="lazy">
+          <div style="font-size:0.75rem; color:#334155; line-height:1.45;">
+            <strong style="color:#065f46;">Interferómetro Láser Nd:YAG (1064 nm)</strong><br>
+            Sensibilidad extrema: $\Delta L = h \cdot L \approx 4 \times 10^{-18}\text{ m}$ (¡mil veces menor que el radio de un protón!). Los espejos cuelgan de péndulos cuádruples con aislamiento sísmico activo.
+          </div>
+        </div>
+      </div>
+
+      <!-- Recuadro Teórico del Principio Interferométrico y Cavidades Fabry-Pérot -->
+      <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:10px 14px; font-size:0.78rem; color:#334155; line-height:1.5; margin-bottom:12px;">
+        <strong style="color:#0284c7;"><i class="fa-solid fa-calculator"></i> Principio de Medición Interferométrica:</strong>
+        El cambio de fase óptico inducido por la onda gravitacional en el fotodetector es proporcional a la diferencia de trayectoria entre ambos brazos $\Delta L(t) = L_x - L_y = h(t) L_0$:
+        <div style="text-align:center; margin:8px 0; font-family:'JetBrains Mono'; font-weight:600; color:#0f172a;">
+          $$\Delta \phi = \frac{4\pi}{\lambda_{\text{laser}}}\Delta L = \frac{4\pi L_0}{\lambda_{\text{laser}}} h(t), \quad I = I_0 \sin^2\left(\frac{\Delta \phi}{2}\right)$$
+        </div>
+        <div style="font-size:0.75rem; color:#475569; border-top:1px solid #e2e8f0; padding-top:6px; margin-top:6px;">
+          <strong style="color:#0f172a;"><i class="fa-solid fa-repeat"></i> Cavidades de Reciclaje y Fabry-Pérot:</strong>
+          La luz rebota unas <strong>280 veces</strong> dentro de cada brazo de 4 km antes de recombinarse, aumentando la longitud efectiva de trayectoria a <strong>$L_{\text{efectiva}} \approx 1.120\text{ km}$</strong> y multiplicando la señal de fase detectada por el sensor fotodiodo.
+        </div>
+      </div>
+
+      <footer class="notebook-footer" style="margin-top:auto;">
+        <span>Física III • UTP</span>
+        <span class="footer-author-text"><i class="fa-solid fa-feather"></i> Realizado por: David Ramirez, Steven Vélez, Sergio Velásquez</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         PÁGINA 15: LABORATORIO INTERFERÓMETRO LIGO Y SEÑAL CHIRP (Página Derecha)
+         ==================================================================== -->
+    <section class="notebook-page" data-page="15">
+      <div class="page-header">
+        <span class="page-header-topic">Laboratorio Virtual • Interferometría Avanzada</span>
+        <span class="page-number-tag">Página 15</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <h2 class="page-title" style="margin-bottom:0;">Laboratorio: Interferómetro LIGO & Señal Chirp</h2>
+        <span class="badge" style="background:#ecfdf5; color:#047857; font-weight:700; font-size:0.75rem; padding:4px 8px; border-radius:4px;"><i class="fa-solid fa-microscope"></i> Simulación Óptica</span>
+      </div>
+      <p class="page-lead">Haz láser dividido, deformación de brazos en contrafase, formación de franjas de interferencia y síntesis de audio de la señal chirp GW150914.</p>
+
+      <!-- Simulador LIGO & Señal Chirp -->
+      <div class="sim-card" style="display:flex; flex-direction:column; flex-shrink:0; margin-bottom:12px;">
+        <div class="sim-card-header">
+          <h3 style="font-size:0.84rem;"><i class="fa-solid fa-wave-square" style="color:#0284c7;"></i> Laboratorio: Interferómetro LIGO & Oscilograma Chirp</h3>
+          <div style="display:flex; gap:5px; align-items:center;">
+            <button id="btnLigoPlay" class="ggb-btn" style="width:auto; padding:0 8px; font-size:0.75rem;" title="Pausar / Reanudar"><i class="fa-solid fa-pause"></i></button>
+            <button id="btnLigoReset" class="ggb-btn" title="Reiniciar"><i class="fa-solid fa-rotate-left"></i></button>
+            <div class="speed-btn-group" title="Velocidad">
+              <button class="btn-speed ligo-speed-btn" data-speed="0.5">0.5x</button>
+              <button class="btn-speed ligo-speed-btn active" data-speed="1.0">1x</button>
+              <button class="btn-speed ligo-speed-btn" data-speed="2.0">2x</button>
+            </div>
+            <button id="btnOpenLigoModal" class="btn-open-modal-card" title="Ampliar Simulador LIGO en Modal">
+              <i class="fa-solid fa-up-right-and-down-left-from-center"></i> <span>Ampliar</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="sim-canvas-container" style="min-height:270px; height:270px; background:#090d16; flex-shrink:0;">
+          <canvas id="simLigoCanvas" style="width:100%; height:100%; display:block;"></canvas>
+        </div>
+
+        <!-- Botón de Audio Chirp y Controles Astrofísicos -->
+        <div style="padding:8px 12px; background:#f8fafc; border-top:1px solid #e2e8f0;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+            <button id="btnPlayLigoChirp" class="btn-chirp-audio" title="Sintetizar el sonido real del chirp gravitacional captado por LIGO">
+              <i class="fa-solid fa-volume-high"></i> Reproducir Chirp Gravitacional (Audio GW150914)
+            </button>
+            <div style="font-size:0.73rem; color:#64748b; font-family:'JetBrains Mono';">
+              Frecuencia: 35 Hz ➔ 250 Hz (Merger)
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:8px;">
+            <div class="slider-group">
+              <div class="slider-header"><small>Masa 1 (M₁):</small><span id="valLigoM1" class="slider-value">36 M☉</span></div>
+              <input type="range" id="sliderLigoM1" min="10" max="65" step="1" value="36" class="input-slider">
+            </div>
+            <div class="slider-group">
+              <div class="slider-header"><small>Masa 2 (M₂):</small><span id="valLigoM2" class="slider-value">29 M☉</span></div>
+              <input type="range" id="sliderLigoM2" min="10" max="65" step="1" value="29" class="input-slider">
+            </div>
+            <div class="slider-group">
+              <div class="slider-header"><small>Distancia (d):</small><span id="valLigoDist" class="slider-value">410 Mpc</span></div>
+              <input type="range" id="sliderLigoDist" min="100" max="1200" step="25" value="410" class="input-slider">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="notebook-footer" style="margin-top:auto;">
+        <span>Física III • UTP</span>
+        <span class="footer-author-text"><i class="fa-solid fa-feather"></i> Realizado por: David Ramirez, Steven Vélez, Sergio Velásquez</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         PÁGINA 16: PROBLEMAS RESUELTOS (5 FASES) (Página Izquierda)
+         ==================================================================== -->
+    <section class="notebook-page" data-page="16">
+      <div class="page-header">
+        <span class="page-header-topic">Metodología Didáctica • 5 Fases Estrictas</span>
+        <span class="page-number-tag">Página 16</span>
+      </div>
+
+      <h2 class="page-title">Problemas Resueltos Paso a Paso</h2>
+      <p class="page-lead">Código cromático normativo: Datos (Azul), Incógnitas (Rojo), Despeje (Naranja), Verificación (Verde).</p>
+
+      <div class="exercise-card">
+        <div class="exercise-title">
+          <i class="fa-solid fa-bookmark" style="color:#2563eb;"></i>
+          Problema Modelo: Onda Transversal y Transporte de Potencia
+        </div>
+
+        <div class="exercise-statement">
+          <strong>Enunciado:</strong> Una cuerda de guitarra de longitud <span class="data-tag-blue">L = 0.65 m</span> y masa total <span class="data-tag-blue">m = 3.25 g</span> se tensa con una fuerza de <span class="data-tag-blue">Ts = 120 N</span>. Un extremo se excita con un oscilador armónico que genera una onda sinusoidal con amplitud <span class="data-tag-blue">A = 4.0 mm</span> y frecuencia <span class="data-tag-blue">f = 220 Hz</span>. Determine la rapidez de propagación $v$, la longitud de onda $\lambda$, la rapidez transversal máxima de las partículas $v_{y,\max}$ y la potencia media transmitida $P_{\text{med}}$.
+        </div>
+
+        <div class="exercise-phases-grid">
+          <div class="phase-box phase-datos" style="margin-bottom:0;">
+            <div class="phase-header-datos"><i class="fa-solid fa-circle-info"></i> 1) Datos (Azul):</div>
+            <div>
+              • Longitud: <span class="data-tag-blue">L = 0.65 m</span><br>
+              • Masa: <span class="data-tag-blue">m = 3.25 × 10⁻³ kg</span><br>
+              • Tensión: <span class="data-tag-blue">Ts = 120 N</span><br>
+              • Amplitud: <span class="data-tag-blue">A = 0.004 m</span><br>
+              • Frecuencia: <span class="data-tag-blue">f = 220 Hz</span>
+            </div>
+          </div>
+
+          <div class="phase-box phase-incognitas" style="margin-bottom:0;">
+            <div class="phase-header-incognitas"><i class="fa-solid fa-circle-question"></i> 2) Incógnitas (Rojo):</div>
+            <div>
+              • Densidad lineal: <span class="unknown-tag-red">μ = ? [kg/m]</span><br>
+              • Rapidez de fase: <span class="unknown-tag-red">v = ? [m/s]</span><br>
+              • Longitud de onda: <span class="unknown-tag-red">λ = ? [m]</span><br>
+              • Rapidez transversal máx: <span class="unknown-tag-red">vy,max = ? [m/s]</span><br>
+              • Potencia media: <span class="unknown-tag-red">Pmed = ? [W]</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase-box phase-formulas">
+          <div class="phase-header-formulas"><i class="fa-solid fa-square-root-variable"></i> 3) Fórmulas Físicas:</div>
+          <div style="font-size:0.84rem; line-height:1.5;">
+            $$ \mu = \frac{m}{L}, \quad v = \sqrt{\frac{T_s}{\mu}}, \quad \lambda = \frac{v}{f}, \quad \omega = 2\pi f, \quad v_{y,\max} = \omega A, \quad P_{\text{med}} = \frac{1}{2}\mu v \omega^2 A^2 $$
+          </div>
+        </div>
+
+        <div class="phase-box phase-despeje">
+          <div class="phase-header-despeje"><i class="fa-solid fa-calculator"></i> 4) Sustitución y Despeje (Valores en Naranja):</div>
+          <div class="despeje-container" style="font-size:0.84rem; line-height:1.6;">
+            <div class="despeje-row">
+              $$ \mu = \frac{3.25 \times 10^{-3} \text{ kg}}{0.65 \text{ m}} \implies $$
+              <span class="solved-tag-orange">μ = 0.005 kg/m</span>
+            </div>
+            <div class="despeje-row">
+              $$ v = \sqrt{\frac{120 \text{ N}}{0.005 \text{ kg/m}}} = \sqrt{24000} \implies $$
+              <span class="solved-tag-orange">v = 154.92 m/s</span>
+            </div>
+            <div class="despeje-row">
+              $$ \lambda = \frac{154.92 \text{ m/s}}{220 \text{ Hz}} \implies $$
+              <span class="solved-tag-orange">λ = 0.704 m</span>
+            </div>
+            <div class="despeje-row">
+              $$ \omega = 2\pi (220) = 1382.30 \text{ rad/s} \implies v_{y,\max} = (1382.30)(0.004) \implies $$
+              <span class="solved-tag-orange">vy,max = 5.53 m/s</span>
+            </div>
+            <div class="despeje-row">
+              $$ P_{\text{med}} = \frac{1}{2}(0.005)(154.92)(1382.30)^2(0.004)^2 \implies $$
+              <span class="solved-tag-orange">Pmed = 11.84 W</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase-box phase-validation">
+          <div class="phase-header-validation"><i class="fa-solid fa-square-check"></i> 5) Validación y Conclusiones:</div>
+          <div style="font-size:0.8rem; color:#14532d; line-height:1.45;">
+            <strong>• Consistencia Dimensional:</strong> $[P] = [\text{kg/m}][\text{m/s}][\text{s}^{-2}][\text{m}^2] = \text{kg}\cdot\text{m}^2/\text{s}^3 = \text{J/s} = \text{W}$. Coherencia dimensional rigurosa.<br>
+            <strong>• Análisis Físico:</strong> La rapidez de avance de la onda ($v = 154.92 \text{ m/s}$) es 28 veces superior a la velocidad de movimiento de las partículas ($v_{y,\max} = 5.53 \text{ m/s}$), confirmando que la onda transmite energía sin desplazar materia a lo largo del eje $x$.
+          </div>
+        </div>
+      </div>
+
+      <footer class="notebook-footer">
+        <span>Física III • UTP</span>
+        <span class="footer-author-text"><i class="fa-solid fa-feather"></i> Realizado por: David Ramirez, Steven Vélez, Sergio Velásquez</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         PÁGINA 17: TALLER INTERACTIVO DE EJERCICIOS (Página Derecha)
+         ==================================================================== -->
+    <section class="notebook-page" data-page="17">
+      <div class="page-header">
+        <span class="page-header-topic">Taller Práctico • Generador Paso a Paso</span>
+        <span class="page-number-tag">Página 17</span>
+      </div>
+
+      <h2 class="page-title">Taller Interactivo de Problemas</h2>
+      <p class="page-lead">Introduce los parámetros de tu sistema ondulatorio. El motor pedagógico formulará la resolución completa aplicando las 5 fases canónicas.</p>
+
+      <div style="background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; padding:12px; margin-bottom:12px;">
+        <h3 style="color:#0f172a; font-size:0.92rem; margin-bottom:8px;">
+          <i class="fa-solid fa-sliders" style="color:#0284c7;"></i> Parámetros de Entrada del Sistema
+        </h3>
+        <div class="phase-calc-grid">
+          <div>
+            <label style="font-size:0.72rem; font-weight:600; color:#334155; display:block; margin-bottom:2px;">Tensión Ts [N]:</label>
+            <input type="number" id="inputTs" value="80.0" step="5.0" min="0.5" style="width:100%; padding:5px 8px; border:1px solid #cbd5e1; border-radius:5px; font-family:'JetBrains Mono'; font-size:0.82rem;">
+          </div>
+          <div>
+            <label style="font-size:0.72rem; font-weight:600; color:#334155; display:block; margin-bottom:2px;">Densidad μ [kg/m]:</label>
+            <input type="number" id="inputMu" value="0.020" step="0.005" min="0.0001" style="width:100%; padding:5px 8px; border:1px solid #cbd5e1; border-radius:5px; font-family:'JetBrains Mono'; font-size:0.82rem;">
+          </div>
+          <div>
+            <label style="font-size:0.72rem; font-weight:600; color:#334155; display:block; margin-bottom:2px;">Amplitud A [m]:</label>
+            <input type="number" id="inputA" value="0.05" step="0.01" min="0.001" style="width:100%; padding:5px 8px; border:1px solid #cbd5e1; border-radius:5px; font-family:'JetBrains Mono'; font-size:0.82rem;">
+          </div>
+          <div>
+            <label style="font-size:0.72rem; font-weight:600; color:#334155; display:block; margin-bottom:2px;">Frecuencia f [Hz]:</label>
+            <input type="number" id="inputF" value="10.0" step="1.0" min="0.1" style="width:100%; padding:5px 8px; border:1px solid #cbd5e1; border-radius:5px; font-family:'JetBrains Mono'; font-size:0.82rem;">
+          </div>
+        </div>
+
+        <button id="btnSolveCustom" class="btn-open-book" style="font-size:0.82rem; padding:7px 16px; border-radius:6px;">
+          <i class="fa-solid fa-gears"></i> Generar Resolución en 5 Fases
+        </button>
+      </div>
+
+      <div id="customSolutionContainer">
+        <p style="text-align:center; color:#64748b; padding:16px; font-style:italic; font-size:0.82rem;">
+          Haz clic en el botón superior para generar la deducción matemática en las 5 fases normalizadas.
+        </p>
+      </div>
+
+      <footer class="notebook-footer">
+        <span>Física III • UTP</span>
+        <span class="footer-author-text"><i class="fa-solid fa-feather"></i> Realizado por: David Ramirez, Steven Vélez, Sergio Velásquez</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         PÁGINA 18: GLOSARIO DE TÉRMINOS CIENTÍFICOS (Página Derecha)
+         ==================================================================== -->
+    <section class="notebook-page" data-page="18">
+      <div class="page-header">
+        <span class="page-header-topic">Aparato Crítico • Fichero Enciclopédico</span>
+        <span class="page-number-tag">Página 18</span>
+      </div>
+
+      <h2 class="page-title">Glosario de Conceptos Físicos de Ondas</h2>
+      <p class="page-lead">Términos técnicos, formalismo matemático y leyes ondulatorias con buscador reactivo en vivo.</p>
+
+      <div class="glossary-search-bar">
+        <input type="text" id="glossarySearch" class="glossary-input" placeholder="🔍 Buscar en el glosario (ej: ligo, gravitacional, strain, doppler, nodo)...">
+      </div>
+
+      <div class="glossary-grid">
+        <div class="glossary-card">
+          <h4 class="glossary-term">Amplitud ($A$)</h4>
+          <p class="glossary-def">Máximo desplazamiento transversal de las partículas respecto a su posición de equilibrio elástico en metros ($\text{m}$).</p>
+        </div>
+        <div class="glossary-card">
+          <h4 class="glossary-term">Antinodo (Cresta / Valle)</h4>
+          <p class="glossary-def">Punto de una onda estacionaria donde la interferencia constructiva produce una oscilación con amplitud máxima ($2A$), alternando periódicamente entre crestas y valles.</p>
+        </div>
+        <div class="glossary-card">
+          <h4 class="glossary-term">Atenuación</h4>
+          <p class="glossary-def">Disminución gradual de la amplitud y energía de una onda al propagarse en un medio disipativo o por dispersión geométrica esférica ($I \propto 1/r^2$).</p>
+        </div>
+        <div class="glossary-card">
+          <h4 class="glossary-term">Decibel ($\text{dB}$)</h4>
+          <p class="glossary-def">Unidad logarítmica adimensional para medir el nivel de intensidad sonora relativo al umbral de audición humana: $\beta = 10\log_{10}(I/I_0)$.</p>
+        </div>
+        <div class="glossary-card">
+          <h4 class="glossary-term">Deformación Métrica (Strain $h$)</h4>
+          <p class="glossary-def">Variación fraccional de longitud inducida por una onda gravitacional en el espacio: $h = 2\Delta L / L$. Para fuentes astrofísicas típicas en la Tierra, su orden es $h \sim 10^{-21}$.</p>
+        </div>
+        <div class="glossary-card">
+          <h4 class="glossary-term">Difracción</h4>
+          <p class="glossary-def">Propiedad ondulatoria por la cual un frente de onda se curva o flexiona al sortear un obstáculo o pasar a través de una abertura de tamaño comparable a $\lambda$.</p>
+        </div>
+        <div class="glossary-card">
+          <h4 class="glossary-term">Dispersión</h4>
+          <p class="glossary-def">Fenómeno en el cual la rapidez de fase de la onda depende de su frecuencia o longitud de onda ($v = v(f)$), deformando los paquetes de onda.</p>
+        </div>
+        <div class="glossary-card">
+          <h4 class="glossary-term">Efecto Doppler</h4>
+          <p class="glossary-def">Variación aparente en la frecuencia de una onda debida al movimiento relativo entre la fuente emisora y el receptor u observador.</p>
+        </div>
+        <div class="glossary-card">
+          <h4 class="glossary-term">Fórmula del Cuadrupolo</h4>
+          <p class="glossary-def">Ecuación de Einstein (1916) que relaciona la potencia radiada por ondas gravitacionales con la tercera derivada del tensor cuadrupolar de masa: $P_{\text{GW}} = \frac{G}{5c^5}\langle \overset{\dots}{Q}_{ij}\overset{\dots}{Q}^{ij} \rangle$.</p>
+        </div>
+        <div class="glossary-card">
+          <h4 class="glossary-term">Frente de Onda</h4>
+          <p class="glossary-def">Superficie geométrica continua que une todos los puntos del medio que se encuentran en el mismo estado de fase en un instante dado.</p>
+        </div>
+        <div class="glossary-card">
+          <h4 class="glossary-term">Función de Onda ($y(x,t)$)</h4>
+          <p class="glossary-def">Expresión matemática que describe la perturbación de cualquier punto del medio en cualquier posición $x$ y en cualquier instante $t$.</p>
+        </div>
+        <div class="glossary-card">
+          <h4 class="glossary-term">Interferómetro LIGO</h4>
+          <p class="glossary-def">Detector óptico Michelson-Fabry-Pérot con brazos de 4 km que mide oscilaciones de espejos de $10^{-18}\text{ m}$ usando láseres Nd:YAG de 1064 nm en ultra-alto vacío.</p>
+        </div>
+        <div class="glossary-card">
+          <h4 class="glossary-term">Interferencia</h4>
+          <p class="glossary-def">Efecto físico resultante de la superposición de dos o más ondas coherentes que coinciden en el mismo punto del espacio y tiempo.</p>
+        </div>
+        <div class="glossary-card">
+          <h4 class="glossary-term">Longitud de Onda ($\lambda$)</h4>
+          <p class="glossary-def">Distancia espacial mínima entre dos puntos consecutivos que se encuentran en el mismo estado de fase en metros ($\text{m}$).</p>
+        </div>
+        <div class="glossary-card">
+          <h4 class="glossary-term">Modo Normal</h4>
+          <p class="glossary-def">Patrón espacial característico de vibración estacionaria donde todos los puntos del sistema oscilan armónicamente con la misma frecuencia $f_n$.</p>
+        </div>
+        <div class="glossary-card">
+          <h4 class="glossary-term">Nodo</h4>
+          <p class="glossary-def">Punto inmóvil de una onda estacionaria donde la interferencia destructiva es permanente y la amplitud resultante es idénticamente cero.</p>
+        </div>
+        <div class="glossary-card">
+          <h4 class="glossary-term">Número de Onda ($k$)</h4>
+          <p class="glossary-def">Magnitud espacial que expresa la cantidad de radianes de ciclo por unidad de longitud: $k = 2\pi/\lambda$ en radianes por metro ($\text{rad/m}$).</p>
+        </div>
+        <div class="glossary-card">
+          <h4 class="glossary-term">Onda Estacionaria</h4>
+          <p class="glossary-def">Onda que no transporta energía neta, producida por la superposición de dos ondas armónicas idénticas que viajan en sentidos contrarios.</p>
+        </div>
+        <div class="glossary-card">
+          <h4 class="glossary-term">Onda Gravitacional</h4>
+          <p class="glossary-def">Ondulación transversal métrica del espacio-tiempo generada por masas aceleradas con cuadrupolo dinámico, que se propaga a la velocidad de la luz $c$.</p>
+        </div>
+        <div class="glossary-card">
+          <h4 class="glossary-term">Polarizaciones $h_+$ y $h_\times$</h4>
+          <p class="glossary-def">Los dos modos transversales ortogonales e independientes en el gauge TT de la relatividad general, rotados $45^\circ$ entre sí (bosón de espín 2).</p>
+        </div>
+        <div class="glossary-card">
+          <h4 class="glossary-term">Principio de Superposición</h4>
+          <p class="glossary-def">Ley lineal que establece que cuando dos o más ondas interactúan en un medio lineal, el desplazamiento neto es la suma algebraica de cada onda.</p>
+        </div>
+        <div class="glossary-card">
+          <h4 class="glossary-term">Señal Chirp Gravitacional</h4>
+          <p class="glossary-def">Evolución ondulatoria característica emitida durante la coalescencia espiral de binarias compactas, con incremento monótono en frecuencia y amplitud hasta el merger.</p>
+        </div>
+      </div>
+
+      <footer class="notebook-footer">
+        <span>Física III • UTP</span>
+        <span class="footer-author-text"><i class="fa-solid fa-feather"></i> Realizado por: David Ramirez, Steven Vélez, Sergio Velásquez</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         PÁGINA 19: REFERENCIAS BIBLIOGRÁFICAS (Página Izquierda)
+         ==================================================================== -->
+    <section class="notebook-page" data-page="19">
+      <div class="page-header">
+        <span class="page-header-topic">Aparato Crítico • Fuentes Académicas</span>
+        <span class="page-number-tag">Página 19</span>
+      </div>
+
+      <h2 class="page-title">Referencias Bibliográficas (APA 7)</h2>
+      <p class="page-lead">Tratados y manuales canónicos de física universitaria y literatura astrofísica seminal normalizados bajo normas APA 7.ª edición.</p>
+
+      <div style="background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; padding:16px 20px; margin-top:10px; box-shadow:0 2px 10px rgba(0,0,0,0.03);">
+        <div class="apa-reference-item">
+          Abbott, B. P. et al. (LIGO Scientific Collaboration and Virgo Collaboration). (2016). Observation of gravitational waves from a binary black hole merger. <i>Physical Review Letters</i>, 116(6), 061102. https://doi.org/10.1103/PhysRevLett.116.061102
+        </div>
+        <div class="apa-reference-item">
+          Alonso, M., & Finn, E. J. (1995). <i>Física: Campos y ondas</i> (Vol. 2). Addison-Wesley Iberoamericana.
+        </div>
+        <div class="apa-reference-item">
+          Crawford, F. S. (1977). <i>Ondas: Berkeley physics course</i> (Vol. 3). Editorial Reverté.
+        </div>
+        <div class="apa-reference-item">
+          Einstein, A. (1916). Näherungsweise Integration der Feldgleichungen der Gravitation. <i>Sitzungsberichte der Königlich Preußischen Akademie der Wissenschaften (Berlin)</i>, 688–696.
+        </div>
+        <div class="apa-reference-item">
+          French, A. P. (1971). <i>Vibrations and waves</i> (M.I.T. Introductory Physics Series). W. W. Norton & Company.
+        </div>
+        <div class="apa-reference-item">
+          Halliday, D., Resnick, R., & Walker, J. (2018). <i>Fundamentos de física</i> (10.ª ed., Vol. 1). Grupo Editorial Patria.
+        </div>
+        <div class="apa-reference-item">
+          Pain, H. J. (2005). <i>The physics of vibrations and waves</i> (6.ª ed.). John Wiley & Sons.
+        </div>
+        <div class="apa-reference-item">
+          Sears, F. W., Zemansky, M. W., Young, H. D., & Freedman, R. A. (2018). <i>Física universitaria con física moderna</i> (14.ª ed., Vol. 1). Pearson Educación.
+        </div>
+        <div class="apa-reference-item">
+          Serway, R. A., & Jewett, J. W. (2018). <i>Física para ciencias e ingeniería</i> (10.ª ed., Vol. 1). Cengage Learning.
+        </div>
+        <div class="apa-reference-item">
+          Thorne, K. S., Weiss, R., & Barish, B. C. (2017). <i>Nobel Lectures in Physics 2017: Laser Interferometer Gravitational-Wave Observatory and the First Detection of Gravitational Waves</i>. Nobel Media AB.
+        </div>
+        <div class="apa-reference-item">
+          Tipler, P. A., & Mosca, G. (2021). <i>Física para la ciencia y la tecnología: Mecánica, oscilaciones y ondas, termodinámica</i> (6.ª ed., Vol. 1). Editorial Reverté.
+        </div>
+      </div>
+
+      <footer class="notebook-footer">
+        <span>Física III • UTP</span>
+        <span class="footer-author-text"><i class="fa-solid fa-feather"></i> Realizado por: David Ramirez, Steven Vélez, Sergio Velásquez</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         PÁGINA 20: CONTRAPORTADA Y CRÉDITOS ACADÉMICOS (Página Derecha)
+         ==================================================================== -->
+    <section class="notebook-page page-backcover" data-page="20">
+      <div class="page-header">
+        <span class="page-header-topic">Colofón Editorial & Cierre</span>
+        <span class="page-number-tag">Página 20</span>
+      </div>
+
+      <h2 class="page-title">Contraportada y Créditos Académicos</h2>
+      <p class="page-lead">Registro de cátedra y culminación del módulo interactivo de movimiento ondulatorio.</p>
+
+      <div style="background:#ffffff; border:1px solid #cbd5e1; border-radius:10px; padding:20px; text-align:center; box-shadow:0 4px 16px rgba(0,0,0,0.04); margin-bottom:16px;">
+        <div style="width:56px; height:56px; margin:0 auto 10px auto; background:linear-gradient(135deg, #0284c7, #0369a1); border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:1.6rem; box-shadow:0 4px 14px rgba(2,132,199,0.4);">
+          <i class="fa-solid fa-water"></i>
+        </div>
+        <h3 style="color:#0f172a; font-size:1.15rem; font-weight:800; margin-bottom:4px;">FÍSICA III: ONDAS Y OSCILACIONES</h3>
+        <p style="color:#0284c7; font-weight:600; font-size:0.85rem; margin-bottom:10px;">Cuaderno Digital Científico e Interactivo • Movimiento Ondulatorio</p>
+        <p style="color:#475569; font-size:0.82rem; line-height:1.55; max-width:480px; margin:0 auto 14px auto;">
+          Este cuaderno interactivo integra rigor conceptual, deducciones formales paso a paso, representaciones dinámicas de ondas continuas estilo GeoGebra y simulaciones numéricas en tiempo real a 60 FPS.
+        </p>
+
+        <div style="display:inline-block; text-align:left; background:#f8fafc; border:1px solid #cbd5e1; border-radius:10px; padding:14px 20px; font-size:0.82rem; color:#1e293b; line-height:1.6; box-shadow:0 3px 12px rgba(0,0,0,0.05); max-width:440px; width:100%;">
+          <div style="font-weight:700; color:#0284c7; margin-bottom:6px; font-size:0.88rem; display:flex; align-items:center; gap:6px;">
+            <i class="fa-solid fa-users"></i> Autores del Proyecto:
+          </div>
+          <ul style="list-style:none; padding-left:2px; margin-bottom:10px;">
+            <li style="margin-bottom:3px;"><i class="fa-solid fa-user-graduate" style="color:#3b82f6; font-size:0.78rem; margin-right:6px;"></i><strong>David Alejandro Ramirez Bolaños</strong></li>
+            <li style="margin-bottom:3px;"><i class="fa-solid fa-user-graduate" style="color:#3b82f6; font-size:0.78rem; margin-right:6px;"></i><strong>Steven Vélez Garces</strong></li>
+            <li style="margin-bottom:3px;"><i class="fa-solid fa-user-graduate" style="color:#3b82f6; font-size:0.78rem; margin-right:6px;"></i><strong>Sergio Andrés Velásquez Arana</strong></li>
+          </ul>
+          <div style="border-top:1px solid #e2e8f0; padding-top:8px; font-size:0.76rem; color:#475569; line-height:1.5;">
+            <strong>• Institución:</strong> Universidad Tecnológica de Pereira (UTP)<br>
+            <strong>• Asignatura:</strong> Física III (Ondas y Oscilaciones)<br>
+            <strong>• Formato:</strong> Cuaderno Digital Multiplataforma (PWA)<br>
+            <strong>• Edición:</strong> 2026 • Versión 2.0
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center;">
+        <button id="btnBackToCover" class="btn-open-book" style="font-size:0.85rem; padding:8px 20px;">
+          <i class="fa-solid fa-book"></i> Volver a la Portada Principal
+        </button>
+      </div>
+
+      <footer class="notebook-footer">
+        <span>Física III • UTP</span>
+        <span class="footer-author-text"><i class="fa-solid fa-feather"></i> Realizado por: David Ramirez, Steven Vélez, Sergio Velásquez</span>
+      </footer>
+    </section>
+
+  </main>
+
+  <!-- ====================================================================
+       PANEL DE NAVEGACIÓN FLOTANTE INFERIOR (PERSISTENTE)
+       ==================================================================== -->
+  <nav class="bottom-nav-dock" aria-label="Navegación del Cuaderno">
+    <button id="btnHome" class="nav-btn" title="Portada / Inicio">
+      <i class="fa-solid fa-house"></i>
+    </button>
+    <button id="btnPrevPage" class="nav-btn" title="Páginas Anteriores (←)">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    
+    <div class="nav-counter">
+      <select id="pageSelect" class="page-select-dropdown" aria-label="Ir a sección">
+        <!-- Opciones dinámicas -->
+      </select>
+      <span id="pageCounterText" style="font-family:'JetBrains Mono'; font-size:0.82rem; color:#94a3b8; white-space:nowrap;">Portada (Pág. 1)</span>
+    </div>
+
+    <button id="btnNextPage" class="nav-btn" title="Páginas Siguientes (→)">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+    <button id="btnToggleSound" class="nav-extra-btn" title="Sonido de Paso de Página">
+      <i class="fa-solid fa-volume-high"></i>
+    </button>
+    <button id="btnFullscreen" class="nav-extra-btn" title="Pantalla Completa">
+      <i class="fa-solid fa-expand"></i>
+    </button>
+  </nav>
+
+</div>
+
+<!-- ====================================================================
+     VENTANA MODAL COLAPSABLE GRANDE PARA GRÁFICAS INTERACTIVAS
+     ==================================================================== -->
+<div id="graphicModal" class="graphic-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalGraphicTitle">
+  <div class="graphic-modal-dialog" id="modalDialog">
+    <header class="graphic-modal-header" id="modalHeader">
+      <div class="graphic-modal-title">
+        <span id="modalIcon"><i class="fa-solid fa-chart-line" style="color:#38bdf8;"></i></span>
+        <span id="modalGraphicTitle">Laboratorio Gráfico Interactivo</span>
+        <span class="modal-badge-mode" id="modalBadgeMode">VENTANA EXPANDIDA</span>
+      </div>
+      <div class="graphic-modal-btn-group">
+        <button id="btnModalCollapse" class="modal-hdr-btn" title="Colapsar / Restaurar ventana modal" aria-label="Colapsar modal">
+          <i class="fa-solid fa-window-minimize" id="btnModalCollapseIcon"></i>
+        </button>
+        <button id="btnModalClose" class="modal-hdr-btn modal-close-btn" title="Cerrar modal (Esc)" aria-label="Cerrar modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+    </header>
+
+    <main class="graphic-modal-body" id="modalBody">
+      <!-- 1. Vista GeoGebra Modal -->
+      <div id="modalViewGeoGebra" class="modal-view-panel" style="display:none;">
+        <div class="geogebra-toolbar" style="padding:10px 16px; background:#f8fafc; border-bottom:1px solid #e2e8f0;">
+          <div class="ggb-toolgroup">
+            <button id="modalGgbToolPan" class="ggb-btn ggb-btn-tool active" title="Arrastrar Lienzo (Mover)"><i class="fa-solid fa-hand"></i></button>
+            <button id="modalGgbToolSelect" class="ggb-btn ggb-btn-tool" title="Inspeccionar Coordenadas"><i class="fa-solid fa-arrow-pointer"></i></button>
+            <button id="modalGgbZoomIn" class="ggb-btn" title="Zoom In"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+            <button id="modalGgbZoomOut" class="ggb-btn" title="Zoom Out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+            <button id="modalGgbResetView" class="ggb-btn" title="Restablecer Vista"><i class="fa-solid fa-house"></i></button>
+            <button id="modalGgbBtnPlay" class="ggb-btn" title="Pausar / Reanudar"><i class="fa-solid fa-pause"></i></button>
+            <div class="speed-btn-group" title="Velocidad de Simulación">
+              <button class="btn-speed modal-ggb-speed-btn" data-speed="0.25">0.25x</button>
+              <button class="btn-speed modal-ggb-speed-btn" data-speed="0.5">0.5x</button>
+              <button class="btn-speed modal-ggb-speed-btn active" data-speed="1.0">1x</button>
+              <button class="btn-speed modal-ggb-speed-btn" data-speed="2.0">2x</button>
+            </div>
+          </div>
+          <div class="ggb-toolgroup" style="gap: 12px; font-size: 0.8rem; font-weight: 600;">
+            <label style="display:flex; align-items:center; gap:4px; color:#0284c7; cursor:pointer;"><input type="checkbox" id="modalChkCurveY1" checked> y₁(x,t)</label>
+            <label style="display:flex; align-items:center; gap:4px; color:#10b981; cursor:pointer;"><input type="checkbox" id="modalChkCurveY2"> y₂(x,t)</label>
+            <label style="display:flex; align-items:center; gap:4px; color:#f59e0b; cursor:pointer;"><input type="checkbox" id="modalChkCurveYtot" checked> y_tot(x,t)</label>
+          </div>
+        </div>
+
+        <div class="geogebra-canvas-wrapper" style="flex:1; min-height:460px; position:relative; background:#ffffff;">
+          <canvas id="modalGgbCanvas"></canvas>
+          <div id="modalGgbCoordsBadge" class="ggb-coords-badge">x: 0.00 m | y(x): 0.00 m</div>
+        </div>
+
+        <div class="mas-controls-panel" style="padding:12px 20px; background:#f8fafc;">
+          <div class="slider-group">
+            <div class="slider-header"><span>Amplitud (A):</span><span id="modalGgbValA" class="slider-value">1.8 m</span></div>
+            <input type="range" id="modalGgbSliderA" min="0.2" max="3.5" step="0.1" value="1.8" class="input-slider">
+          </div>
+          <div class="slider-group">
+            <div class="slider-header"><span>Longitud de Onda (λ):</span><span id="modalGgbValLambda" class="slider-value">3.0 m</span></div>
+            <input type="range" id="modalGgbSliderLambda" min="0.5" max="6.0" step="0.1" value="3.0" class="input-slider">
+          </div>
+          <div class="slider-group">
+            <div class="slider-header"><span>Frecuencia (f):</span><span id="modalGgbValF" class="slider-value">1.0 Hz</span></div>
+            <input type="range" id="modalGgbSliderF" min="0.2" max="3.0" step="0.1" value="1.0" class="input-slider">
+          </div>
+          <div class="slider-group">
+            <div class="slider-header"><span>Velocidad (v_sim):</span><span id="modalGgbValSpeed" class="slider-value">1.0x</span></div>
+            <input type="range" id="modalGgbSliderSpeed" min="0.1" max="2.5" step="0.1" value="1.0" class="input-slider">
+          </div>
+        </div>
+
+        <!-- Recuadro de Selección de Partícula Modal GeoGebra -->
+        <div class="particle-pos-box" style="margin: 0 20px 10px 20px;">
+          <div class="particle-pos-header">
+            <div class="particle-box-title">
+              <i class="fa-solid fa-crosshairs" style="color:#0284c7;"></i>
+              <span>Recuadro de Selección de Partícula</span>
+            </div>
+            <div class="particle-mode-buttons">
+              <button type="button" class="btn-particle-mode active" id="modalBtnGgbLockWave" title="La coordenada Y sigue la onda automáticamente">
+                <i class="fa-solid fa-link"></i> Fijar a la Onda: y(x,t)
+              </button>
+              <button type="button" class="btn-particle-mode" id="modalBtnGgbManualY" title="Permite elegir Y libremente en metros">
+                <i class="fa-solid fa-up-down-left-right"></i> Posición libre (x, y)
+              </button>
+            </div>
+          </div>
+
+          <div class="particle-coords-grid">
+            <div class="coord-box coord-box-x">
+              <div class="coord-row">
+                <label for="modalGgbNumX"><strong style="color:#0284c7;"><i class="fa-solid fa-arrows-left-right"></i> Eje X:</strong></label>
+                <div class="coord-input-wrap">
+                  <input type="number" id="modalGgbNumX" class="coord-num-input" min="0.0" max="15.0" step="0.05" value="2.50">
+                  <span class="coord-unit">m</span>
+                </div>
+              </div>
+              <input type="range" id="modalGgbSliderX" min="0.0" max="15.0" step="0.05" value="2.5" class="input-slider">
+              <div class="coord-info"><small>x seleccionado: </small><span id="modalGgbValX" class="coord-val-badge">2.50 m</span></div>
+            </div>
+
+            <div class="coord-box coord-box-y">
+              <div class="coord-row">
+                <label for="modalGgbNumY"><strong style="color:#10b981;"><i class="fa-solid fa-arrows-up-down"></i> Eje Y:</strong></label>
+                <div class="coord-input-wrap">
+                  <input type="number" id="modalGgbNumY" class="coord-num-input" min="-3.5" max="3.5" step="0.05" value="0.00">
+                  <span class="coord-unit">m</span>
+                </div>
+              </div>
+              <input type="range" id="modalGgbSliderY" min="-3.5" max="3.5" step="0.05" value="0.0" class="input-slider">
+              <div class="coord-info"><small>y seleccionado: </small><span id="modalGgbValY" class="coord-val-badge">0.00 m</span></div>
+            </div>
+          </div>
+
+          <div class="vector-telemetry-badge" id="modalGgbVectorTelemetry">
+            <span>📍 Partícula: (x: <strong>2.50 m</strong>, y: <strong>0.00 m</strong>)</span>
+            <span>🌊 y_onda: <strong>0.00 m</strong></span>
+            <span>⏱️ t: <strong>0.00 s</strong></span>
+            <span style="color:#047857;">🟢 vy: <strong>0.00 m/s</strong></span>
+            <span style="color:#c2410c;">🟠 ay: <strong>0.00 m/s²</strong></span>
+          </div>
+
+          <div class="particle-vector-row">
+            <div class="slider-group" style="flex:1;">
+              <div class="slider-header"><small>Tiempo (t):</small><span id="modalGgbValT" class="slider-value">0.00 s</span></div>
+              <input type="range" id="modalGgbSliderT" min="0.0" max="10.0" step="0.05" value="0.0" class="input-slider">
+            </div>
+            <div class="slider-group" style="flex:1;">
+              <div class="slider-header"><small>Escala Vectores:</small><span id="modalGgbValVecScale" class="slider-value">1.0x</span></div>
+              <input type="range" id="modalGgbSliderVecScale" min="0.2" max="2.5" step="0.1" value="1.0" class="input-slider">
+            </div>
+            <div class="vector-checkbox-group">
+              <label class="vector-checkbox-label" style="color:#10b981;">
+                <input type="checkbox" id="modalChkGgbVy" checked> $\vec{v}_y$
+              </label>
+              <label class="vector-checkbox-label" style="color:#ea580c;">
+                <input type="checkbox" id="modalChkGgbAy" checked> $\vec{a}_y$
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Vista Simulador Cuerda Tensa Modal -->
+      <div id="modalViewSim" class="modal-view-panel" style="display:none;">
+        <div class="sim-card-header" style="background:#f8fafc; border-bottom:1px solid #e2e8f0; padding:12px 20px; display:flex; justify-content:space-between; align-items:center;">
+          <h3><i class="fa-solid fa-wave-square" style="color:#0284c7;"></i> Onda Transversal en Cuerda Tensa (Vista Ampliada)</h3>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <button id="modalBtnTautPlay" class="ggb-btn" style="width:auto; padding:0 8px; font-size:0.78rem;"><i class="fa-solid fa-pause"></i></button>
+            <button id="modalBtnTautReset" class="ggb-btn" title="Reiniciar"><i class="fa-solid fa-rotate-left"></i></button>
+            <div class="speed-btn-group" title="Velocidad de Simulación">
+              <button class="btn-speed modal-taut-speed-btn" data-speed="0.25">0.25x</button>
+              <button class="btn-speed modal-taut-speed-btn" data-speed="0.5">0.5x</button>
+              <button class="btn-speed modal-taut-speed-btn active" data-speed="1.0">1x</button>
+              <button class="btn-speed modal-taut-speed-btn" data-speed="2.0">2x</button>
+            </div>
+          </div>
+        </div>
+        <div class="sim-canvas-container" style="flex:1; min-height:460px; position:relative; background:#ffffff;">
+          <canvas id="modalSimTautCanvas" class="sim-canvas"></canvas>
+        </div>
+
+        <!-- Recuadro de Selección de Partícula Modal Cuerda Tensa -->
+        <div class="particle-pos-box" style="margin: 10px 20px;">
+          <div class="particle-pos-header">
+            <div class="particle-box-title">
+              <i class="fa-solid fa-crosshairs" style="color:#0284c7;"></i>
+              <span>Recuadro de Selección de Partícula</span>
+            </div>
+            <div class="particle-mode-buttons">
+              <button type="button" class="btn-particle-mode active" id="modalBtnTautLockWave" title="La coordenada Y sigue la onda automáticamente">
+                <i class="fa-solid fa-link"></i> Fijar a la Onda: y(x,t)
+              </button>
+              <button type="button" class="btn-particle-mode" id="modalBtnTautManualY" title="Permite elegir Y libremente en metros">
+                <i class="fa-solid fa-up-down-left-right"></i> Posición libre (x, y)
+              </button>
+            </div>
+          </div>
+
+          <div class="particle-coords-grid">
+            <div class="coord-box coord-box-x">
+              <div class="coord-row">
+                <label for="modalTautNumX"><strong style="color:#0284c7;"><i class="fa-solid fa-arrows-left-right"></i> Eje X:</strong></label>
+                <div class="coord-input-wrap">
+                  <input type="number" id="modalTautNumX" class="coord-num-input" min="0.0" max="8.0" step="0.05" value="2.00">
+                  <span class="coord-unit">m</span>
+                </div>
+              </div>
+              <input type="range" id="modalSimSliderX" min="0.0" max="8.0" step="0.05" value="2.0" class="input-slider">
+              <div class="coord-info"><small>x seleccionado: </small><span id="modalSimValX" class="coord-val-badge">2.00 m</span></div>
+            </div>
+
+            <div class="coord-box coord-box-y">
+              <div class="coord-row">
+                <label for="modalTautNumY"><strong style="color:#10b981;"><i class="fa-solid fa-arrows-up-down"></i> Eje Y:</strong></label>
+                <div class="coord-input-wrap">
+                  <input type="number" id="modalTautNumY" class="coord-num-input" min="-1.5" max="1.5" step="0.05" value="0.00">
+                  <span class="coord-unit">m</span>
+                </div>
+              </div>
+              <input type="range" id="modalTautSliderY" min="-1.5" max="1.5" step="0.05" value="0.0" class="input-slider">
+              <div class="coord-info"><small>y seleccionado: </small><span id="modalTautValY" class="coord-val-badge">0.00 m</span></div>
+            </div>
+          </div>
+
+          <div class="vector-telemetry-badge" id="modalTautVectorTelemetry">
+            <span>📍 Partícula: (x: <strong>2.00 m</strong>, y: <strong>0.00 m</strong>)</span>
+            <span>🌊 y_onda: <strong>0.00 m</strong></span>
+            <span>⏱️ t: <strong>0.00 s</strong></span>
+            <span style="color:#047857;">🟢 vy: <strong>0.00 m/s</strong></span>
+            <span style="color:#c2410c;">🟠 ay: <strong>0.00 m/s²</strong></span>
+          </div>
+
+          <div class="particle-vector-row">
+            <div class="slider-group" style="flex:1;">
+              <div class="slider-header"><small>Tiempo (t):</small><span id="modalSimValT" class="slider-value">0.00 s</span></div>
+              <input type="range" id="modalSimSliderT" min="0.0" max="10.0" step="0.05" value="0.0" class="input-slider">
+            </div>
+            <div class="slider-group" style="flex:1;">
+              <div class="slider-header"><small>Escala Vectores:</small><span id="modalSimValVecScale" class="slider-value">1.0x</span></div>
+              <input type="range" id="modalSimSliderVecScale" min="0.2" max="2.5" step="0.1" value="1.0" class="input-slider">
+            </div>
+            <div class="vector-checkbox-group">
+              <label class="vector-checkbox-label" style="color:#10b981;">
+                <input type="checkbox" id="modalChkTautVy" checked> $\vec{v}_y$
+              </label>
+              <label class="vector-checkbox-label" style="color:#ea580c;">
+                <input type="checkbox" id="modalChkTautAy" checked> $\vec{a}_y$
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Vista Modos Normales & Doppler Modal -->
+      <div id="modalViewStanding" class="modal-view-panel" style="display:none;">
+        <div class="sim-card-header" style="background:#f8fafc; border-bottom:1px solid #e2e8f0; padding:12px 20px; display:flex; justify-content:space-between; align-items:center;">
+          <h3><i class="fa-solid fa-arrows-split-up-and-left" style="color:#6366f1;"></i> Modos Normales & Doppler (Vista Panorámica)</h3>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <button id="modalBtnStandingPlay" class="ggb-btn" style="width:auto; padding:0 8px; font-size:0.78rem;"><i class="fa-solid fa-pause"></i></button>
+            <button id="modalBtnStandingReset" class="ggb-btn" title="Reiniciar"><i class="fa-solid fa-rotate-left"></i></button>
+            <div class="speed-btn-group" title="Velocidad de Simulación">
+              <button class="btn-speed modal-standing-speed-btn" data-speed="0.25">0.25x</button>
+              <button class="btn-speed modal-standing-speed-btn" data-speed="0.5">0.5x</button>
+              <button class="btn-speed modal-standing-speed-btn active" data-speed="1.0">1x</button>
+              <button class="btn-speed modal-standing-speed-btn" data-speed="2.0">2x</button>
+            </div>
+          </div>
+        </div>
+        <div class="sim-canvas-container" style="flex:1; min-height:460px; position:relative; background:#ffffff;">
+          <canvas id="modalSimStandingCanvas" class="sim-canvas"></canvas>
+        </div>
+
+        <!-- Recuadro de Selección de Partícula Modal Estacionarias -->
+        <div class="particle-pos-box" style="margin: 10px 20px;">
+          <div class="particle-pos-header">
+            <div class="particle-box-title">
+              <i class="fa-solid fa-crosshairs" style="color:#6366f1;"></i>
+              <span>Recuadro de Selección de Partícula</span>
+            </div>
+            <div class="particle-mode-buttons">
+              <button type="button" class="btn-particle-mode standing-mode active" id="modalBtnStandingLockWave" title="La coordenada Y sigue la onda estacionaria automáticamente">
+                <i class="fa-solid fa-link"></i> Fijar a la Onda: y(x,t)
+              </button>
+              <button type="button" class="btn-particle-mode standing-mode" id="modalBtnStandingManualY" title="Permite elegir Y libremente en metros">
+                <i class="fa-solid fa-up-down-left-right"></i> Posición libre (x, y)
+              </button>
+            </div>
+          </div>
+
+          <div class="particle-coords-grid">
+            <div class="coord-box coord-box-x">
+              <div class="coord-row">
+                <label for="modalStandingNumX"><strong style="color:#6366f1;"><i class="fa-solid fa-arrows-left-right"></i> Eje X:</strong></label>
+                <div class="coord-input-wrap">
+                  <input type="number" id="modalStandingNumX" class="coord-num-input" min="0.0" max="6.0" step="0.05" value="1.00">
+                  <span class="coord-unit">m</span>
+                </div>
+              </div>
+              <input type="range" id="modalStandingSliderX" min="0.0" max="6.0" step="0.05" value="1.0" class="input-slider">
+              <div class="coord-info"><small>x seleccionado: </small><span id="modalStandingValX" class="coord-val-badge">1.00 m</span></div>
+            </div>
+
+            <div class="coord-box coord-box-y-standing">
+              <div class="coord-row">
+                <label for="modalStandingNumY"><strong style="color:#6366f1;"><i class="fa-solid fa-arrows-up-down"></i> Eje Y:</strong></label>
+                <div class="coord-input-wrap">
+                  <input type="number" id="modalStandingNumY" class="coord-num-input" min="-1.5" max="1.5" step="0.05" value="0.00">
+                  <span class="coord-unit">m</span>
+                </div>
+              </div>
+              <input type="range" id="modalStandingSliderY" min="-1.5" max="1.5" step="0.05" value="0.0" class="input-slider">
+              <div class="coord-info"><small>y seleccionado: </small><span id="modalStandingValY" class="coord-val-badge">0.00 m</span></div>
+            </div>
+          </div>
+
+          <div class="vector-telemetry-badge" id="modalStandingVectorTelemetry">
+            <span>📍 Partícula: (x: <strong>1.00 m</strong>, y: <strong>0.00 m</strong>)</span>
+            <span>🌊 y_onda: <strong>0.00 m</strong></span>
+            <span>⏱️ t: <strong>0.00 s</strong></span>
+            <span style="color:#047857;">🟢 vy: <strong>0.00 m/s</strong></span>
+            <span style="color:#c2410c;">🟠 ay: <strong>0.00 m/s²</strong></span>
+          </div>
+
+          <div class="particle-vector-row">
+            <div class="slider-group" style="flex:1;">
+              <div class="slider-header"><small>Tiempo (t):</small><span id="modalStandingValT" class="slider-value">0.00 s</span></div>
+              <input type="range" id="modalStandingSliderT" min="0.0" max="5.0" step="0.02" value="0.0" class="input-slider">
+            </div>
+            <div class="slider-group" style="flex:1;">
+              <div class="slider-header"><small>Escala Vectores:</small><span id="modalStandingValVecScale" class="slider-value">1.0x</span></div>
+              <input type="range" id="modalStandingSliderVecScale" min="0.2" max="2.5" step="0.1" value="1.0" class="input-slider">
+            </div>
+            <div class="vector-checkbox-group">
+              <label class="vector-checkbox-label" style="color:#10b981;">
+                <input type="checkbox" id="modalChkStandingVy" checked> $\vec{v}_y$
+              </label>
+              <label class="vector-checkbox-label" style="color:#ea580c;">
+                <input type="checkbox" id="modalChkStandingAy" checked> $\vec{a}_y$
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3B. Vista Simulador Doppler Modal -->
+      <div id="modalViewDoppler" class="modal-view-panel" style="display:none; flex-direction:column;">
+        <div class="sim-card-header" style="background:#f8fafc; border-bottom:1px solid #e2e8f0; padding:12px 20px; display:flex; justify-content:space-between; align-items:center;">
+          <h3 style="font-size:0.9rem;"><i class="fa-solid fa-bullhorn" style="color:#0ea5e9;"></i> Cinemática de Frentes de Onda Doppler & Cono de Mach (Vista Panorámica)</h3>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <button id="modalBtnDopplerPlay" class="ggb-btn" style="width:auto; padding:0 8px; font-size:0.78rem;" title="Pausar / Reanudar"><i class="fa-solid fa-pause"></i></button>
+            <button id="modalBtnDopplerReset" class="ggb-btn" title="Reiniciar"><i class="fa-solid fa-rotate-left"></i></button>
+            <button id="modalBtnDopplerAudio" class="doppler-audio-toggle"><i class="fa-solid fa-volume-xmark"></i> <span>Audio Doppler</span></button>
+            <button id="modalBtnDopplerMach" class="btn-mach-toggle active"><i class="fa-solid fa-cone"></i> <span>Cono Mach</span></button>
+            <div class="speed-btn-group" title="Velocidad">
+              <button class="btn-speed modal-doppler-speed-btn" data-speed="0.25">0.25x</button>
+              <button class="btn-speed modal-doppler-speed-btn" data-speed="0.5">0.5x</button>
+              <button class="btn-speed modal-doppler-speed-btn active" data-speed="1.0">1x</button>
+              <button class="btn-speed modal-doppler-speed-btn" data-speed="2.0">2x</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="sim-canvas-container" style="flex:1; min-height:460px; position:relative; background:#080d1a;">
+          <canvas id="modalSimDopplerCanvas" style="width:100%; height:100%; display:block;"></canvas>
+        </div>
+
+        <div style="padding:12px 20px; background:#f8fafc; border-top:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <div style="display:flex; gap:12px; align-items:center; flex:1; min-width:280px;">
+            <span style="font-size:0.75rem; font-weight:700; color:#334155;">Rapidez Fuente (vs):</span>
+            <input type="range" id="modalSliderDopplerVs" min="0" max="600" step="10" value="120" class="input-slider" style="flex:1;">
+            <span id="modalValDopplerVs" class="slider-value" style="font-size:0.8rem; min-width:60px;">120 m/s</span>
+          </div>
+          <div style="font-size:0.72rem; color:#64748b;">
+            <i class="fa-solid fa-hand-pointer" style="color:#0ea5e9;"></i> Arrastra el observador verde con el mouse para variar el ángulo y distancia en vivo.
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Vista Mapa Mental Modal -->
+      <div id="modalViewMindmap" class="modal-view-panel" style="display:none;">
+        <div class="mindmap-wrapper" id="modalMindmapContainer" style="flex:1; min-height:540px; position:relative;">
+        </div>
+      </div>
+
+      <!-- 5. Vista Deformación Gravitacional Spacetime Modal -->
+      <div id="modalViewSpacetime" class="modal-view-panel" style="display:none; flex-direction:column;">
+        <div class="sim-card-header" style="background:#f8fafc; border-bottom:1px solid #e2e8f0; padding:12px 20px; display:flex; justify-content:space-between; align-items:center;">
+          <h3 style="font-size:0.9rem;"><i class="fa-solid fa-atom" style="color:#0284c7;"></i> Malla Espaciotemporal Cuadrupolar y Fuerzas de Marea (Vista Panorámica)</h3>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <button id="modalBtnSpacetimePlay" class="ggb-btn" style="width:auto; padding:0 8px; font-size:0.78rem;" title="Pausar / Reanudar"><i class="fa-solid fa-pause"></i></button>
+            <button id="modalBtnSpacetimeReset" class="ggb-btn" title="Reiniciar"><i class="fa-solid fa-rotate-left"></i></button>
+            <div class="speed-btn-group" title="Velocidad">
+              <button class="btn-speed modal-spacetime-speed-btn" data-speed="0.5">0.5x</button>
+              <button class="btn-speed modal-spacetime-speed-btn active" data-speed="1.0">1x</button>
+              <button class="btn-speed modal-spacetime-speed-btn" data-speed="2.0">2x</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="sim-canvas-container" style="flex:1; min-height:460px; position:relative; background:#020617;">
+          <canvas id="modalSimSpacetimeCanvas" style="width:100%; height:100%; display:block;"></canvas>
+        </div>
+
+        <div style="padding:12px 20px; background:#f8fafc; border-top:1px solid #e2e8f0;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
+            <div style="font-size:0.8rem; font-weight:700; color:#1e293b;">Modo de Polarización Transversal:</div>
+            <div class="polarization-btn-group">
+              <button id="modalBtnPolPlus" class="btn-polarization active"><i class="fa-solid fa-plus"></i> Modo h₊ (Plus)</button>
+              <button id="modalBtnPolCross" class="btn-polarization"><i class="fa-solid fa-xmark"></i> Modo hₓ (Cross)</button>
+              <button id="modalBtnPolCircular" class="btn-polarization"><i class="fa-solid fa-rotate"></i> Circular / Elíptico</button>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+            <div class="slider-group">
+              <div class="slider-header"><small>Deformación Strain (h₀):</small><span id="modalValSpacetimeStrain" class="slider-value">0.40</span></div>
+              <input type="range" id="modalSliderSpacetimeStrain" min="0.10" max="0.80" step="0.05" value="0.40" class="input-slider">
+            </div>
+            <div class="slider-group">
+              <div class="slider-header"><small>Frecuencia de la Onda (fgw):</small><span id="modalValSpacetimeFreq" class="slider-value">0.80 Hz</span></div>
+              <input type="range" id="modalSliderSpacetimeFreq" min="0.2" max="2.5" step="0.1" value="0.8" class="input-slider">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Vista Interferómetro LIGO & Audio Chirp Modal -->
+      <div id="modalViewLigo" class="modal-view-panel" style="display:none; flex-direction:column;">
+        <div class="sim-card-header" style="background:#f8fafc; border-bottom:1px solid #e2e8f0; padding:12px 20px; display:flex; justify-content:space-between; align-items:center;">
+          <h3 style="font-size:0.9rem;"><i class="fa-solid fa-wave-square" style="color:#0ea5e9;"></i> Laboratorio LIGO: Cavidades Fabry-Pérot & Patrón de Interferencia (Vista Panorámica)</h3>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <button id="modalBtnLigoPlay" class="ggb-btn" style="width:auto; padding:0 8px; font-size:0.78rem;" title="Pausar / Reanudar"><i class="fa-solid fa-pause"></i></button>
+            <button id="modalBtnLigoReset" class="ggb-btn" title="Reiniciar"><i class="fa-solid fa-rotate-left"></i></button>
+            <div class="speed-btn-group" title="Velocidad">
+              <button class="btn-speed modal-ligo-speed-btn" data-speed="0.5">0.5x</button>
+              <button class="btn-speed modal-ligo-speed-btn active" data-speed="1.0">1x</button>
+              <button class="btn-speed modal-ligo-speed-btn" data-speed="2.0">2x</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="sim-canvas-container" style="flex:1; min-height:460px; position:relative; background:#090d16;">
+          <canvas id="modalSimLigoCanvas" style="width:100%; height:100%; display:block;"></canvas>
+        </div>
+
+        <div style="padding:12px 20px; background:#f8fafc; border-top:1px solid #e2e8f0;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
+            <button id="modalBtnPlayLigoChirp" class="btn-chirp-audio" title="Sintetizar el sonido real del chirp gravitacional captado por LIGO">
+              <i class="fa-solid fa-volume-high"></i> Reproducir Chirp Gravitacional (Audio GW150914)
+            </button>
+            <div style="font-size:0.78rem; color:#64748b; font-family:'JetBrains Mono';">
+              Frecuencia de colisión: 35 Hz ➔ 250 Hz (Merger final)
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px;">
+            <div class="slider-group">
+              <div class="slider-header"><small>Masa 1 (M₁):</small><span id="modalValLigoM1" class="slider-value">36 M☉</span></div>
+              <input type="range" id="modalSliderLigoM1" min="10" max="65" step="1" value="36" class="input-slider">
+            </div>
+            <div class="slider-group">
+              <div class="slider-header"><small>Masa 2 (M₂):</small><span id="modalValLigoM2" class="slider-value">29 M☉</span></div>
+              <input type="range" id="modalSliderLigoM2" min="10" max="65" step="1" value="29" class="input-slider">
+            </div>
+            <div class="slider-group">
+              <div class="slider-header"><small>Distancia (d):</small><span id="modalValLigoDist" class="slider-value">410 Mpc</span></div>
+              <input type="range" id="modalSliderLigoDist" min="100" max="1200" step="25" value="410" class="input-slider">
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="graphic-modal-footer">
+      <div>
+        <i class="fa-solid fa-circle-info" style="color:#0284c7;"></i> Usa el botón <i class="fa-solid fa-window-minimize" style="color:#0284c7;"></i> para <strong>colapsar</strong> la ventana a la esquina inferior y continuar leyendo el cuaderno.
+      </div>
+      <button id="btnModalCloseFooter" class="btn-header" style="background:#e2e8f0; color:#0f172a; border:1px solid #cbd5e1; padding:5px 14px; font-size:0.78rem;">
+        <i class="fa-solid fa-xmark"></i> Cerrar Ventana
+      </button>
+    </footer>
+  </div>
+</div>
+
+<!-- Modal Especializado para Visualización Histórica en Alta Definición -->
+<div id="historicalImageModal" class="hist-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="histModalTitleText">
+  <div class="hist-modal-dialog">
+    <header class="hist-modal-header">
+      <div class="hist-modal-title">
+        <i class="fa-solid fa-landmark" style="color:#38bdf8;"></i>
+        <span id="histModalTitleText">Detalle Histórico</span>
+      </div>
+      <button class="hist-modal-close" onclick="closeHistoricalModal()" title="Cerrar"><i class="fa-solid fa-xmark"></i></button>
+    </header>
+    <div class="hist-modal-body">
+      <div class="hist-modal-image-wrapper">
+        <img id="histModalImg" src="" alt="" class="hist-modal-img">
+      </div>
+      <p id="histModalDesc" class="hist-modal-desc"></p>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts de la Aplicación -->
+<script src="js/audio.js?v=7"></script>
+<script src="js/geogebra_canvas.js?v=7"></script>
+<script src="js/simulators.js?v=7"></script>
+<script src="js/mindmap.js?v=7"></script>
+<script src="js/exercises.js?v=7"></script>
+<script src="js/app.js?v=7"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(registrations => {
+      for (let reg of registrations) {
+        reg.unregister();
+      }
+    });
+  }
+  if ('caches' in window) {
+    caches.keys().then(names => {
+      for (let name of names) {
+        caches.delete(name);
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

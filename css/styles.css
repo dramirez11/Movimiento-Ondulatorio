@@ -1,0 +1,3447 @@
+/* ==========================================================================
+   CUADERNO DIGITAL CIENTÍFICO DE FÍSICA III
+   Sistema de Diseño Editorial & Modo Doble Página (Libro Abierto)
+   Ajuste Dinámico del Fondo con el Texto y Máximo Aprovechamiento de la Zona Blanca
+   Autor: David Alejandro Ramirez Bolaños
+   ========================================================================== */
+
+:root {
+  /* Paleta Base */
+  --primary: #1e3a8a;
+  --primary-light: #3b82f6;
+  --primary-dark: #0f172a;
+  --accent: #0ea5e9;
+  --accent-glow: rgba(14, 165, 233, 0.25);
+  
+  /* Código Didáctico Específico */
+  --color-datos: #2563eb;
+  --color-datos-bg: rgba(37, 99, 235, 0.08);
+  --color-datos-border: rgba(37, 99, 235, 0.3);
+
+  --color-incognitas: #dc2626;
+  --color-incognitas-bg: rgba(220, 38, 38, 0.08);
+  --color-incognitas-border: rgba(220, 38, 38, 0.3);
+
+  --color-despeje: #ea580c;
+  --color-despeje-bg: rgba(234, 88, 12, 0.1);
+  --color-despeje-border: rgba(234, 88, 12, 0.35);
+
+  --color-validation: #16a34a;
+  --color-validation-bg: rgba(22, 163, 74, 0.08);
+
+  /* GeoGebra Theme */
+  --ggb-grid-major: #94a3b8;
+  --ggb-grid-minor: #e2e8f0;
+  --ggb-axis: #1e293b;
+  --ggb-bg: #ffffff;
+  --ggb-accent: #6366f1;
+
+  /* UI Tokens */
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --bg-dark: #090d16;
+  --panel-bg: rgba(255, 255, 255, 0.85);
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --book-height: 840px;
+
+  /* ========================================================================
+     ZONA BLANCA OPTIMIZADA (plantilla.jpeg -> plantilla.jpeg: 1685 x 2205)
+     - Plantilla simétrica de alta definición con suave viñeteado en esquinas
+     - Margen izquierdo útil: 5.8% (armónico y simétrico)
+     - Margen derecho útil: 5.8% (máximo ancho aprovechable)
+     - Margen superior útil: 4.5%
+     - Margen inferior útil: 5.0%
+     ======================================================================== */
+  --white-zone-top: 1mm;
+  --white-zone-bottom: 1mm;
+  --white-zone-left: max(30px, 5.8%);
+  --white-zone-right: max(30px, 5.8%);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--text-main);
+  background-color: var(--bg-dark);
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(30, 58, 138, 0.25) 0%, transparent 45%),
+    radial-gradient(circle at 85% 85%, rgba(14, 165, 233, 0.18) 0%, transparent 45%);
+  overflow: hidden; /* La pantalla del navegador NO se baja; el scroll ocurre dentro de cada página */
+  overscroll-behavior: none;
+  user-select: text;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  touch-action: manipulation;
+}
+
+#app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100vh;
+  max-height: 100dvh;
+  padding: 8px 12px calc(8px + env(safe-area-inset-bottom)) 12px;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden; /* Evita que la pantalla completa se baje */
+  overscroll-behavior: none;
+}
+
+/* ==========================================================================
+   Barra Superior de Herramientas
+   ========================================================================== */
+
+.top-header {
+  width: 100%;
+  max-width: 1440px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 18px;
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-md);
+  margin-bottom: 12px;
+  color: #f8fafc;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+  z-index: 50;
+}
+
+.top-header .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.top-header .brand-icon {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #3b82f6, #0ea5e9);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  color: white;
+  box-shadow: 0 2px 10px rgba(14, 165, 233, 0.4);
+}
+
+.top-header .title-group h1 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  background: linear-gradient(90deg, #ffffff, #93c5fd);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.top-header .title-group p {
+  font-size: 0.72rem;
+  color: #94a3b8;
+}
+
+.top-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn-header {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e2e8f0;
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: var(--transition);
+}
+
+.btn-header:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Contenedor del Libro Abierto (Doble Página: Izquierda y Derecha)
+   ========================================================================== */
+
+.notebook-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1440px;
+  flex: 1; /* Ocupa exactamente todo el espacio vertical disponible entre el header y el dock */
+  min-height: 0; /* Clave flexbox para que los hijos con scroll interno no desborden */
+  height: 100%;
+  max-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  perspective: 2000px;
+  transform-style: preserve-3d;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* Lomo central sutil cuando se muestran dos páginas */
+.notebook-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 6px;
+  transform: translateX(-50%);
+  background: linear-gradient(to right, 
+    rgba(0, 0, 0, 0.15) 0%, 
+    rgba(0, 0, 0, 0.3) 45%, 
+    rgba(255, 255, 255, 0.15) 50%, 
+    rgba(0, 0, 0, 0.3) 55%, 
+    rgba(0, 0, 0, 0.15) 100%);
+  z-index: 25;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.notebook-wrapper.is-cover::before,
+.notebook-wrapper.is-cover::after {
+  opacity: 0 !important;
+  display: none !important;
+}
+
+/* ==========================================================================
+   Hojas del Cuaderno - LA IMAGEN SE DESPLAZA JUNTO CON EL TEXTO
+   ========================================================================== */
+
+.notebook-page {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  max-height: 100%;
+  min-height: 100%;
+  background-color: #ffffff;
+  
+  /* LA IMAGEN SE DESPLAZA CON EL TEXTO Y SE EXPANDE NATURALMENTE */
+  background-image: url('../imagenes/plantilla.jpeg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-attachment: local; /* Se desplaza en perfecta armonía con el texto */
+  
+  /* APROVECHAMIENTO MÁXIMO DE LA ZONA BLANCA */
+  padding-top: var(--white-zone-top);
+  padding-bottom: 0px !important; /* Elimina cualquier espacio residual debajo del pie de página */
+  padding-left: var(--white-zone-left);
+  padding-right: var(--white-zone-right);
+  
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  overflow-y: auto; /* CADA PÁGINA TIENE SU PROPIO SCROLL INTERNO */
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  box-sizing: border-box;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* Regla estricta para páginas inactivas */
+.notebook-page:not(.active) {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Scrollbar fina integrada dentro de la zona blanca */
+.notebook-page::-webkit-scrollbar {
+  width: 4px;
+}
+.notebook-page::-webkit-scrollbar-track {
+  background: transparent;
+}
+.notebook-page::-webkit-scrollbar-thumb {
+  background: rgba(14, 165, 233, 0.28);
+  border-radius: 8px;
+}
+.notebook-page::-webkit-scrollbar-thumb:hover {
+  background: rgba(14, 165, 233, 0.55);
+}
+
+/* Páginas Activas en Modo Doble Página */
+.notebook-page.active {
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 100% !important;
+  height: 100% !important;
+  justify-content: flex-start !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+/* Página Izquierda */
+.notebook-page.active.page-left {
+  border-radius: 12px 0 0 12px;
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 
+    -10px 14px 35px rgba(0, 0, 0, 0.4),
+    inset -18px 0 25px -12px rgba(0, 0, 0, 0.15);
+}
+
+/* Página Derecha */
+.notebook-page.active.page-right {
+  border-radius: 0 12px 12px 0;
+  border-left: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 
+    10px 14px 35px rgba(0, 0, 0, 0.4),
+    inset 18px 0 25px -12px rgba(0, 0, 0, 0.15);
+}
+
+/* Modo Página Simple (Pantallas Móviles, Tablets Verticales o Portada / Contraportada) */
+.notebook-wrapper.is-cover .notebook-page.active,
+.notebook-page.page-cover.active,
+.notebook-page.page-backcover.active,
+.notebook-page.active:not(.page-left):not(.page-right) {
+  width: 100%;
+  max-width: 860px;
+  height: 100%;
+  max-height: 100%;
+  min-height: 100% !important;
+  overflow-y: auto;
+  display: flex !important;
+  flex-direction: column !important;
+  border-radius: 14px !important;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 12px 38px rgba(0, 0, 0, 0.45);
+}
+
+/* ==========================================================================
+   Animación de Paso de Página Táctil (Giro 3D Sutil y Despliegue Natural)
+   ========================================================================== */
+
+/* Giro hacia adelante: La página derecha se despliega desde el lomo central */
+.notebook-page.page-anim-forward.page-right {
+  transform-origin: left center;
+  animation: turnPageForwardRight 0.38s cubic-bezier(0.2, 0.85, 0.32, 1) forwards;
+  backface-visibility: hidden;
+}
+
+.notebook-page.page-anim-forward.page-left {
+  transform-origin: right center;
+  animation: turnPageForwardLeft 0.32s cubic-bezier(0.2, 0.85, 0.32, 1) forwards;
+  backface-visibility: hidden;
+}
+
+/* Giro hacia atrás: La página izquierda se despliega desde el lomo central */
+.notebook-page.page-anim-backward.page-left {
+  transform-origin: right center;
+  animation: turnPageBackwardLeft 0.38s cubic-bezier(0.2, 0.85, 0.32, 1) forwards;
+  backface-visibility: hidden;
+}
+
+.notebook-page.page-anim-backward.page-right {
+  transform-origin: left center;
+  animation: turnPageBackwardRight 0.32s cubic-bezier(0.2, 0.85, 0.32, 1) forwards;
+  backface-visibility: hidden;
+}
+
+/* Animación para página individual o portada */
+.notebook-page.page-anim-single-forward {
+  animation: pageSingleForward 0.35s cubic-bezier(0.2, 0.85, 0.32, 1) forwards;
+}
+
+.notebook-page.page-anim-single-backward {
+  animation: pageSingleBackward 0.35s cubic-bezier(0.2, 0.85, 0.32, 1) forwards;
+}
+
+@keyframes turnPageForwardRight {
+  0% {
+    transform: perspective(1800px) rotateY(-8deg) translateY(2px);
+    opacity: 0.72;
+    box-shadow: -15px 12px 35px rgba(0, 0, 0, 0.45);
+  }
+  100% {
+    transform: perspective(1800px) rotateY(0deg) translateY(0);
+    opacity: 1;
+    box-shadow: 10px 14px 35px rgba(0, 0, 0, 0.4), inset 18px 0 25px -12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+@keyframes turnPageForwardLeft {
+  0% {
+    transform: perspective(1800px) rotateY(4deg);
+    opacity: 0.82;
+  }
+  100% {
+    transform: perspective(1800px) rotateY(0deg);
+    opacity: 1;
+    box-shadow: -10px 14px 35px rgba(0, 0, 0, 0.4), inset -18px 0 25px -12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+@keyframes turnPageBackwardLeft {
+  0% {
+    transform: perspective(1800px) rotateY(8deg) translateY(2px);
+    opacity: 0.72;
+    box-shadow: 15px 12px 35px rgba(0, 0, 0, 0.45);
+  }
+  100% {
+    transform: perspective(1800px) rotateY(0deg) translateY(0);
+    opacity: 1;
+    box-shadow: -10px 14px 35px rgba(0, 0, 0, 0.4), inset -18px 0 25px -12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+@keyframes turnPageBackwardRight {
+  0% {
+    transform: perspective(1800px) rotateY(-4deg);
+    opacity: 0.82;
+  }
+  100% {
+    transform: perspective(1800px) rotateY(0deg);
+    opacity: 1;
+    box-shadow: 10px 14px 35px rgba(0, 0, 0, 0.4), inset 18px 0 25px -12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+@keyframes pageSingleForward {
+  0% {
+    transform: perspective(1200px) translateX(20px) rotateY(-3deg);
+    opacity: 0.7;
+  }
+  100% {
+    transform: perspective(1200px) translateX(0) rotateY(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes pageSingleBackward {
+  0% {
+    transform: perspective(1200px) translateX(-20px) rotateY(3deg);
+    opacity: 0.7;
+  }
+  100% {
+    transform: perspective(1200px) translateX(0) rotateY(0deg);
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+   Portada Oficial (Página 1) Centrada
+   ========================================================================== */
+
+.notebook-page.page-cover {
+  width: 100%;
+  max-width: 600px;
+  height: 100%;
+  max-height: 100%;
+  margin: 0 auto;
+  padding: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  border-radius: 14px;
+  box-shadow: none !important;
+  display: none;
+  overflow-y: auto;
+}
+
+.notebook-page.page-cover.active {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cover-image-container {
+  width: 100%;
+  max-width: 520px;
+  max-height: calc(100% - 60px);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.15);
+  background: #0f172a;
+  line-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cover-image-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(14, 165, 233, 0.4);
+}
+
+.cover-image {
+  width: auto;
+  max-width: 100%;
+  max-height: calc(100vh - 180px);
+  max-height: calc(100dvh - 180px);
+  object-fit: contain;
+  display: block;
+  border-radius: 14px;
+}
+
+.cover-bottom-bar {
+  margin-top: 10px;
+  text-align: center;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.cover-bottom-bar {
+  margin-top: 18px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.btn-open-book {
+  padding: 12px 28px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #0284c7, #2563eb);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 30px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 8px 24px rgba(2, 132, 199, 0.45);
+  transition: var(--transition);
+}
+
+.btn-open-book:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 12px 28px rgba(2, 132, 199, 0.65);
+  background: linear-gradient(135deg, #0369a1, #1d4ed8);
+}
+
+/* ==========================================================================
+   Encabezados y Pies de Página - APROVECHANDO LA ZONA BLANCA
+   ========================================================================== */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 2px solid #cbd5e1;
+  padding-bottom: 6px;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.page-header-topic {
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #0369a1;
+  font-weight: 700;
+}
+
+.page-number-tag {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #64748b;
+  background: rgba(226, 232, 240, 0.75);
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.page-lead {
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.45;
+  margin-bottom: 14px;
+}
+
+/* Contenido Principal de la Hoja */
+.page-body-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Pie de Página Fijo en la Base de la Hoja (TRANSPARENTE SIN RECUADRO BLANCO) */
+.notebook-footer {
+  position: relative;
+  margin-top: auto !important;
+  margin-bottom: 0 !important;
+  bottom: 0;
+  left: auto;
+  right: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(203, 213, 225, 0.5);
+  padding-top: 8px;
+  padding-bottom: 6px;
+  font-size: 0.74rem;
+  color: #64748b;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  flex-shrink: 0 !important;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 15;
+}
+
+.footer-author-text {
+  font-weight: 600;
+  color: #1e3a8a;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ==========================================================================
+   Panel Inferior de Navegación (UBICADO DEBAJO DEL CUADERNO SIN SUPERPONERSE)
+   ========================================================================== */
+
+.bottom-nav-dock {
+  position: relative;
+  flex-shrink: 0;
+  margin-top: 8px;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 8px 20px;
+  border-radius: 40px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+  z-index: 40;
+  transition: var(--transition);
+  bottom: auto;
+  left: auto;
+  transform: none;
+}
+
+.bottom-nav-dock:hover {
+  border-color: rgba(14, 165, 233, 0.4);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65), 0 0 20px rgba(14, 165, 233, 0.2);
+}
+
+.nav-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: white;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 0.95rem;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: #0284c7;
+  color: white;
+  border-color: #38bdf8;
+  transform: scale(1.08);
+}
+
+.nav-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.nav-counter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #f1f5f9;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0 6px;
+}
+
+.page-select-dropdown {
+  background: rgba(30, 41, 59, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  max-width: 250px;
+}
+
+.page-select-dropdown option {
+  background: #0f172a;
+  color: white;
+}
+
+.nav-extra-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 6px;
+  transition: var(--transition);
+}
+
+.nav-extra-btn:hover {
+  color: #38bdf8;
+}
+
+/* ==========================================================================
+   Plano Cartesiano GeoGebra - MÁXIMA AMPLITUD EN LA ZONA BLANCA
+   ========================================================================== */
+
+.geogebra-container {
+  position: relative;
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 12px;
+}
+
+.geogebra-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 6px 10px;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.ggb-toolgroup {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ggb-btn {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: var(--transition);
+}
+
+.ggb-btn:hover {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-color: #93c5fd;
+}
+
+.ggb-btn.active {
+  background: #dbeafe;
+  color: #1d4ed8;
+  border-color: #3b82f6;
+  font-weight: bold;
+}
+
+.ggb-badge {
+  font-size: 0.72rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #f1f5f9;
+  color: #475569;
+  font-weight: 600;
+}
+
+.geogebra-canvas-wrapper {
+  position: relative;
+  width: 100%;
+  height: 340px; /* Ampliado para aprovechar la zona blanca */
+  cursor: crosshair;
+  background: #ffffff;
+}
+
+#ggbCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ggb-coords-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(15, 23, 42, 0.85);
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-family: 'JetBrains Mono', monospace;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.ggb-palette-modal {
+  position: absolute;
+  top: 40px;
+  right: 8px;
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  width: 230px;
+  z-index: 40;
+  display: none;
+}
+
+.ggb-palette-modal.open {
+  display: block;
+  animation: fadeInScale 0.15s ease-out;
+}
+
+.ggb-palette-header {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ggb-palette-row {
+  margin-bottom: 6px;
+}
+
+.ggb-palette-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 3px;
+  display: block;
+}
+
+.ggb-color-picker-group {
+  display: flex;
+  gap: 5px;
+}
+
+.color-swatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.15s;
+}
+
+.color-swatch:hover, .color-swatch.active {
+  transform: scale(1.15);
+  border-color: #0f172a;
+}
+
+.mas-controls-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 8px;
+  padding: 8px 10px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+}
+
+.slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.slider-value {
+  color: #2563eb;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.input-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 3px;
+  background: #cbd5e1;
+  outline: none;
+}
+
+.input-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #2563eb;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   Recuadro de Selección de Partícula y Controles de Vectores (x, y, t)
+   ========================================================================== */
+.particle-pos-box, .vector-control-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 14px;
+  background: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.particle-pos-header, .vector-control-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.particle-box-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.particle-mode-buttons {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-particle-mode {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  font-size: 0.70rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #475569;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-particle-mode:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+  border-color: #94a3b8;
+}
+
+.btn-particle-mode.active {
+  background: #0284c7;
+  color: #ffffff;
+  border-color: #0284c7;
+  box-shadow: 0 1px 3px rgba(2, 132, 199, 0.3);
+}
+
+.btn-particle-mode.standing-mode.active {
+  background: #6366f1;
+  border-color: #6366f1;
+  box-shadow: 0 1px 3px rgba(99, 102, 241, 0.3);
+}
+
+/* Grilla de Coordenadas X e Y */
+.particle-coords-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+@media (max-width: 640px) {
+  .particle-coords-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.coord-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 6px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.coord-box-x {
+  border-left: 3.5px solid #0284c7;
+}
+
+.coord-box-y {
+  border-left: 3.5px solid #10b981;
+}
+
+.coord-box-y-standing {
+  border-left: 3.5px solid #6366f1;
+}
+
+.coord-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.74rem;
+  color: #334155;
+}
+
+.coord-input-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.coord-num-input {
+  width: 66px;
+  padding: 3px 6px;
+  font-size: 0.78rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  color: #0f172a;
+  background: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 5px;
+  text-align: right;
+  transition: all 0.2s ease;
+}
+
+.coord-num-input:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: #0284c7;
+  box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.15);
+}
+
+.coord-unit {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.coord-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.68rem;
+  color: #64748b;
+}
+
+.coord-val-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  color: #0f172a;
+  background: #f1f5f9;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* Fila de Vectores y Tiempo */
+.particle-vector-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 2px;
+}
+
+.particle-vector-row .slider-group {
+  margin: 0;
+  min-width: 110px;
+}
+
+.vector-telemetry-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: #334155;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.03);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.vector-sliders-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
+  gap: 8px;
+}
+
+.vector-checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.vector-checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.vector-checkbox-label input[type="checkbox"] {
+  accent-color: #2563eb;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   Estructura Pedagógica de Ejercicios
+   ========================================================================== */
+
+.exercise-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.exercise-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.exercise-statement {
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: #334155;
+  background: #f8fafc;
+  padding: 10px 12px;
+  border-left: 3px solid #3b82f6;
+  border-radius: 0 5px 5px 0;
+  margin-bottom: 12px;
+}
+
+.phase-box {
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+}
+
+.phase-datos {
+  background: var(--color-datos-bg);
+  border-color: var(--color-datos-border);
+}
+
+.phase-header-datos {
+  color: var(--color-datos);
+  font-weight: 700;
+  font-size: 0.84rem;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.data-tag-blue {
+  color: var(--color-datos);
+  font-weight: 700;
+  background: rgba(37, 99, 235, 0.15);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: 'JetBrains Mono', monospace;
+  display: inline-block;
+  margin: 1px 2px;
+}
+
+.phase-incognitas {
+  background: var(--color-incognitas-bg);
+  border-color: var(--color-incognitas-border);
+}
+
+.phase-header-incognitas {
+  color: var(--color-incognitas);
+  font-weight: 700;
+  font-size: 0.84rem;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.unknown-tag-red {
+  color: var(--color-incognitas);
+  font-weight: 700;
+  background: rgba(220, 38, 38, 0.15);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: 'JetBrains Mono', monospace;
+  display: inline-block;
+  margin: 1px 2px;
+}
+
+.phase-formulas {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.phase-header-formulas {
+  color: #334155;
+  font-weight: 700;
+  font-size: 0.84rem;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.phase-despeje {
+  background: var(--color-despeje-bg);
+  border-color: var(--color-despeje-border);
+}
+
+.phase-header-despeje {
+  color: var(--color-despeje);
+  font-weight: 700;
+  font-size: 0.84rem;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.solved-tag-orange {
+  color: var(--color-despeje);
+  font-weight: 700;
+  background: rgba(234, 88, 12, 0.18);
+  border: 1px solid rgba(234, 88, 12, 0.4);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.88rem;
+  display: inline-block;
+  margin: 1px 2px;
+  white-space: nowrap;
+}
+
+/* Filas y contenedor para alinear fórmulas con su recuadro naranja de resultado */
+.despeje-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.despeje-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(234, 88, 12, 0.16);
+  transition: all 0.2s ease;
+}
+
+.despeje-row:hover {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(234, 88, 12, 0.35);
+  box-shadow: 0 2px 8px rgba(234, 88, 12, 0.1);
+}
+
+.despeje-row .katex-display {
+  display: inline-flex !important;
+  margin: 0 !important;
+  vertical-align: middle;
+}
+
+.despeje-row .katex-display > .katex {
+  display: inline-flex !important;
+  text-align: left;
+}
+
+.despeje-note {
+  font-size: 0.82rem;
+  color: #475569;
+  font-style: italic;
+}
+
+.phase-validation {
+  background: var(--color-validation-bg);
+  border-color: rgba(22, 163, 74, 0.3);
+}
+
+.phase-header-validation {
+  color: var(--color-validation);
+  font-weight: 700;
+  font-size: 0.84rem;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ==========================================================================
+   Demostraciones Matemáticas
+   ========================================================================== */
+
+.derivation-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.derivation-step {
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  border-left: 3px solid #6366f1;
+  background: #f8fafc;
+  border-radius: 0 4px 4px 0;
+}
+
+.derivation-step h4 {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #312e81;
+  margin-bottom: 3px;
+}
+
+.equation-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 8px 0;
+  padding: 8px 14px;
+  background: #ffffff;
+  border-radius: 6px;
+  border: 1px dashed #cbd5e1;
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.equation-block .katex-display {
+  display: inline-flex !important;
+  margin: 0 !important;
+  text-align: center;
+  max-width: 100%;
+}
+
+.equation-number {
+  position: static !important;
+  transform: none !important;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #475569;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(203, 213, 225, 0.85);
+  border-radius: 4px;
+  padding: 2px 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Simuladores Físicos
+   ========================================================================== */
+
+.sim-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-sm);
+  overflow: visible;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+  margin-bottom: 12px;
+  flex-shrink: 0 !important;
+  width: 100%;
+}
+
+.sim-card-header {
+  padding: 6px 12px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0 !important;
+}
+
+.sim-card-header h3 {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.sim-canvas-container {
+  width: 100%;
+  height: 260px;
+  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0 !important;
+}
+
+.sim-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.particle-pos-box,
+.featured-discovery-card,
+.transverse-comp-grid {
+  flex-shrink: 0 !important;
+}
+
+/* ==========================================================================
+   Línea de Tiempo y Glosario
+   ========================================================================== */
+
+.timeline-container {
+  position: relative;
+  padding: 8px 0;
+  margin: 12px 0;
+}
+
+.timeline-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 18px;
+  width: 3px;
+  background: linear-gradient(to bottom, #3b82f6, #0ea5e9, #6366f1);
+  border-radius: 2px;
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 46px;
+  margin-bottom: 14px;
+}
+
+.timeline-badge {
+  position: absolute;
+  left: 6px;
+  top: 0;
+  width: 26px;
+  height: 26px;
+  background: #1e3a8a;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 0 2px #3b82f6;
+  font-weight: bold;
+  font-size: 0.72rem;
+}
+
+.timeline-card {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.timeline-year {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #0284c7;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.timeline-scientist {
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.timeline-desc {
+  font-size: 0.82rem;
+  color: #475569;
+  line-height: 1.45;
+}
+
+/* Tarjetas Destacadas con Galería en la Línea de Tiempo */
+.timeline-card-featured {
+  border-left: 3px solid #0284c7;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.timeline-gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.timeline-gallery-card {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.timeline-gallery-card:hover {
+  transform: translateY(-2px);
+  border-color: #0284c7;
+  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.18);
+}
+
+.timeline-gallery-img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+  background: #f1f5f9;
+}
+
+.timeline-gallery-card:hover .timeline-gallery-img {
+  transform: scale(1.04);
+}
+
+.timeline-gallery-overlay {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  background: rgba(15, 23, 42, 0.7);
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.timeline-gallery-card:hover .timeline-gallery-overlay {
+  opacity: 1;
+}
+
+.timeline-gallery-caption {
+  padding: 6px 8px;
+  background: #ffffff;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.gallery-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 1px 5px;
+  border-radius: 3px;
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.gallery-tag-person {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.gallery-tag-invento {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.gallery-name {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.25;
+}
+
+/* Modal de Visualización Histórica en Alta Definición */
+.hist-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.82);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 2500;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.hist-modal-overlay.open {
+  display: flex;
+  opacity: 1;
+}
+
+.hist-modal-dialog {
+  background: #ffffff;
+  border-radius: 12px;
+  max-width: 580px;
+  width: 94%;
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  animation: histModalPop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes histModalPop {
+  from { transform: scale(0.92); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.hist-modal-header {
+  padding: 10px 16px;
+  background: #0f172a;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hist-modal-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hist-modal-close {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.hist-modal-close:hover {
+  background: #ef4444;
+}
+
+.hist-modal-body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f8fafc;
+}
+
+.hist-modal-image-wrapper {
+  width: 100%;
+  max-height: 380px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000000;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.hist-modal-img {
+  max-width: 100%;
+  max-height: 380px;
+  object-fit: contain;
+}
+
+.hist-modal-desc {
+  font-size: 0.84rem;
+  color: #334155;
+  line-height: 1.5;
+  text-align: justify;
+}
+
+.mindmap-wrapper {
+  width: 100%;
+  height: 440px; /* Aprovecha el espacio vertical de la zona blanca */
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+#mindmapSvg {
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+
+.glossary-search-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.glossary-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius-sm);
+  font-size: 0.84rem;
+  outline: none;
+  transition: var(--transition);
+}
+
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.glossary-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+}
+
+.glossary-term {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-bottom: 3px;
+}
+
+.glossary-def {
+  font-size: 0.78rem;
+  color: #475569;
+  line-height: 1.4;
+}
+
+.apa-reference-item {
+  padding-left: 1.6rem;
+  text-indent: -1.6rem;
+  margin-bottom: 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: #1e293b;
+}
+
+.scientific-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+  font-size: 0.78rem;
+  background: #ffffff;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid #cbd5e1;
+}
+
+.scientific-table th {
+  background: #f1f5f9;
+  color: #1e293b;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-bottom: 2px solid #cbd5e1;
+}
+
+.scientific-table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid #e2e8f0;
+  color: #334155;
+}
+
+/* ==========================================================================
+   Cuadrículas Adaptativas (Diseño Líquido Responsivo)
+   ========================================================================== */
+
+.toc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 10px;
+  margin-bottom: 20px;
+}
+
+.concepts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.units-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+}
+
+.sim-sliders-grid {
+  padding: 8px 12px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.exercise-phases-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.phase-calc-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.modal-sim-sliders-grid {
+  padding: 12px 20px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+/* ==========================================================================
+   Responsividad Integral y Optimización Móvil Ergonómica (PWA, Tablets y Celulares)
+   ========================================================================== */
+
+/* 1. Tablets y Pantallas en Orientación Vertical (<960px o Portrait) */
+@media (max-width: 960px), (orientation: portrait) {
+  .notebook-wrapper {
+    flex: 1;
+    min-height: 0;
+    height: 100%;
+    max-height: 100%;
+    flex-direction: column;
+    align-items: center;
+    perspective: none;
+    overflow: hidden;
+  }
+
+  .notebook-wrapper::before {
+    display: none !important;
+  }
+
+  .notebook-page {
+    width: 100% !important;
+    max-width: 860px !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    touch-action: pan-y !important;
+    border-radius: 14px !important;
+    margin-bottom: 0 !important;
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.4) !important;
+    border-left: none !important;
+    border-right: none !important;
+  }
+
+  .bottom-nav-dock {
+    width: min(96vw, 680px);
+    max-width: 96vw;
+    margin-top: 8px;
+    margin-bottom: 0;
+  }
+}
+
+/* 2. Pantallas Medianas y Móviles en Horizontal (<768px) */
+@media (max-width: 768px) {
+  .top-header .title-group p {
+    max-width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .btn-header span {
+    display: none;
+  }
+
+  .btn-header {
+    padding: 5px 8px;
+  }
+}
+
+/* 3. Pantallas Móviles Standard (Android / iOS <640px) */
+@media (max-width: 640px) {
+  :root {
+    --white-zone-top: 8px;
+    --white-zone-bottom: 12px;
+    --white-zone-left: 10px;
+    --white-zone-right: 10px;
+  }
+
+  #app-container {
+    padding: max(4px, env(safe-area-inset-top)) max(6px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(6px, env(safe-area-inset-left));
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100dvh;
+  }
+
+  /* Cabecera Móvil Ultracompacta y Limpia */
+  .top-header {
+    padding: 6px 10px;
+    margin-bottom: 6px;
+    border-radius: 8px;
+  }
+
+  .top-header .brand {
+    gap: 6px;
+  }
+
+  .top-header .brand-icon {
+    width: 26px;
+    height: 26px;
+    font-size: 0.82rem;
+    border-radius: 6px;
+  }
+
+  .top-header .title-group h1 {
+    font-size: 0.78rem;
+    letter-spacing: 0;
+  }
+
+  .top-header .title-group p {
+    display: none;
+  }
+
+  .top-actions {
+    gap: 4px;
+  }
+
+  .btn-header {
+    padding: 4px 7px;
+    font-size: 0.78rem;
+    gap: 4px;
+    border-radius: 6px;
+  }
+
+  .btn-header span {
+    display: none;
+  }
+
+  /* Hojas del Cuaderno: Desplazamiento y Lectura Táctil Óptima */
+  .notebook-page {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    touch-action: pan-y !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    padding-top: var(--white-zone-top) !important;
+    padding-bottom: 4px !important;
+    padding-left: var(--white-zone-left) !important;
+    padding-right: var(--white-zone-right) !important;
+    border-radius: 10px !important;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35) !important;
+  }
+
+  /* Portada Móvil */
+  .notebook-page.page-cover.active {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    min-height: 0 !important;
+    padding: 8px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .cover-image-container {
+    max-width: 100%;
+    max-height: calc(100dvh - 160px);
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .cover-image {
+    max-height: calc(100dvh - 170px);
+    width: auto;
+    height: auto;
+    border-radius: 10px;
+  }
+
+  .cover-bottom-bar {
+    margin-top: 8px;
+  }
+
+  .btn-open-book {
+    padding: 8px 18px;
+    font-size: 0.82rem;
+  }
+
+  /* Encabezados y Jerarquía Tipográfica */
+  .page-header {
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom-width: 1.5px;
+  }
+
+  .page-header-topic,
+  .page-number-tag {
+    font-size: 0.68rem;
+  }
+
+  .page-title {
+    font-size: 1.15rem !important;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+    line-height: 1.25;
+  }
+
+  .page-lead {
+    font-size: 0.78rem;
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+
+  /* Cuadrícula del Índice */
+  .toc-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .toc-jump-btn {
+    padding: 7px 10px;
+  }
+
+  .toc-jump-btn h4 {
+    font-size: 0.8rem !important;
+  }
+
+  /* Conceptos y Unidades */
+  .concepts-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+
+  .units-grid {
+    grid-template-columns: 1fr;
+    font-size: 0.76rem;
+  }
+
+  /* Galería Histórica y Línea de Tiempo */
+  .timeline-container {
+    padding: 4px 0;
+    margin: 8px 0;
+  }
+
+  .timeline-item {
+    padding-left: 32px;
+    margin-bottom: 10px;
+  }
+
+  .timeline-line {
+    left: 12px;
+    width: 2px;
+  }
+
+  .timeline-badge {
+    width: 24px;
+    height: 24px;
+    left: 0;
+    font-size: 0.7rem;
+  }
+
+  .timeline-card {
+    padding: 8px 10px;
+  }
+
+  .timeline-scientist {
+    font-size: 0.86rem;
+    margin-bottom: 4px;
+  }
+
+  .timeline-desc {
+    font-size: 0.76rem;
+    line-height: 1.42;
+  }
+
+  .timeline-year {
+    font-size: 0.68rem;
+    margin-bottom: 4px;
+  }
+
+  .timeline-gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .timeline-gallery-card {
+    border-radius: 6px;
+  }
+
+  .timeline-gallery-img {
+    height: 140px;
+  }
+
+  .gallery-tag {
+    font-size: 0.64rem;
+    padding: 2px 6px;
+  }
+
+  .gallery-name {
+    font-size: 0.72rem;
+  }
+
+  /* Fórmulas y Bloques de Derivación */
+  .derivation-box {
+    padding: 8px 10px;
+    margin-bottom: 8px;
+  }
+
+  .derivation-step {
+    padding: 6px 8px;
+    margin-bottom: 8px;
+  }
+
+  .derivation-step h4 {
+    font-size: 0.82rem;
+  }
+
+  .derivation-step p {
+    font-size: 0.76rem !important;
+  }
+
+  .equation-block {
+    padding: 6px 8px;
+    margin: 6px 0;
+    gap: 6px;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start;
+  }
+
+  .equation-number {
+    font-size: 0.68rem;
+    padding: 2px 6px;
+  }
+
+  .katex-display {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+    padding: 2px 0;
+    font-size: 0.9em;
+  }
+
+  /* Tabla Científica con Scroll Horizontal Suave */
+  .scientific-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    font-size: 0.72rem;
+    margin: 6px 0;
+  }
+
+  .scientific-table th,
+  .scientific-table td {
+    padding: 5px 6px;
+    white-space: nowrap;
+  }
+
+  /* GeoGebra y Simuladores */
+  .geogebra-container {
+    margin-bottom: 8px;
+  }
+
+  .geogebra-toolbar {
+    padding: 4px 6px;
+    gap: 4px;
+  }
+
+  .ggb-toolgroup {
+    gap: 3px;
+    flex-wrap: wrap;
+  }
+
+  .ggb-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 0.78rem;
+  }
+
+  .btn-open-modal-card {
+    padding: 3px 8px;
+    font-size: 0.68rem;
+    gap: 4px;
+  }
+
+  .mas-controls-panel {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 6px 8px;
+  }
+
+  .sim-card {
+    height: auto !important;
+    margin-bottom: 8px;
+  }
+
+  .sim-card-header {
+    padding: 8px 10px;
+  }
+
+  .sim-card-header h3 {
+    font-size: 0.84rem;
+  }
+
+  .sim-canvas-container {
+    min-height: 220px !important;
+    height: 230px !important;
+  }
+
+  .sim-sliders-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    margin-top: 8px !important;
+    padding: 0 4px;
+  }
+
+  .mindmap-wrapper {
+    height: 320px !important;
+  }
+
+  /* Ejercicios y Taller Interactivo */
+  .exercise-card {
+    padding: 8px 10px;
+    margin-bottom: 8px;
+  }
+
+  .exercise-title {
+    font-size: 0.88rem;
+    margin-bottom: 6px;
+  }
+
+  .exercise-statement {
+    font-size: 0.78rem;
+    line-height: 1.45;
+    padding: 8px;
+    margin-bottom: 8px;
+  }
+
+  .exercise-phases-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+
+  .phase-box {
+    padding: 8px 10px;
+    margin-bottom: 6px;
+  }
+
+  .phase-calc-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+
+  .despeje-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 4px 6px;
+  }
+
+  /* Glosario y Referencias */
+  .glossary-search-bar {
+    margin-bottom: 8px;
+  }
+
+  .glossary-input {
+    font-size: 0.76rem;
+    padding: 7px 10px;
+  }
+
+  .glossary-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .glossary-card {
+    padding: 8px 10px;
+  }
+
+  .glossary-term {
+    font-size: 0.82rem;
+    margin-bottom: 2px;
+  }
+
+  .glossary-def {
+    font-size: 0.76rem;
+    line-height: 1.4;
+  }
+
+  .apa-reference-item {
+    padding-left: 1.2rem;
+    text-indent: -1.2rem;
+    font-size: 0.76rem;
+    line-height: 1.45;
+    margin-bottom: 8px;
+  }
+
+  /* Contraportada Móvil */
+  .notebook-page.page-backcover {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    padding-top: 10px !important;
+    padding-bottom: 4px !important;
+  }
+
+  /* Pies de Página en Móvil: Alineación Centrada y Limpia */
+  .notebook-footer {
+    flex-direction: column !important;
+    gap: 4px !important;
+    text-align: center !important;
+    align-items: center !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    font-size: 0.68rem !important;
+  }
+
+  .footer-author-text {
+    text-align: center !important;
+    line-height: 1.35 !important;
+  }
+
+  /* Dock Inferior Móvil: Diseño Ergonómico y Espacio Máximo */
+  .bottom-nav-dock {
+    width: 98vw;
+    max-width: 98vw;
+    margin-top: 4px;
+    margin-bottom: 0;
+    padding: 5px 8px;
+    gap: 4px;
+    border-radius: 28px;
+    box-sizing: border-box;
+  }
+
+  .nav-btn {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    border-radius: 50%;
+  }
+
+  .nav-counter {
+    gap: 4px;
+    padding: 0;
+    min-width: 0;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .page-select-dropdown {
+    width: 100%;
+    max-width: 170px;
+    min-width: 80px;
+    font-size: 0.72rem;
+    padding: 4px 6px;
+    border-radius: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  #pageCounterText {
+    display: none !important;
+  }
+
+  .nav-extra-btn {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    padding: 3px;
+    font-size: 0.82rem;
+    flex-shrink: 0;
+  }
+
+  /* Modales en Celular */
+  .graphic-modal-dialog {
+    width: 98vw;
+    height: 94vh;
+    height: 94dvh;
+    border-radius: 10px;
+  }
+
+  .graphic-modal-dialog.is-collapsed {
+    width: calc(100vw - 20px) !important;
+    right: 10px !important;
+    bottom: max(10px, env(safe-area-inset-bottom)) !important;
+    height: 48px !important;
+  }
+
+  .graphic-modal-header {
+    padding: 8px 12px;
+  }
+
+  .graphic-modal-title {
+    font-size: 0.85rem;
+  }
+
+  .modal-badge-mode {
+    display: none;
+  }
+
+  .modal-view-panel .geogebra-canvas-wrapper,
+  .modal-view-panel .sim-canvas-container,
+  .modal-view-panel .mindmap-wrapper {
+    min-height: 250px !important;
+  }
+
+  .modal-sim-sliders-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 8px 10px;
+  }
+
+  .graphic-modal-footer {
+    padding: 6px 12px;
+    font-size: 0.72rem;
+    flex-direction: column;
+    gap: 6px;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .hist-modal-dialog {
+    width: 94vw;
+    max-height: 90dvh;
+    max-height: 90vh;
+    overflow: hidden;
+  }
+
+  .hist-modal-header {
+    padding: 8px 12px;
+  }
+
+  .hist-modal-body {
+    max-height: calc(90dvh - 46px);
+    overflow-y: auto;
+    padding: 10px;
+  }
+
+  .hist-modal-image-wrapper {
+    max-height: 210px;
+    margin-bottom: 8px;
+  }
+
+  .hist-modal-img {
+    max-height: 210px;
+  }
+
+  .hist-modal-desc {
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+}
+
+/* 4. Celulares Compactos (<420px, ej. iPhone SE, Galaxy A, 360px de ancho) */
+@media (max-width: 420px) {
+  .top-header .brand-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 0.78rem;
+  }
+
+  .top-header .title-group h1 {
+    font-size: 0.72rem;
+  }
+
+  .btn-header {
+    padding: 4px 6px;
+    font-size: 0.74rem;
+  }
+
+  .page-title {
+    font-size: 1.05rem !important;
+  }
+
+  .phase-calc-grid {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .mindmap-wrapper {
+    height: 280px !important;
+  }
+
+  .sim-canvas-container {
+    min-height: 200px !important;
+    height: 210px !important;
+  }
+
+  .page-select-dropdown {
+    max-width: 140px;
+    font-size: 0.7rem;
+  }
+
+  .nav-btn {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    font-size: 0.8rem;
+  }
+
+  .nav-extra-btn {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    font-size: 0.75rem;
+  }
+}
+
+
+/* ==========================================================================
+   Botón para Abrir Modal en Gráficas Interactivas
+   ========================================================================== */
+
+.btn-open-modal-card {
+  background: linear-gradient(135deg, #0284c7, #2563eb);
+  color: #ffffff !important;
+  border: 1px solid #38bdf8;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35);
+  transition: var(--transition);
+  line-height: 1.2;
+}
+
+.btn-open-modal-card:hover {
+  background: linear-gradient(135deg, #0369a1, #1d4ed8);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.5);
+  color: #ffffff !important;
+}
+
+/* ==========================================================================
+   Ventana Modal Colapsable Grande para Gráficas Interactivas
+   ========================================================================== */
+
+.graphic-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.graphic-modal-overlay.open {
+  display: flex;
+  opacity: 1;
+}
+
+/* Diálogo Modal Grande */
+.graphic-modal-dialog {
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 14px;
+  width: 92vw;
+  max-width: 1300px;
+  height: 86vh;
+  max-height: 840px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(14, 165, 233, 0.3);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scale(0.98);
+}
+
+.graphic-modal-overlay.open .graphic-modal-dialog {
+  transform: scale(1);
+}
+
+/* Estado Colapsado / Minimizado */
+.graphic-modal-dialog.is-collapsed {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  width: min(440px, calc(100vw - 32px)) !important;
+  max-width: calc(100vw - 32px) !important;
+  height: 52px !important;
+  max-height: 52px !important;
+  border-radius: 12px !important;
+  border: 2px solid #0284c7 !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6) !important;
+  z-index: 2010;
+}
+
+.graphic-modal-dialog.is-collapsed .graphic-modal-body,
+.graphic-modal-dialog.is-collapsed .graphic-modal-footer {
+  display: none !important;
+}
+
+.graphic-modal-dialog.is-collapsed .graphic-modal-header {
+  border-bottom: none;
+  padding: 10px 16px;
+  background: #0f172a;
+  color: white;
+}
+
+/* Barra Superior del Modal */
+.graphic-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: #0f172a;
+  color: #f8fafc;
+  border-bottom: 1px solid #334155;
+  flex-shrink: 0;
+}
+
+.graphic-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.modal-badge-mode {
+  background: rgba(14, 165, 233, 0.2);
+  color: #38bdf8;
+  border: 1px solid rgba(14, 165, 233, 0.4);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.72rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.graphic-modal-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-hdr-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #e2e8f0;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.modal-hdr-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+}
+
+.modal-close-btn:hover {
+  background: #ef4444;
+  border-color: #f87171;
+  color: white;
+}
+
+/* Cuerpo del Modal */
+.graphic-modal-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #ffffff;
+  position: relative;
+}
+
+.modal-view-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Pie del Modal */
+.graphic-modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 20px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  font-size: 0.8rem;
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+/* Estado Colapsado en el Padre (Overlay) */
+.graphic-modal-overlay.is-collapsed-parent {
+  pointer-events: none !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.graphic-modal-overlay.is-collapsed-parent .graphic-modal-dialog {
+  pointer-events: auto !important;
+  cursor: default;
+}
+
+/* Asegurar que los lienzos en la ventana modal se expandan con máxima nitidez */
+.modal-view-panel .geogebra-canvas-wrapper,
+.modal-view-panel .sim-canvas-container {
+  flex: 1;
+  width: 100%;
+  position: relative;
+  min-height: 380px;
+}
+
+.modal-view-panel canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ==========================================================================
+   Interacciones de Índice y Tarjetas
+   ========================================================================== */
+.toc-jump-btn:hover {
+  transform: scale(1.02) translateY(-2px);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+  border-color: #0ea5e9 !important;
+}
+
+.toc-jump-btn:active {
+  transform: scale(0.98);
+}
+
+.sim-card {
+  transition: all 0.3s ease;
+}
+.sim-card:hover {
+  box-shadow: 0 8px 24px rgba(2, 132, 199, 0.12);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   Contraportada y Créditos Académicos (Página 14)
+   Página de cuaderno completa, centrada individualmente, con plantilla visible y sin división central
+   ========================================================================== */
+.notebook-page.page-backcover {
+  width: 100% !important;
+  max-width: 860px !important;
+  margin: 0 auto !important;
+  background-color: #ffffff !important;
+  background-image: url('../imagenes/plantilla.jpeg') !important;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+  background-position: center top !important;
+  background-attachment: local !important;
+  padding-top: var(--white-zone-top);
+  padding-bottom: var(--white-zone-bottom);
+  padding-left: calc(var(--white-zone-left) + 2mm);
+  padding-right: calc(var(--white-zone-right) + 2mm);
+  border-radius: 14px !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 12px 38px rgba(0, 0, 0, 0.45) !important;
+}
+
+.notebook-page.page-backcover.active {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* ==========================================================================
+   ESTILOS ESPECIALES PARA MOVIMIENTO ONDULATORIO (CUADERNO II)
+   ========================================================================== */
+.wave-badge-node {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+  font-weight: 700;
+  font-size: 0.72rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.wave-badge-antinode {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #86efac;
+  font-weight: 700;
+  font-size: 0.72rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.wave-type-toggle {
+  display: inline-flex;
+  background: #e2e8f0;
+  border-radius: 6px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.wave-type-btn {
+  border: none;
+  background: transparent;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #475569;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.wave-type-btn.active {
+  background: #ffffff;
+  color: #0284c7;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.harmonic-btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.btn-harmonic {
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  padding: 4px 8px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #334155;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-harmonic:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.btn-harmonic.active {
+  background: #0284c7;
+  color: #ffffff;
+  border-color: #0284c7;
+  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.35);
+}
+
+.doppler-source-speed-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.76rem;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1d4ed8;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+/* Selector elegante de velocidad de simulación */
+.speed-btn-group {
+  display: inline-flex;
+  align-items: center;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.btn-speed {
+  border: none;
+  background: transparent;
+  color: #475569;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-speed:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.btn-speed.active {
+  background: #0284c7;
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(2, 132, 199, 0.35);
+}
+
+/* ============================================================================
+   ESTILOS PREMIUM: ONDAS TRANSVERSALES, ONDAS GRAVITACIONALES & PROYECTO LIGO
+   ============================================================================ */
+
+/* Comparativa Tridimensional de Ondas Transversales */
+.transverse-comp-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 840px) {
+  .transverse-comp-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.transverse-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.transverse-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+.transverse-card.card-mechanical::before { background: linear-gradient(90deg, #0284c7, #38bdf8); }
+.transverse-card.card-em::before { background: linear-gradient(90deg, #8b5cf6, #ec4899); }
+.transverse-card.card-grav::before { background: linear-gradient(90deg, #f59e0b, #10b981); }
+
+.transverse-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  border-color: #cbd5e1;
+}
+
+.transverse-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.transverse-card-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+}
+
+.card-mechanical .transverse-card-icon { background: #e0f2fe; color: #0284c7; }
+.card-em .transverse-card-icon { background: #f3e8ff; color: #8b5cf6; }
+.card-grav .transverse-card-icon { background: #fef3c7; color: #d97706; }
+
+.transverse-card-title {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.transverse-card-subtitle {
+  font-size: 0.68rem;
+  color: #64748b;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.transverse-card-body {
+  font-size: 0.76rem;
+  color: #475569;
+  line-height: 1.45;
+  margin-bottom: 8px;
+}
+
+.transverse-card-formula {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: 0.76rem;
+  text-align: center;
+  margin-top: auto;
+  color: #1e293b;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+/* Selector de Polarización de Onda Gravitacional */
+.polarization-btn-group {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.btn-polarization {
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  padding: 5px 10px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #334155;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+}
+
+.btn-polarization:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.btn-polarization.active {
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  color: #ffffff;
+  border-color: #0284c7;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35);
+}
+
+/* Botón interactivo de Audio Chirp Gravitacional */
+.btn-chirp-audio {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 14px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(14, 165, 233, 0.35);
+  transition: all 0.25s ease;
+}
+
+.btn-chirp-audio:hover {
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.45);
+  transform: translateY(-1px);
+}
+
+.btn-chirp-audio.playing {
+  background: linear-gradient(135deg, #10b981, #059669);
+  animation: pulse-chirp 1.5s infinite;
+}
+
+@keyframes pulse-chirp {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+  70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+/* Telemetría Gravitacional y Astrofísica */
+.astro-telemetry-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.74rem;
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #e2e8f0;
+  padding: 6px 12px;
+  border-radius: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.astro-telemetry-badge span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.astro-telemetry-badge strong {
+  color: #38bdf8;
+}
+
+/* Vista de Franjas de Interferencia de LIGO */
+.ligo-fringe-box {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #94a3b8;
+  font-size: 0.72rem;
+}
+
+/* Tarjeta Destacada de Hito Histórico LIGO / Einstein */
+.featured-discovery-card {
+  background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+  border: 1px solid #bbf7d0;
+  border-left: 4px solid #10b981;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+}
+
+.featured-discovery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.featured-discovery-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: #dcfce7;
+  color: #15803d;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.featured-discovery-title {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #065f46;
+  margin: 0;
+}
+
+/* ==========================================================================
+   ESTILOS DEDICADOS: PÁGINAS 10 & 11 - EFECTO DOPPLER & SIMULADOR
+   ========================================================================== */
+.doppler-theory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.doppler-card {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius-md);
+  padding: 8px 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  transition: var(--transition);
+}
+
+.doppler-card:hover {
+  border-color: #0284c7;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.08);
+}
+
+.doppler-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.doppler-card-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+.doppler-card-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.doppler-card-subtitle {
+  font-size: 0.65rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.doppler-formula-box {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-left: 3px solid #0284c7;
+  border-radius: 6px;
+  padding: 5px 8px;
+  margin: 5px 0;
+  text-align: center;
+  font-size: 0.74rem;
+  color: #0f172a;
+}
+
+.doppler-presets-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.btn-doppler-preset {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 4px 9px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-doppler-preset:hover {
+  background: #f0fdf4;
+  border-color: #86efac;
+  color: #15803d;
+}
+
+.btn-doppler-preset.active {
+  background: #0284c7;
+  border-color: #0284c7;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.35);
+}
+
+.doppler-telemetry-badge-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.doppler-telemetry-item {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 5px 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.doppler-telemetry-label {
+  font-size: 0.62rem;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.doppler-telemetry-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.doppler-audio-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #475569;
+  transition: var(--transition);
+}
+
+.doppler-audio-toggle.active {
+  background: #10b981;
+  border-color: #059669;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+}
+
+.btn-mach-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #475569;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-mach-toggle.active {
+  background: #f43f5e;
+  border-color: #e11d48;
+  color: #ffffff;
+}
+
+
+

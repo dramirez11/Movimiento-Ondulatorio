@@ -1,0 +1,16 @@
+{
+  "name": "Cuaderno Digital de Física III - Movimiento Ondulatorio",
+  "short_name": "Física III Ondas",
+  "description": "Cuaderno digital científico interactivo de Física III: Movimiento Ondulatorio y Acústica (UTP). Creado por David Alejandro Ramirez Bolaños, Steven Vélez Garces y Sergio Andrés Velásquez Arana.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0284c7",
+  "icons": [
+    {
+      "src": "imagenes/Física III_ Movimiento Ondulatorio.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
